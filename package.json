@@ -9,6 +9,10 @@
     "ios": "expo start --ios",
     "web": "expo start --web"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YuriyPilipenkoKH/test.git"
+  },
   "dependencies": {
     "expo": "~48.0.18",
     "expo-status-bar": "~1.4.4",
