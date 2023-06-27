@@ -26,10 +26,5 @@ const styles = StyleSheet.create({
   container: {
   fontFamily: 'Roboto',
 
-
-  // display:'flex',
-  // flexDirection: 'column',
-  // alignItems: 'center',
-  // justifyContent: 'center',
   },
 });
