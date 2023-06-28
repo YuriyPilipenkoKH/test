@@ -68,7 +68,7 @@ const LoginScreen =() => {
 }
 export default  LoginScreen
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
     background: {
         width:'100vw',
         minHeight:'100vh',
@@ -92,8 +92,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         width: '100%',
         height: 489,
-        borderTopLeftRadius: '30px',
-        borderTopRightRadius: '30px',
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,
         paddingTop: '32px',

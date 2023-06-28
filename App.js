@@ -3,7 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import RegistrationScreen from './components/RegistrationScreen/RegistrationScreen';
 import LoginScreen from "./components/LoginScreen/LoginScreen";
 import PostsScreen from "./components/PostsScreen/PostsScreen";
-import PostsCreate from "./components/PostsCreate/PostsCreate";
+import CreatePostsScreen from "./components/CreatePostsScreen/CreatePostsScreen";
+import CommentsScreen from "./components/CommentsScreen/CommentsScreen";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -17,7 +18,7 @@ if (!fontsLoaded) {
 
   return (
         <View style={styles.container}>
-        <PostsScreen/>
+        <CommentsScreen/>
         </View>
   );
 }

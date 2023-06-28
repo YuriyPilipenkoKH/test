@@ -18,6 +18,8 @@ import {
 import User from "../../assets/img/user.png";
 import CustomStatusBar from "../CustomStatusBar/CustomStatusBar";
 import { MaterialCommunityIcons, AntDesign, Feather, FontAwesome5 } from '@expo/vector-icons'; 
+import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
+import { styles as logStyles } from "../LoginScreen/LoginScreen";
 import BgImage1 from "../../assets/img/forest.jpg";
 import BgImage2 from "../../assets/img/sea.jpg";
 import BgImage3 from "../../assets/img/house.jpg";
@@ -27,11 +29,11 @@ const PostsScreen =() => {
 
     return (
         <View style = {styles.background}>
-        <CustomStatusBar style = {styles.statusBar}/>
+        <CustomStatusBar/>
 
         <ScrollView contentContainerStyle = {[styles.postsScreen,  styles.contentContainer]}>
         <View style={styles.titleWrapp}>
-            <Text style={styles.title}>
+            <Text style={[styles.title]}>
               Публікації
             </Text>
             <TouchableOpacity style={styles.trayArrowBtn}>
@@ -152,7 +154,7 @@ export const styles = StyleSheet.create({
     },
     main: { 
         
-
+      overflow: 'hidden',
         // alignSelf: 'stretch', // Stretch the main content to fill the width
         // height: '100%',
         display: 'flex',
@@ -190,7 +192,7 @@ export const styles = StyleSheet.create({
     trayArrowBtn: {
         position: 'absolute',
         left: '50%',
-        transform: [{ translateX: 170 }],
+        transform: [{ translateX: 160 }],
     },
     trayArrow: {
         transform: 'rotate(90deg)' ,

@@ -1,4 +1,3 @@
-// import React, { useState } from "react";
 import {
     Text,
     StyleSheet,
@@ -15,13 +14,16 @@ import {
 
 
 import CustomStatusBar from "../CustomStatusBar/CustomStatusBar";
+import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
+import { styles as logStyles } from "../LoginScreen/LoginScreen";
+import { styles as postStyles } from "../PostsScreen/PostsScreen";
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { AntDesign } from '@expo/vector-icons'; 
 import { Feather } from '@expo/vector-icons'; 
 import BackgroundImage from "../../assets/img/forest.jpg";
 
 
-const PostsCreate =() => {
+const CreatePostsScreen =() => {
 
     return (
         <View style = {styles.background}>
@@ -79,7 +81,7 @@ const PostsCreate =() => {
         
     )
 }
-export default PostsCreate
+export default CreatePostsScreen
 
 const styles = StyleSheet.create({
     background: {

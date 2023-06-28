@@ -29,7 +29,7 @@ const RegistrationScreen =() => {
 
         <ImageBackground style = {styles.photoWrapp} source={User}> 
         <TouchableOpacity style = {styles.plusBtn}>
-            <AntDesign  name="pluscircleo" size={25} style = {styles.plus} />
+            <AntDesign  name="pluscircleo" size={25} style = {[styles.plus]} />
         </TouchableOpacity>
          </ImageBackground>
     <Text style={styles.title}>Реєстрація</Text>
@@ -79,7 +79,7 @@ const RegistrationScreen =() => {
 }
 export default  RegistrationScreen
 
- const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
     background: {
         width:'100vw',
         minHeight:'100vh',
@@ -217,5 +217,8 @@ export default  RegistrationScreen
         borderRadius: 5,
         backgroundColor: '#212121',
         
+    },
+    custom: {
+        backgroundColor: '#ff2',
     },
   });

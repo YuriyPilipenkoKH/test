@@ -54,11 +54,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     height: 44,
-    width: 400,
+    width: 380,
     backgroundColor: 'transparent',
   },
   leftContainer: {
-    width:80,
+    width:60,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 30,
   },
   rightContainer: {
-    width:80,
+    width:60,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
