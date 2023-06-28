@@ -25,7 +25,7 @@ const RegistrationScreen =() => {
         <ImageBackground style = {styles.background} source={BackgroundImage}>
             <CustomStatusBar/>
 
-    <View style = {styles.registration}>
+    <View style = {styles.main}>
 
         <ImageBackground style = {styles.photoWrapp} source={User}> 
         <TouchableOpacity style = {styles.plusBtn}>
@@ -94,7 +94,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
 
-    registration: {
+    main: {
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
@@ -216,7 +216,7 @@ export const styles = StyleSheet.create({
         height: 5,
         borderRadius: 5,
         backgroundColor: '#212121',
-        
+        alignSelf: "center",
     },
     custom: {
         backgroundColor: '#ff2',

@@ -19,7 +19,6 @@ import User from "../../assets/img/user.png";
 import CustomStatusBar from "../CustomStatusBar/CustomStatusBar";
 import { MaterialCommunityIcons, AntDesign, Feather, FontAwesome5 } from '@expo/vector-icons'; 
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
-import { styles as logStyles } from "../LoginScreen/LoginScreen";
 import BgImage1 from "../../assets/img/forest.jpg";
 import BgImage2 from "../../assets/img/sea.jpg";
 import BgImage3 from "../../assets/img/house.jpg";
@@ -28,12 +27,12 @@ import BgImage3 from "../../assets/img/house.jpg";
 const PostsScreen =() => {
 
     return (
-        <View style = {styles.background}>
+        <View style = {[regStyles.background, styles.background]}>
         <CustomStatusBar/>
 
         <ScrollView contentContainerStyle = {[styles.postsScreen,  styles.contentContainer]}>
         <View style={styles.titleWrapp}>
-            <Text style={[styles.title]}>
+            <Text style={styles.title}>
               Публікації
             </Text>
             <TouchableOpacity style={styles.trayArrowBtn}>
@@ -55,7 +54,7 @@ const PostsScreen =() => {
         </View>
 
         <View style={styles.card}>
-        <ImageBackground style={styles.cardPhoto} source={BgImage1}></ImageBackground>
+        <ImageBackground style={styles.photoFrame} source={BgImage1}></ImageBackground>
         <Text style={styles.cardText}>Ліс</Text>
         <View style={styles.cardDescription}>
             <View style={styles.flexWrapp} >
@@ -71,7 +70,7 @@ const PostsScreen =() => {
         </View>
 
         <View style={styles.card}>
-        <ImageBackground style={styles.cardPhoto} source={BgImage2}></ImageBackground>
+        <ImageBackground style={styles.photoFrame} source={BgImage2}></ImageBackground>
         <Text style={styles.cardText}>Захід на Чорному морі</Text>
         <View style={styles.cardDescription}>
             <View style={styles.flexWrapp} >
@@ -87,7 +86,7 @@ const PostsScreen =() => {
         </View>
 
         <View style={styles.card}>
-        <ImageBackground style={styles.cardPhoto} source={BgImage3}></ImageBackground>
+        <ImageBackground style={styles.photoFrame} source={BgImage3}></ImageBackground>
         <Text style={styles.cardText}>Старий будиночок у Венеції</Text>
         <View style={styles.cardDescription}>
             <View style={styles.flexWrapp} >
@@ -108,7 +107,7 @@ const PostsScreen =() => {
         <TouchableOpacity style={styles.icon}>
              <Feather name="grid" size={24} color="#212121" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.iconPlus}>
+        <TouchableOpacity style={styles.addBtn}>
             <AntDesign name="plus" size={14} color="#eee" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.icon}>
@@ -117,7 +116,7 @@ const PostsScreen =() => {
 
 
         </View>
-           <View style = {styles.homeIndicator} ></View>
+           <View style = {regStyles.homeIndicator} ></View>
         </ScrollView>
         </View>
         
@@ -128,19 +127,9 @@ export default PostsScreen
 export const styles = StyleSheet.create({
     background: {
         flex: 1,
-        width:'100vw',
-        minHeight:'100vh',
-       
-        backgroundColor: '#fff',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        
+        justifyContent: 'center', 
     },
-    statusBar: {
-       
-    },
+
 
     postsScreen: {
         flex: 1,
@@ -154,7 +143,7 @@ export const styles = StyleSheet.create({
     },
     main: { 
         
-      overflow: 'hidden',
+     
         // alignSelf: 'stretch', // Stretch the main content to fill the width
         // height: '100%',
         display: 'flex',
@@ -230,11 +219,14 @@ export const styles = StyleSheet.create({
         gap: 8,  
        
       },
-    cardPhoto: {
-        width: 343,
-        height: 240,
-        backgroundColor: '#bdbdbd',
-        borderRadius: 8,
+    photoFrame: {
+      width: 343,
+      height: 240,
+      backgroundColor: '#f6f6f6',
+      borderRadius: 8,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
        
       },
     cardText: {
@@ -296,7 +288,7 @@ export const styles = StyleSheet.create({
       icon: {
         padding:12,
       },
-      iconPlus: {
+      addBtn: {
         width:70,
         height: 40,
         display: 'flex',
@@ -305,15 +297,6 @@ export const styles = StyleSheet.create({
         backgroundColor: '#FF6C00',
         borderRadius: 20,
       },
-      homeIndicator : {
-        position: "absolute",
-        bottom: 10,
-        alignSelf: "center",
-        width: 134,
-        height: 5,
-        borderRadius: 5,
-        backgroundColor: '#212121',
-        
-    },
+
 })
 

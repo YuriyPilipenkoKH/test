@@ -15,8 +15,8 @@ import {
 
 import CustomStatusBar from "../CustomStatusBar/CustomStatusBar";
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
-import { styles as logStyles } from "../LoginScreen/LoginScreen";
 import { styles as postStyles } from "../PostsScreen/PostsScreen";
+import { styles as creStyles} from "../CreatePostsScreen/CreatePostsScreen";
 
 import { AntDesign } from '@expo/vector-icons'; 
 import { Feather } from '@expo/vector-icons'; 
@@ -30,22 +30,22 @@ import AvImage0 from "../../assets/img/userAv.png";
 const CommentsScreen =() => {
 
     return (
-        <View style = {styles.background}>
+        <View style = {[regStyles.background, postStyles.background]}>
         <CustomStatusBar style = {styles.statusBar}/>
 
-        <View style = {styles.postsCreate}>
-        <View style={styles.titleWrapp}>
-            <Text style={styles.title}>
+        <View style = {creStyles.postsCreate}>
+        <View style={postStyles.titleWrapp}>
+            <Text style={postStyles.title}>
             Коментарі
             </Text>
-            <TouchableOpacity style={styles.arrowleftBtn}>
-            <AntDesign style = {styles.arrowleft} name="arrowleft" size={24} color="#212121" />
+            <TouchableOpacity style={creStyles.arrowleftBtn}>
+            <AntDesign style = {creStyles.arrowleft} name="arrowleft" size={24} color="#212121" />
             </TouchableOpacity>
         </View>
 
-        <View style={styles.main}>
+        <View style={[postStyles.main, styles.main]}>
             <View style = {styles.photoWrapp}>
-            <ImageBackground style = {styles.photoFrame} source={BgImage2}>     
+            <ImageBackground style = {postStyles.photoFrame} source={BgImage2}>     
             </ImageBackground>    
             </View>
 
@@ -97,68 +97,10 @@ const CommentsScreen =() => {
 export default CommentsScreen
 
 const styles = StyleSheet.create({
-    background: {
-        width:'100vw',
-        minHeight:'100vh',
-       
-        backgroundColor: '#fff',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-       
-    },
 
-    postsCreate: {
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-
-        gap: 32,
-        height: '100%',
-        alignItems: 'flex-start', // Align items to the start (top) of the container
-    },
-    titleWrapp: {
-        position: 'relative',
-        height: 44,
-        width: '100vw',
-        display: 'flex',
-        alignSelf: 'center',
-        justifyContent: 'center',
-        borderBottomWidth: 1,
-        borderBottomColor: '#777',
-        borderBottomStyle: 'solid',
-        
-    },
-    title: {
-        color: '#212121',
-        fontFamily: 'Roboto',
-        fontSize: 17,
-        fontWeight: 500,
-        textAlign: 'center',
-    },
-    arrowleftBtn: {
-        position: 'absolute',
-        left: '50%',
-        transform: [{ translateX: -180 }],
-    },
-    arrowleft: {
-        
-        color: '#212121',
-    },
-    main: { 
-       
+    main: {     
         flex: 1,
         alignSelf: 'stretch', // Stretch the main content to fill the width
-        // height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-       
-        gap: 32,
-        paddingLeft: 16,
-        paddingRight: 16,
  
     },
 
@@ -168,15 +110,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         gap: 8,
     },
-    photoFrame: {
-        width: 343,
-        height: 240,
-        backgroundColor: '#f6f6f6',
-        borderRadius: 8,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
+
     commentsWrapp: {
         flexDirection: 'column',
         gap:24,

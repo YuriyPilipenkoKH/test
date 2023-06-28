@@ -18,7 +18,7 @@ if (!fontsLoaded) {
 
   return (
         <View style={styles.container}>
-        <CommentsScreen/>
+        < CommentsScreen/>
         </View>
   );
 }
