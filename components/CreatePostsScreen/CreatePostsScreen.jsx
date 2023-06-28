@@ -28,7 +28,7 @@ const CreatePostsScreen =() => {
         <View style = {[regStyles.background, postStyles.background]}>
         <CustomStatusBar style = {styles.statusBar}/>
 
-        <View style = {tyles.postsCreate}>
+        <View style = {styles.postsCreate}>
         <View style={postStyles.titleWrapp}>
             <Text style={postStyles.title}>
             Створити публікацію

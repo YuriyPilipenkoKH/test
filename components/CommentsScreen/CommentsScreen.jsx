@@ -9,6 +9,7 @@ import {
     TouchableWithoutFeedback,
     Keyboard,
     ImageBackground,
+    TouchableHighlight
  
 } from "react-native";
 
@@ -81,9 +82,9 @@ const CommentsScreen =() => {
                 placeholder="Коментувати..."
                 placeholderTextColor="#bdbdbd"
                     />
-            <TouchableOpacity style={styles.sendBtn}>
+            <TouchableHighlight style={styles.sendBtn}>
             <AntDesign style = {styles.arrowup} name="arrowleft" size={18} />
-           </TouchableOpacity>
+           </TouchableHighlight>
 
            </View>
         </View>
