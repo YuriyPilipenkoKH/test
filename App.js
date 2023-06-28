@@ -5,6 +5,7 @@ import LoginScreen from "./components/LoginScreen/LoginScreen";
 import PostsScreen from "./components/PostsScreen/PostsScreen";
 import CreatePostsScreen from "./components/CreatePostsScreen/CreatePostsScreen";
 import CommentsScreen from "./components/CommentsScreen/CommentsScreen";
+import ProfileScreen from "./components/ProfileScreen/ProfileScreen";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -18,7 +19,7 @@ if (!fontsLoaded) {
 
   return (
         <View style={styles.container}>
-        < RegistrationScreen/>
+        < ProfileScreen/>
         </View>
   );
 }
