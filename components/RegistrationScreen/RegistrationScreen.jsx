@@ -61,12 +61,13 @@ const RegistrationScreen =() => {
             </TouchableOpacity>
       </View>
     <View style={styles.btnWrapp}>
+    <TouchableOpacity style={styles.alreadyHaveAccount}>
+        <Text style={styles.alreadyHaveAccountText}>Вже є акаунт? Увійти</Text>
+      </TouchableOpacity>  
       <TouchableOpacity style={styles.regBtn}>
         <Text style={styles.regBtn__text}>Зареєстуватися</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.alreadyHaveAccount}>
-        <Text style={styles.alreadyHaveAccountText}>Вже є акаунт? Увійти</Text>
-      </TouchableOpacity>
+
     </View>
 
     </View>
@@ -100,17 +101,17 @@ export const styles = StyleSheet.create({
         flexDirection: 'column',
         gap: 32,
         alignItems: 'center',
+   
         backgroundColor: '#fff',
         width: '100%',
         height: 549,
-        borderTopLeftRadius: '30px',
-        borderTopRightRadius: '30px',
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,
-        paddingTop: '92px',
-        paddingRight: '16px',
-        paddingBottom: '8px',
-        paddingLeft: '16px',
+        paddingTop: 92,
+        paddingBottom: 70,
+        paddingHorizontal:16,
     },
     photoWrapp: {
         position: 'absolute',
@@ -134,6 +135,7 @@ export const styles = StyleSheet.create({
         borderRadius: '50%',
     },
     title: {
+        flex: 1,
         color: '#212121',
         fontFamily: 'Roboto',
         fontSize: 30,
@@ -166,17 +168,17 @@ export const styles = StyleSheet.create({
         fontSize: 16,
     },
     form: {
-        display: 'flex',
+        flex: 7,
         flexDirection: 'column',
         gap: 16,
         alignItems: 'center',
         
     },
     btnWrapp: {
-        display: 'flex',
-        flexDirection: 'column',
+        flex: 2,
+        flexDirection: 'column-reverse',
         gap: 16,
-        marginTop: 30,
+        // marginTop: 30,
     },
     regBtn: {
         backgroundColor: '#FF6C00',

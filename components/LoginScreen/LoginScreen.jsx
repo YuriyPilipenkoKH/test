@@ -50,12 +50,13 @@ const LoginScreen =() => {
             </TouchableOpacity>
       </View>
     <View style={regStyles.btnWrapp}>
+    <TouchableOpacity style={regStyles.alreadyHaveAccount}>
+        <Text style={regStyles.alreadyHaveAccountText}>Немає акаунту? Зареєструватися</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={regStyles.regBtn}>
         <Text style={regStyles.regBtn__text}>Увійти</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={regStyles.alreadyHaveAccount}>
-        <Text style={regStyles.alreadyHaveAccountText}>Немає акаунту? Зареєструватися</Text>
-      </TouchableOpacity>
+
     </View>
 
     </View>
@@ -72,5 +73,7 @@ export const styles = StyleSheet.create({
 
     main: {
         height: 489,
+        paddingTop: 32,
+        paddingBottom: 140,
     },
   });
