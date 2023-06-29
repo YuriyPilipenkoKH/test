@@ -38,42 +38,42 @@ const ProfileScreen =() => {
          </ImageBackground>
     <Text style={regStyles.title}>Natali Romanova</Text>
 
-    <View style={postStyles.card}>
+         <View style={postStyles.card}>
         <ImageBackground style={postStyles.photoFrame} source={BgImage1}></ImageBackground>
         <Text style={postStyles.cardText}>Ліс</Text>
         <View style={[postStyles.cardDescription, styles.cardDescription]}>
-            <View style={postStyles.flexWrapp} >
+            <View style={[postStyles.flexWrapp, styles.wrapp1]} >
             <FontAwesome style={postStyles.iconComment} name="comment" size={24} color="#ff6c00" />
             <Text style={postStyles.cardComment}>0</Text>
             </View>
-            <View style={[postStyles.flexWrapp]} >
+            <View style={[postStyles.flexWrapp, styles.wrapp1]} >
            <AntDesign name="like2" size={24} color="#ff6c00" />
             <Text style={postStyles.cardComment}>0</Text>
             </View>
 
-            <View style={[postStyles.flexWrapp, styles.flexWrapp]}>
-            <Feather name="map-pin" size={24} color="#bdbdbd" />
+            <View style={[postStyles.flexWrapp, styles.wrapp3]}>
             <Text style={postStyles.cardLocation}>Ukraine</Text>
+            <Feather name="map-pin" size={24} color="#bdbdbd" />
             </View>
         </View>
-        </View>
+        </View> 
 
         <View style={postStyles.card}>
         <ImageBackground style={postStyles.photoFrame} source={BgImage2}></ImageBackground>
         <Text style={postStyles.cardText}>Захід на Чорному морі</Text>
         <View style={[postStyles.cardDescription, styles.cardDescription]}>
-            <View style={postStyles.flexWrapp} >
+            <View style={[postStyles.flexWrapp, styles.wrapp1]} >
             <FontAwesome style={postStyles.iconComment} name="comment" size={24} color="#ff6c00" />
             <Text style={postStyles.cardComment}>0</Text>
             </View>
-            <View style={[postStyles.flexWrapp]} >
+            <View style={[postStyles.flexWrapp, styles.wrapp1]} >
            <AntDesign name="like2" size={24} color="#ff6c00" />
             <Text style={postStyles.cardComment}>0</Text>
             </View>
 
-            <View style={[postStyles.flexWrapp, styles.flexWrapp]}>
-            <Feather name="map-pin" size={24} color="#bdbdbd" />
+            <View style={[postStyles.flexWrapp, styles.wrapp3]}>
             <Text style={postStyles.cardLocation}> Ukraine</Text>
+            <Feather name="map-pin" size={24} color="#bdbdbd" />
             </View>
         </View>
         </View>
@@ -82,18 +82,18 @@ const ProfileScreen =() => {
         <ImageBackground style={postStyles.photoFrame} source={BgImage3}></ImageBackground>
         <Text style={postStyles.cardText}>Старий будиночок у Венеції</Text>
         <View style={[postStyles.cardDescription, styles.cardDescription]}>
-            <View style={postStyles.flexWrapp} >
+            <View style={[postStyles.flexWrapp, styles.wrapp1]} >
             <FontAwesome style={postStyles.iconComment} name="comment" size={24} color="#ff6c00" />
             <Text style={postStyles.cardComment}>0</Text>
             </View>
-            <View style={[postStyles.flexWrapp]} >
+            <View style={[postStyles.flexWrapp, styles.wrapp1]} >
            <AntDesign name="like2" size={24} color="#ff6c00" />
             <Text style={postStyles.cardComment}>0</Text>
             </View>
 
-            <View style={[postStyles.flexWrapp, styles.flexWrapp]}>
-            <Feather name="map-pin" size={24} color="#bdbdbd" />
+            <View style={[postStyles.flexWrapp, styles.wrapp3]}>
             <Text style={postStyles.cardLocation}>Italy</Text>
+            <Feather name="map-pin" size={24} color="#bdbdbd" />
             </View>
         </View>
         </View>
@@ -129,13 +129,25 @@ export const styles = StyleSheet.create({
     main: {
         minHeight: 500,
         height: 'auto',
+        justifyContent: 'space-between'
     },
     cardDescription: {
         position: 'relative',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'start',
+        justifyContent:'space-between',
         gap: 24,
+    },
+    wrapp1: {
+        flex:1,
+    },
+    wrapp2: {
+        flex:2,
+    },
+    wrapp3: {
+        flex:5,
+        flexDirection: 'row-reverse'
+
     },
 
     flexWrapp: {
@@ -143,8 +155,8 @@ export const styles = StyleSheet.create({
         right:0,
     },
 
-
     footer: {
+        // flex:1,
     //   position: 'absolute',
     //   bottom: 0  
     },
