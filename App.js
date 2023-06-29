@@ -1,5 +1,5 @@
 import { useFonts } from "expo-font";
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import RegistrationScreen from './components/RegistrationScreen/RegistrationScreen';
 import LoginScreen from "./components/LoginScreen/LoginScreen";
 import PostsScreen from "./components/PostsScreen/PostsScreen";
@@ -19,7 +19,7 @@ if (!fontsLoaded) {
 
   return (
         <View style={styles.container}>
-        < RegistrationScreen/>
+        < ProfileScreen/>
         </View>
   );
 }
