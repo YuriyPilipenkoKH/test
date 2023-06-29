@@ -129,7 +129,8 @@ export const styles = StyleSheet.create({
     main: {
         minHeight: 500,
         height: 'auto',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        paddingBottom: 15,
     },
     cardDescription: {
         position: 'relative',
