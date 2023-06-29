@@ -1,14 +1,13 @@
-// import React, { useState } from "react";
 import {
     Text,
     StyleSheet,
     View,
-    TextInput,
+    // TextInput,
     TouchableOpacity,
-    Platform,
-    KeyboardAvoidingView,
-    TouchableWithoutFeedback,
-    Keyboard,
+    // Platform,
+    // KeyboardAvoidingView,
+    // TouchableWithoutFeedback,
+    // Keyboard,
     ImageBackground,
  
 } from "react-native";
@@ -16,10 +15,9 @@ import BackgroundImage from "../../assets/img/photo-bg.jpg";
 import CustomStatusBar from "../CustomStatusBar/CustomStatusBar";
 
 import User from "../../assets/img/user.png";
-import { SimpleLineIcons, AntDesign, Feather, FontAwesome5, FontAwesome } from '@expo/vector-icons'; 
+import {  AntDesign, Feather,  FontAwesome } from '@expo/vector-icons'; 
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import { styles as postStyles } from "../PostsScreen/PostsScreen";
-import { styles as creStyles} from "../CreatePostsScreen/CreatePostsScreen";
 import BgImage1 from "../../assets/img/forest.jpg";
 import BgImage2 from "../../assets/img/sea.jpg";
 import BgImage3 from "../../assets/img/house.jpg";
@@ -49,7 +47,7 @@ const ProfileScreen =() => {
             <Text style={postStyles.cardComment}>0</Text>
             </View>
             <View style={[postStyles.flexWrapp]} >
-           <SimpleLineIcons name="like" size={24} color="#ff6c00" />
+           <AntDesign name="like2" size={24} color="#ff6c00" />
             <Text style={postStyles.cardComment}>0</Text>
             </View>
 
@@ -69,7 +67,7 @@ const ProfileScreen =() => {
             <Text style={postStyles.cardComment}>0</Text>
             </View>
             <View style={[postStyles.flexWrapp]} >
-           <SimpleLineIcons name="like" size={24} color="#ff6c00" />
+           <AntDesign name="like2" size={24} color="#ff6c00" />
             <Text style={postStyles.cardComment}>0</Text>
             </View>
 
@@ -89,7 +87,7 @@ const ProfileScreen =() => {
             <Text style={postStyles.cardComment}>0</Text>
             </View>
             <View style={[postStyles.flexWrapp]} >
-           <SimpleLineIcons name="like" size={24} color="#ff6c00" />
+           <AntDesign name="like2" size={24} color="#ff6c00" />
             <Text style={postStyles.cardComment}>0</Text>
             </View>
 

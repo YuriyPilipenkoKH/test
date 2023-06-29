@@ -4,10 +4,10 @@ import {
     View,
     TextInput,
     TouchableOpacity,
-    Platform,
-    KeyboardAvoidingView,
-    TouchableWithoutFeedback,
-    Keyboard,
+    // Platform,
+    // KeyboardAvoidingView,
+    // TouchableWithoutFeedback,
+    // Keyboard,
     ImageBackground,
     TouchableHighlight
  
@@ -20,10 +20,10 @@ import { styles as postStyles } from "../PostsScreen/PostsScreen";
 import { styles as creStyles} from "../CreatePostsScreen/CreatePostsScreen";
 
 import { AntDesign } from '@expo/vector-icons'; 
-import { Feather } from '@expo/vector-icons'; 
-import BgImage1 from "../../assets/img/forest.jpg";
+
+// import BgImage1 from "../../assets/img/forest.jpg";
 import BgImage2 from "../../assets/img/sea.jpg";
-import BgImage3 from "../../assets/img/house.jpg";
+// import BgImage3 from "../../assets/img/house.jpg";
 import AvImage1 from "../../assets/img/city.png";
 import AvImage0 from "../../assets/img/userAv.png";
 

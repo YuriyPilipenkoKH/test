@@ -5,10 +5,10 @@ import {
     View,
     TextInput,
     TouchableOpacity,
-    Platform,
-    KeyboardAvoidingView,
-    TouchableWithoutFeedback,
-    Keyboard,
+    // Platform,
+    // KeyboardAvoidingView,
+    // TouchableWithoutFeedback,
+    // Keyboard,
     ImageBackground,
  
 } from "react-native";
