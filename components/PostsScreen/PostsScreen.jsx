@@ -128,6 +128,7 @@ export const styles = StyleSheet.create({
     background: {
         flex: 1,
         justifyContent: 'center', 
+        
     },
 
 
@@ -141,9 +142,7 @@ export const styles = StyleSheet.create({
         height: '100%',
         // alignItems: 'flex-start', // Align items to the start (top) of the container
     },
-    main: { 
-        
-     
+    main: {  
         // alignSelf: 'stretch', // Stretch the main content to fill the width
         // height: '100%',
         display: 'flex',
