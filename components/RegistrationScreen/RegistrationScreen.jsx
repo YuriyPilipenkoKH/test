@@ -34,15 +34,17 @@ const RegistrationScreen =() => {
          </ImageBackground>
     <Text style={styles.title}>Реєстрація</Text>
 
-    <View style={styles.form}>
+    <View style={styles.form} >
       <TextInput
         style={styles.input}
+        name = 'ligin'
         placeholder="Логін"
         placeholderTextColor="#bdbdbd"
 
       />
       <TextInput
         style={styles.input}
+        name = 'email'
         placeholder="Адреса електронної пошти"
         placeholderTextColor="#bdbdbd"
 
@@ -50,6 +52,7 @@ const RegistrationScreen =() => {
       <View style = {styles.inputWrapp}>
           <TextInput
             style={styles.input}
+            name = 'password'
             placeholder="Пароль"
             placeholderTextColor="#bdbdbd"
             // secureTextEntry={true}

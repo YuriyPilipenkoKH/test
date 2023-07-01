@@ -130,7 +130,7 @@ export const styles = StyleSheet.create({
         minHeight: 500,
         height: 'auto',
         justifyContent: 'space-between',
-        paddingBottom: 15,
+        paddingBottom: 8,
     },
     cardDescription: {
         position: 'relative',

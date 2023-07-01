@@ -19,7 +19,7 @@ if (!fontsLoaded) {
 
   return (
         <View style={styles.container}>
-        < ProfileScreen/>
+        < RegistrationScreen  />
         </View>
   );
 }
