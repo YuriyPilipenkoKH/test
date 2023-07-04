@@ -20,7 +20,7 @@ if (!fontsLoaded) {
 
   return (
     <View style={styles.container}>
-      <LoginScreen/>
+      <PostsScreen/>
    
      {/* <StatusBar style="auto" />  */}
     </View>
@@ -29,8 +29,9 @@ if (!fontsLoaded) {
 
 const styles = StyleSheet.create({
   container: {
+    position: 'relative',
   fontFamily: 'Roboto',
-  backgroundColor: '#888',
+  backgroundColor: '#f5f5f5',
   flex:1,
   },
 });

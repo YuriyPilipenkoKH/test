@@ -1,4 +1,4 @@
-// import React, { useState } from "react";
+
 import {
     Text,
     StyleSheet,
@@ -28,7 +28,7 @@ const PostsScreen =() => {
 
     return (
         <View style = {[regStyles.background, styles.background]}>
-        <CustomStatusBar/>
+        {/* <CustomStatusBar/> */}
 
         <ScrollView contentContainerStyle = {[styles.postsScreen,  styles.contentContainer]}>
         <View style={styles.titleWrapp}>
@@ -127,29 +127,31 @@ export default PostsScreen
 export const styles = StyleSheet.create({
     background: {
         flex: 1,
-        justifyContent: 'center', 
+        paddingTop: 32,
+        // justifyContent: 'center', 
         
     },
 
 
     postsScreen: {
         flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
+      
+        // flexDirection: 'column',
+        // justifyContent: 'space-between',
 
         gap: 32,
-        height: '100%',
+        // height: '100%',
         // alignItems: 'flex-start', // Align items to the start (top) of the container
     },
     main: {  
         // alignSelf: 'stretch', // Stretch the main content to fill the width
         // height: '100%',
-        display: 'flex',
+       
         flexDirection: 'column',
         alignItems: 'center',
      
         gap: 32,
+        
         paddingLeft: 16,
         paddingRight: 16,
         
@@ -161,9 +163,9 @@ export const styles = StyleSheet.create({
     titleWrapp: {
         position: 'relative',
         height: 44,
-        width: '100vw',
-        display: 'flex',
-        alignSelf: 'center',
+        width: '100%',
+       
+        // alignSelf: 'center',
         justifyContent: 'center',
         borderBottomWidth: 1,
         borderBottomColor: '#777',
@@ -183,13 +185,12 @@ export const styles = StyleSheet.create({
         transform: [{ translateX: 160 }],
     },
     trayArrow: {
-        transform: 'rotate(90deg)' ,
-        color: '#bdbdbd',
+        transform: [{ rotate: '90deg' }],
     },
     user: { 
         height: 60,
         width: 343,
-        display: 'flex',
+      
 
         flexDirection: 'row',
         // alignSelf: 'stretch', // Stretch the main content to fill the width
@@ -213,7 +214,7 @@ export const styles = StyleSheet.create({
         fontSize: 13,
     },
     card: {
-        display: 'flex',
+      
         flexDirection: 'column',
         gap: 8,  
        
@@ -223,7 +224,7 @@ export const styles = StyleSheet.create({
       height: 240,
       backgroundColor: '#f6f6f6',
       borderRadius: 8,
-      display: 'flex',
+      
       alignItems: 'center',
       justifyContent: 'center',
        
@@ -241,7 +242,7 @@ export const styles = StyleSheet.create({
        
       },
     flexWrapp: {
-        display: 'flex',
+     
         flexDirection: 'row',
         alignItems: 'baseline',
         gap: 8,
@@ -268,29 +269,34 @@ export const styles = StyleSheet.create({
       },
 
       footer: {
+        position: 'absolute',
+        bottom: 0,
         height: 83,
-        paddingTop: 9,
+        paddingTop: 8,
         paddingBottom: 34,
         borderTopWidth: 1,
         borderTopColor: '#777',
         borderTopStyle: 'solid',
-        width: '100vw',
-        display: 'flex',
+        width: '100%',
+        backgroundColor: '#f5f5f5',
         flexDirection: 'row',
         gap: 32,
         justifyContent: 'center',
         alignItems:'center',
-        aligntSelf: 'center',
-        
+      
       
       },
       icon: {
-        padding:12,
+        
+        width:40,
+        height: 40,
+        justifyContent: 'center',
+        alignItems:'center',
       },
       addBtn: {
         width:70,
         height: 40,
-        display: 'flex',
+       
         justifyContent: 'center',
         alignItems:'center',
         backgroundColor: '#FF6C00',
