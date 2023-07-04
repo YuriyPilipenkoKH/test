@@ -23,7 +23,7 @@ const RegistrationScreen =() => {
 
     return (
         <ImageBackground style = {styles.background} source={BackgroundImage}>
-            <CustomStatusBar/>
+            {/* <CustomStatusBar style = {styles.bar}/> */}
 
     <View style = {styles.main}>
 
@@ -85,41 +85,48 @@ export default  RegistrationScreen
 
 export const styles = StyleSheet.create({
     background: {
-        width:'100vw',
-        minHeight:'100vh',
-       
+        // position: 'relative',
+        // flex:1,
+        // gap: 32,
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
-        backgroundSize: 'cover',
+        resizeMode: 'cover',
+        width: '100%',
+        height: '100%',
+        // alignItems: 'flex-end',
+        justifyContent: 'flex-end',
+    },
 
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+    bar: {
+
+        // position: 'absolute',
+        // top:0,
+        // height:44,
     },
 
     main: {
         position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 32,
+        // flex:1,
+ 
+        gap: 24,
         alignItems: 'center',
+        justifyContent: 'flex-start',
    
         backgroundColor: '#fff',
         width: '100%',
-        height: 549,
+        height: 500,
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,
-        paddingTop: 92,
-        paddingBottom: 70,
+        paddingTop: 72,
+        paddingBottom: 40,
         paddingHorizontal:16,
     },
     photoWrapp: {
         position: 'absolute',
         top: -60,
-        // transform: [{ translate: '(-50%, -50%)' }],
+        transform: [{ translateX: 4 }, { translateY: 0 }],
 
         width: 120,
         height: 120,
@@ -135,10 +142,10 @@ export const styles = StyleSheet.create({
     plus: {
         color: '#FF6C00',
         backgroundColor: '#fff',
-        borderRadius: '50%',
+        borderRadius: 12,
     },
     title: {
-        flex: 1,
+      
         color: '#212121',
         fontFamily: 'Roboto',
         fontSize: 30,
@@ -154,10 +161,8 @@ export const styles = StyleSheet.create({
         padding: 16,
         color: '#212121',
         borderWidth: 1,
-         borderColor: "#bdbdbd",
+        borderColor: "#bdbdbd",
 
-         outlineColor: 'orange', // Outline color when focused
-         outlineWidth: 1, // Outline width when focused
      
     },
     alreadyHaveAccount: {
@@ -169,9 +174,10 @@ export const styles = StyleSheet.create({
         color: '#1B4371',
         fontFamily: 'Roboto',
         fontSize: 16,
+        textAlign: 'center',
     },
     form: {
-        flex: 7,
+        flex: 5,
         flexDirection: 'column',
         gap: 16,
         alignItems: 'center',
@@ -184,19 +190,19 @@ export const styles = StyleSheet.create({
         // marginTop: 30,
     },
     regBtn: {
+        
         backgroundColor: '#FF6C00',
         height: 51,
         width: 343,
         borderRadius: 25,
         padding: 16,
-        textAlign: 'center',
-        
-  
+    
     },
     regBtn__text: {
         color: '#eee',
         fontFamily: 'Roboto',
         fontSize: 16,
+        textAlign: 'center',
 
         
     },
@@ -221,7 +227,7 @@ export const styles = StyleSheet.create({
         height: 5,
         borderRadius: 5,
         backgroundColor: '#212121',
-        alignSelf: "center",
+    
     },
     custom: {
         backgroundColor: '#ff2',

@@ -49,7 +49,7 @@ useEffect(() => {
 const styles = StyleSheet.create({
   container: {
     
-    display: 'flex',
+    flex:1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   },
   centerContainer: {
     flexDirection: 'row',
-    alignSelf: 'start',
+  
     justifyContent: 'center',
     backgroundColor:'#000',
     width: 219,

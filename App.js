@@ -1,6 +1,6 @@
 import { useFonts } from "expo-font";
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
+// import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, View ,Text} from 'react-native';
 import RegistrationScreen from './components/RegistrationScreen/RegistrationScreen';
 import LoginScreen from "./components/LoginScreen/LoginScreen";
 import PostsScreen from "./components/PostsScreen/PostsScreen";
@@ -20,8 +20,9 @@ if (!fontsLoaded) {
 
   return (
     <View style={styles.container}>
-      <Text>Open up App.Movin` ON!</Text>
-      <StatusBar style="auto" />
+      <LoginScreen/>
+   
+     {/* <StatusBar style="auto" />  */}
     </View>
   );
 }
@@ -29,6 +30,7 @@ if (!fontsLoaded) {
 const styles = StyleSheet.create({
   container: {
   fontFamily: 'Roboto',
+  backgroundColor: '#888',
   flex:1,
   },
 });
