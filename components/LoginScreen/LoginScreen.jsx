@@ -72,8 +72,8 @@ export default  LoginScreen
 export const styles = StyleSheet.create({
 
   main: {
-      height: 420,
-      paddingTop: 32,
-      paddingBottom: 80,
+      height: 440,
+      paddingTop: 62,
+      paddingBottom: 60,
   },
 });
