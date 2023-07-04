@@ -1,4 +1,5 @@
 import { useFonts } from "expo-font";
+import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
 import RegistrationScreen from './components/RegistrationScreen/RegistrationScreen';
 import LoginScreen from "./components/LoginScreen/LoginScreen";
@@ -18,15 +19,16 @@ if (!fontsLoaded) {
 }
 
   return (
-        <View style={styles.container}>
-        < RegistrationScreen  />
-        </View>
+    <View style={styles.container}>
+      <Text>Open up App.Movin` ON!</Text>
+      <StatusBar style="auto" />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
   fontFamily: 'Roboto',
-
+  flex:1,
   },
 });
