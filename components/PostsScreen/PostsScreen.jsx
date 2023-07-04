@@ -16,7 +16,7 @@ import {
 } from "react-native";
 
 import User from "../../assets/img/user.png";
-import CustomStatusBar from "../CustomStatusBar/CustomStatusBar";
+// import CustomStatusBar from "../CustomStatusBar/CustomStatusBar";
 import { MaterialCommunityIcons, AntDesign, Feather, FontAwesome5 } from '@expo/vector-icons'; 
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import BgImage1 from "../../assets/img/forest.jpg";
@@ -135,13 +135,9 @@ export const styles = StyleSheet.create({
 
     postsScreen: {
         flex: 1,
-      
-        // flexDirection: 'column',
-        // justifyContent: 'space-between',
 
         gap: 32,
-        // height: '100%',
-        // alignItems: 'flex-start', // Align items to the start (top) of the container
+    
     },
     main: {  
         // alignSelf: 'stretch', // Stretch the main content to fill the width

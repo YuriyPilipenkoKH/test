@@ -20,7 +20,7 @@ if (!fontsLoaded) {
 
   return (
     <View style={styles.container}>
-      <PostsScreen/>
+      <RegistrationScreen/>
    
      {/* <StatusBar style="auto" />  */}
     </View>

@@ -13,7 +13,7 @@ import {
 } from "react-native";
 
 
-import CustomStatusBar from "../CustomStatusBar/CustomStatusBar";
+// import CustomStatusBar from "../CustomStatusBar/CustomStatusBar";
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import { styles as postStyles } from "../PostsScreen/PostsScreen";
 import { MaterialIcons } from '@expo/vector-icons'; 
@@ -26,7 +26,7 @@ const CreatePostsScreen =() => {
 
     return (
         <View style = {[regStyles.background, postStyles.background]}>
-        <CustomStatusBar style = {styles.statusBar}/>
+        {/* <CustomStatusBar style = {styles.statusBar}/> */}
 
         <View style = {styles.postsCreate}>
         <View style={postStyles.titleWrapp}>
@@ -52,11 +52,13 @@ const CreatePostsScreen =() => {
             <TextInput
                 style={[styles.input]}
                 placeholder="Назва..."
+                placeholderTextColor={"#BDBDBD"}
     
                     />
             <TextInput
                 style={[styles.input, styles.location]}
                 placeholder="Місцевість..."
+                placeholderTextColor={"#BDBDBD"}
                 
                     />
                  <Feather style = {styles.iconMap} name="map-pin" size={24} color="black" />    
@@ -87,13 +89,13 @@ export const styles = StyleSheet.create({
 
     postsCreate: {
         flex: 1,
-        display: 'flex',
+
         flexDirection: 'column',
         justifyContent: 'space-between',
-
+        alignItems: 'center', 
         gap: 32,
         height: '100%',
-        alignItems: 'flex-start', // Align items to the start (top) of the container
+       
     },
 
     arrowleftBtn: {
@@ -119,8 +121,7 @@ export const styles = StyleSheet.create({
         width: 60,
         height: 60,
         backgroundColor: '#fff3',
-        borderRadius: '50%',
-        display: 'flex',
+        // borderRadius: '50%',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -133,28 +134,25 @@ export const styles = StyleSheet.create({
     inputWrapp: {
         position: 'relative',
         width: 343,
-        display: 'flex',
         flexDirection: 'column',
         gap: 16,
-        // alignSelf: 'start',
+       
     },
     input: {
         width: 343,
         height: 50,
-        placeholderTextColor:"#bdbdbd",
+        // placeholderTextColor:"#bdbdbd",
         borderBottomWidth: 1,
         borderBottomColor: '#777',
-        borderBottomStyle: 'solid',
+ 
 
-        outlineColor: 'transparent', // Outline color when focused
-        outlineWidth: 1, // Outline width when focused
     },
     location: {
         paddingLeft: 30,
     },
     iconMap: {
         position: 'absolute',
-        bottom: 12,
+        bottom: 28,
         color: '#bdbdbd',
     },
 
