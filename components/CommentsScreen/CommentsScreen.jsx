@@ -14,7 +14,7 @@ import {
 } from "react-native";
 
 
-import CustomStatusBar from "../CustomStatusBar/CustomStatusBar";
+// import CustomStatusBar from "../CustomStatusBar/CustomStatusBar";
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import { styles as postStyles } from "../PostsScreen/PostsScreen";
 import { styles as creStyles} from "../CreatePostsScreen/CreatePostsScreen";
@@ -32,7 +32,7 @@ const CommentsScreen =() => {
 
     return (
         <View style = {[regStyles.background, postStyles.background]}>
-        <CustomStatusBar style = {styles.statusBar}/>
+        {/* <CustomStatusBar style = {styles.statusBar}/> */}
 
         <View style = {creStyles.postsCreate}>
         <View style={postStyles.titleWrapp}>
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
 
     photoWrapp: {
         width: 343,
-        display: 'flex',
+     
         flexDirection: 'column',
         gap: 8,
     },
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
         width:28,
         height: 28,
         backgroundColor: '#bdbdbd',
-        borderRadius: '50%',
+        // borderRadius: '50%',
     },
     card: {
         width: 300,
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto',
         fontSize: 10,
         fontWeight: 500,
-        alignSelf: 'flex-end',
+        // alignSelf: 'flex-end',
     },
     text: {
         color: '#bdbdbd',
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     },
     commemtBar: {
         position: 'relative',
-        alignSelf: 'center',
+        // alignSelf: 'center',
         width: 343,
         height: 50,
 
@@ -174,8 +174,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#bdbdbd",
 
-        outlineColor: 'orange', // Outline color when focused
-        outlineWidth: 1, // Outline width when focused
+
 
     },
     sendBtn: {
@@ -185,13 +184,13 @@ const styles = StyleSheet.create({
         width:34,
         height: 34,
         backgroundColor: '#ff6c00',
-        borderRadius: '50%',
+        // borderRadius: '50%',
         alignItems: 'center',
         justifyContent: "center",
 
     },
     arrowup: {
-        transform: 'rotate(90deg)' ,
+        // transform: 'rotate(90deg)' ,
         color: '#bdbdbd',
     },
 
