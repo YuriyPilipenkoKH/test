@@ -4,6 +4,7 @@ import {
     StyleSheet,
     Image,
     View,
+    
     // TextInput,
     TouchableOpacity,
     // Platform,
@@ -30,7 +31,7 @@ const PostsScreen =() => {
         <View style = {[regStyles.background, styles.background]}>
         {/* <CustomStatusBar/> */}
 
-        <ScrollView contentContainerStyle = {[styles.postsScreen,  styles.contentContainer]}>
+        <View contentContainerStyle = {[styles.postsScreen,  styles.contentContainer]}>
         <View style={styles.titleWrapp}>
             <Text style={styles.title}>
               Публікації
@@ -40,7 +41,7 @@ const PostsScreen =() => {
             </TouchableOpacity>
         </View>
 
-        <View style={[styles.main]}>
+        <ScrollView contentContainerStyle={styles.contentContainer} style={[styles.main]}>
 
         <View style={styles.user}>
             <View style={styles.imgContainer}>
@@ -101,7 +102,7 @@ const PostsScreen =() => {
         </View>
         </View>
 
-        </View>
+        </ScrollView>
 
         <View style = {styles.footer}>
         <TouchableOpacity style={styles.icon}>
@@ -114,10 +115,10 @@ const PostsScreen =() => {
              <Feather name="user" size={24} color="#212121" /> 
         </TouchableOpacity>
 
-
+        <View style = {regStyles.homeIndicator} ></View>
         </View>
-           <View style = {regStyles.homeIndicator} ></View>
-        </ScrollView>
+          
+        </View>
         </View>
         
     )
@@ -131,23 +132,22 @@ export const styles = StyleSheet.create({
         // justifyContent: 'center', 
         
     },
+    contentContainer: {
+      alignItems: 'center',
 
+    },
 
     postsScreen: {
         flex: 1,
-
         gap: 32,
     
     },
     main: {  
-        // alignSelf: 'stretch', // Stretch the main content to fill the width
+        alignSelf: 'stretch', // Stretch the main content to fill the width
         // height: '100%',
        
         flexDirection: 'column',
-        alignItems: 'center',
-     
         gap: 32,
-        
         paddingLeft: 16,
         paddingRight: 16,
         
@@ -265,8 +265,8 @@ export const styles = StyleSheet.create({
       },
 
       footer: {
-        position: 'absolute',
-        bottom: 0,
+        // position: 'absolute',
+        // bottom: 0,
         height: 83,
         paddingTop: 8,
         paddingBottom: 34,

@@ -2,6 +2,7 @@ import {
     Text,
     StyleSheet,
     View,
+    ScrollView,
     TextInput,
     TouchableOpacity,
     // Platform,
@@ -44,13 +45,13 @@ const CommentsScreen =() => {
             </TouchableOpacity>
         </View>
 
-        <View style={[postStyles.main, styles.main]}>
-            <View style = {styles.photoWrapp}>
+        <ScrollView  style={[ styles.main]}>
+            <View style = {[styles.photoWrapp]}>
             <ImageBackground style = {postStyles.photoFrame} source={BgImage2}>     
             </ImageBackground>    
             </View>
 
-        <View style = {styles.commentsWrapp}>  
+        <View style = {[styles.commentsWrapp]}>  
             <View style = {styles.comment}>
             <ImageBackground style = {styles.avatar} source={AvImage1} size = {28}></ImageBackground>   
             <View style = {styles.card}>
@@ -76,7 +77,7 @@ const CommentsScreen =() => {
             </View>
 
         </View>   
-        <View style = {styles.commemtBar} >
+        <View style = {[styles.commemtBar]} >
            <TextInput
                 style={[styles.commemtInput]}
                 placeholder="Коментувати..."
@@ -87,7 +88,7 @@ const CommentsScreen =() => {
            </TouchableHighlight>
 
            </View>
-        </View>
+        </ScrollView>
 
 
         </View>
@@ -99,21 +100,26 @@ export default CommentsScreen
 
 const styles = StyleSheet.create({
     background: {
-        overflow: 'scroll',
+  
     },
+    contentContainer: {
+        alignItems: 'center',
+
+      },
 
     main: {     
-        flex: 1,
-        alignSelf: 'stretch', // Stretch the main content to fill the width
-        // justifyContent:'flex-end',
-        
+        flex: 1,   
+        gap: 32,
+        paddingLeft: 16,
+        paddingRight: 16,
+        paddingBottom: 16,
     },
 
     photoWrapp: {
         width: 343,
-     
         flexDirection: 'column',
         gap: 8,
+        marginBottom:20,
     },
 
     commentsWrapp: {
@@ -167,6 +173,7 @@ const styles = StyleSheet.create({
         // alignSelf: 'center',
         width: 343,
         height: 50,
+        marginBottom:20,
 
     },
     commemtInput: {
