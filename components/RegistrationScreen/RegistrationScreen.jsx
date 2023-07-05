@@ -12,8 +12,8 @@ import {
     ImageBackground,
  
 } from "react-native";
+import { StatusBar } from 'expo-status-bar';
 import BackgroundImage from "../../assets/img/photo-bg.jpg";
-import CustomStatusBar from "../CustomStatusBar/CustomStatusBar";
 import { AntDesign } from '@expo/vector-icons'; 
 import User from "../../assets/img/user.png";
 
@@ -23,7 +23,7 @@ const RegistrationScreen =() => {
 
     return (
         <ImageBackground style = {styles.background} source={BackgroundImage}>
-            {/* <CustomStatusBar style = {styles.bar}/> */}
+          <StatusBar style="auto" /> 
 
     <View style = {styles.main}>
 

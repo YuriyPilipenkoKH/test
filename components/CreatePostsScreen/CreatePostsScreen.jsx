@@ -2,6 +2,7 @@ import {
     Text,
     StyleSheet,
     View,
+    ScrollView,
     TextInput,
     TouchableOpacity,
     // Platform,
@@ -11,9 +12,7 @@ import {
     ImageBackground,
  
 } from "react-native";
-
-
-// import CustomStatusBar from "../CustomStatusBar/CustomStatusBar";
+import { StatusBar } from 'expo-status-bar';
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import { styles as postStyles } from "../PostsScreen/PostsScreen";
 import { MaterialIcons } from '@expo/vector-icons'; 
@@ -26,7 +25,7 @@ const CreatePostsScreen =() => {
 
     return (
         <View style = {[regStyles.background, postStyles.background]}>
-        {/* <CustomStatusBar style = {styles.statusBar}/> */}
+             <StatusBar style="auto" /> 
 
         <View style = {styles.postsCreate}>
         <View style={postStyles.titleWrapp}>
@@ -38,7 +37,7 @@ const CreatePostsScreen =() => {
             </TouchableOpacity>
         </View>
 
-        <View style={[postStyles.main, styles.main]}>
+        <ScrollView contentContainerStyle={styles.contentContainer} style={[ styles.main]}>
             <View style = {styles.photoWrapp}>
             <ImageBackground style = {postStyles.photoFrame} source={BackgroundImage}>
                 <View style = {styles.cameraBg}>
@@ -67,7 +66,7 @@ const CreatePostsScreen =() => {
               <Text style={regStyles.regBtn__text}>Опубліковати</Text>
             </TouchableOpacity>
            
-        </View>
+        </ScrollView>
 
         <View style = {postStyles.footer}>
 
@@ -97,6 +96,10 @@ export const styles = StyleSheet.create({
         height: '100%',
        
     },
+    contentContainer: {
+        alignItems: 'center',
+      
+      },
 
     arrowleftBtn: {
         position: 'absolute',
@@ -109,6 +112,8 @@ export const styles = StyleSheet.create({
     main: {       
         flex: 1,
         alignSelf: 'stretch', // Stretch the main content to fill the width
+        gap: 32,
+        paddingBottom:60,
     },
 
     photoWrapp: {
@@ -121,7 +126,7 @@ export const styles = StyleSheet.create({
         width: 60,
         height: 60,
         backgroundColor: '#fff3',
-        // borderRadius: '50%',
+        borderRadius: 30,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -132,16 +137,16 @@ export const styles = StyleSheet.create({
         fontWeight: 500,
     },
     inputWrapp: {
+        marginTop:20,
         position: 'relative',
         width: 343,
         flexDirection: 'column',
-        gap: 16,
+        gap: 32,
        
     },
     input: {
         width: 343,
         height: 50,
-        // placeholderTextColor:"#bdbdbd",
         borderBottomWidth: 1,
         borderBottomColor: '#777',
  
@@ -152,7 +157,7 @@ export const styles = StyleSheet.create({
     },
     iconMap: {
         position: 'absolute',
-        bottom: 28,
+        bottom:42,
         color: '#bdbdbd',
     },
 

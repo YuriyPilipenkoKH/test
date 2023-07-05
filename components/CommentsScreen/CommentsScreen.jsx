@@ -13,9 +13,7 @@ import {
     TouchableHighlight
  
 } from "react-native";
-
-
-// import CustomStatusBar from "../CustomStatusBar/CustomStatusBar";
+import { StatusBar } from 'expo-status-bar';
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import { styles as postStyles } from "../PostsScreen/PostsScreen";
 import { styles as creStyles} from "../CreatePostsScreen/CreatePostsScreen";
@@ -33,7 +31,7 @@ const CommentsScreen =() => {
 
     return (
         <View style = {[regStyles.background, postStyles.background, styles.background]}>
-        {/* <CustomStatusBar style = {styles.statusBar}/> */}
+        <StatusBar style="auto" /> 
 
         <View style = {creStyles.postsCreate}>
         <View style={postStyles.titleWrapp}>

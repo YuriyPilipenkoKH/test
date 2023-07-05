@@ -12,7 +12,7 @@ import {
  
 } from "react-native";
 import BackgroundImage from "../../assets/img/photo-bg.jpg";
-import CustomStatusBar from "../CustomStatusBar/CustomStatusBar";
+
 
 import User from "../../assets/img/user.png";
 import {  AntDesign, Feather,  FontAwesome } from '@expo/vector-icons'; 
@@ -27,7 +27,7 @@ const ProfileScreen =() => {
 
     return (
         <ImageBackground style = {[regStyles.background, styles.background]} source={BackgroundImage}>
-            <CustomStatusBar/>
+          
 
     <View style = {[regStyles.main, styles.main]}>
 

@@ -12,16 +12,16 @@ import {
   ImageBackground,
 
 } from "react-native";
+import { StatusBar } from 'expo-status-bar';
 import BackgroundImage from "../../assets/img/photo-bg.jpg";
-// import CustomStatusBar from "../CustomStatusBar/CustomStatusBar";
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 
 const LoginScreen =() => {
 
 
   return (
-      <ImageBackground style = {regStyles.background} source={BackgroundImage}>
-          {/* <CustomStatusBar/> */}
+  <ImageBackground style = {regStyles.background} source={BackgroundImage}>
+      <StatusBar style="auto" /> 
 
   <View style = {[regStyles.main, styles.main]}>
 

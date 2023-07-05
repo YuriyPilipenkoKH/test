@@ -15,9 +15,8 @@ import {
     ScrollView,
     
 } from "react-native";
-
+import { StatusBar } from 'expo-status-bar';
 import User from "../../assets/img/user.png";
-// import CustomStatusBar from "../CustomStatusBar/CustomStatusBar";
 import { MaterialCommunityIcons, AntDesign, Feather, FontAwesome5 } from '@expo/vector-icons'; 
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import BgImage1 from "../../assets/img/forest.jpg";
@@ -29,9 +28,9 @@ const PostsScreen =() => {
 
     return (
         <View style = {[regStyles.background, styles.background]}>
-        {/* <CustomStatusBar/> */}
+        <StatusBar style="auto" /> 
 
-        <View contentContainerStyle = {[styles.postsScreen,  styles.contentContainer]}>
+        <View style= {[styles.postsScreen ]}>
         <View style={styles.titleWrapp}>
             <Text style={styles.title}>
               Публікації
@@ -134,7 +133,7 @@ export const styles = StyleSheet.create({
     },
     contentContainer: {
       alignItems: 'center',
-
+    
     },
 
     postsScreen: {
@@ -144,7 +143,7 @@ export const styles = StyleSheet.create({
     },
     main: {  
         alignSelf: 'stretch', // Stretch the main content to fill the width
-        // height: '100%',
+        height: '100%',
        
         flexDirection: 'column',
         gap: 32,
@@ -152,16 +151,13 @@ export const styles = StyleSheet.create({
         paddingRight: 16,
         
     },
-    contentContainer: {
-        alignItems: 'center', // Apply alignItems to contentContainerStyle
-      },
+ 
 
     titleWrapp: {
         position: 'relative',
         height: 44,
         width: '100%',
-       
-        // alignSelf: 'center',
+    
         justifyContent: 'center',
         borderBottomWidth: 1,
         borderBottomColor: '#777',
@@ -210,7 +206,7 @@ export const styles = StyleSheet.create({
         fontSize: 13,
     },
     card: {
-      
+        marginTop:32,
         flexDirection: 'column',
         gap: 8,  
        
