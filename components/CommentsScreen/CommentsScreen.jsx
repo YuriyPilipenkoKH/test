@@ -31,7 +31,7 @@ import AvImage0 from "../../assets/img/userAv.png";
 const CommentsScreen =() => {
 
     return (
-        <View style = {[regStyles.background, postStyles.background]}>
+        <View style = {[regStyles.background, postStyles.background, styles.background]}>
         {/* <CustomStatusBar style = {styles.statusBar}/> */}
 
         <View style = {creStyles.postsCreate}>
@@ -98,11 +98,15 @@ const CommentsScreen =() => {
 export default CommentsScreen
 
 const styles = StyleSheet.create({
+    background: {
+        overflow: 'scroll',
+    },
 
     main: {     
         flex: 1,
         alignSelf: 'stretch', // Stretch the main content to fill the width
- 
+        // justifyContent:'flex-end',
+        
     },
 
     photoWrapp: {
@@ -124,7 +128,7 @@ const styles = StyleSheet.create({
         width:28,
         height: 28,
         backgroundColor: '#bdbdbd',
-        // borderRadius: '50%',
+        borderRadius: 14,
     },
     card: {
         width: 300,
@@ -184,13 +188,13 @@ const styles = StyleSheet.create({
         width:34,
         height: 34,
         backgroundColor: '#ff6c00',
-        // borderRadius: '50%',
+        borderRadius: 17,
         alignItems: 'center',
         justifyContent: "center",
 
     },
     arrowup: {
-        // transform: 'rotate(90deg)' ,
+        transform: [{ rotate: '90deg' }],
         color: '#bdbdbd',
     },
 
