@@ -1,14 +1,14 @@
-// import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   StyleSheet,
   View,
   TextInput,
   TouchableOpacity,
-  // Platform,
-  // KeyboardAvoidingView,
-  // TouchableWithoutFeedback,
-  // Keyboard,
+  Platform,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
   ImageBackground,
 
 } from "react-native";
@@ -17,19 +17,49 @@ import BackgroundImage from "../../assets/img/photo-bg.jpg";
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 
 const LoginScreen =() => {
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardVisible(true);
+      }
+    );
+
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardVisible(false);
+      }
+    );
+
+    // Clean up the listeners when the component unmounts
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
 
 
   return (
-  <ImageBackground style = {regStyles.background} source={BackgroundImage}>
+  <TouchableWithoutFeedback onPress={Keyboard.dismiss}>  
+  <ImageBackground style = {[regStyles.background, styles.background]} source={BackgroundImage}>
       <StatusBar style="auto" /> 
 
-  <View style = {[regStyles.main, styles.main]}>
+  <View style = {{...regStyles.main, ...styles.main,
+  height: keyboardVisible ? 280 : 440,
+  }}>
 
    
   <Text style={regStyles.title}>Увійти</Text>
 
   <View style={regStyles.form}>
-
+  <KeyboardAvoidingView
+     style={regStyles.inputs}
+     behavior={Platform.OS == "ios" ? "padding" : "height" } 
+     >
     <TextInput
       style={regStyles.input}
       placeholder="Адреса електронної пошти"
@@ -41,15 +71,16 @@ const LoginScreen =() => {
           style={regStyles.input}
           placeholder="Пароль"
           placeholderTextColor="#bdbdbd"
-          // secureTextEntry={true}
+          secureTextEntry={show ? false : true}
         />
-        <TouchableOpacity   style={regStyles.showPassword}  >
+        <TouchableOpacity   style={regStyles.showPassword} onPress={() => setShow(!show)} >
                   <Text style={regStyles.textShow}>
-                          Показати
+                  {show ? 'Приховати' : 'Показати'}
                   </Text>
           </TouchableOpacity>
     </View>
-  <View style={regStyles.btnWrapp}>
+    </KeyboardAvoidingView>
+{ !keyboardVisible &&  <View style={regStyles.btnWrapp}>
   <TouchableOpacity style={regStyles.alreadyHaveAccount}>
       <Text style={regStyles.alreadyHaveAccountText}>Немає акаунту? Зареєструватися</Text>
     </TouchableOpacity>
@@ -57,22 +88,26 @@ const LoginScreen =() => {
       <Text style={regStyles.regBtn__text}>Увійти</Text>
     </TouchableOpacity>
 
-  </View>
+  </View>}
 
   </View>
-   <View style = {regStyles.homeIndicator} ></View>
+   <View style = {{...regStyles.homeIndicator,  backgroundColor: keyboardVisible ? '#fff0' : '#212121'}} ></View>
   </View>
       
 
     </ImageBackground>
+    </TouchableWithoutFeedback>
   )
 }
 export default  LoginScreen
 
 export const styles = StyleSheet.create({
 
+  background: {
+  
+  },
   main: {
-      height: 440,
+
       paddingTop: 62,
       paddingBottom: 60,
   },

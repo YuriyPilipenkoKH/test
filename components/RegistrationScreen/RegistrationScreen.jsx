@@ -1,14 +1,14 @@
-// import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Text,
     StyleSheet,
     View,
     TextInput,
     TouchableOpacity,
-    // Platform,
-    // KeyboardAvoidingView,
-    // TouchableWithoutFeedback,
-    // Keyboard,
+    Platform,
+    KeyboardAvoidingView,
+    TouchableWithoutFeedback,
+    Keyboard,
     ImageBackground,
  
 } from "react-native";
@@ -19,13 +19,40 @@ import User from "../../assets/img/user.png";
 
 
 const RegistrationScreen =() => {
+    const [keyboardVisible, setKeyboardVisible] = useState(false);
+    const [show, setShow] = useState(false);
+
+    useEffect(() => {
+      const keyboardDidShowListener = Keyboard.addListener(
+        'keyboardDidShow',
+        () => {
+          setKeyboardVisible(true);
+        }
+      );
+  
+      const keyboardDidHideListener = Keyboard.addListener(
+        'keyboardDidHide',
+        () => {
+          setKeyboardVisible(false);
+        }
+      );
+  
+      // Clean up the listeners when the component unmounts
+      return () => {
+        keyboardDidShowListener.remove();
+        keyboardDidHideListener.remove();
+      };
+    }, []);
 
 
     return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ImageBackground style = {styles.background} source={BackgroundImage}>
           <StatusBar style="auto" /> 
 
-    <View style = {styles.main}>
+       <View style = {{...styles.main,
+         height: keyboardVisible ? 320 : 500,
+         }}>
 
         <ImageBackground style = {styles.photoWrapp} source={User}> 
         <TouchableOpacity style = {styles.plusBtn}>
@@ -33,11 +60,15 @@ const RegistrationScreen =() => {
         </TouchableOpacity>
          </ImageBackground>
     <Text style={styles.title}>Реєстрація</Text>
-
-    <View style={styles.form} >
+   
+    <View style={styles.form} > 
+    <KeyboardAvoidingView
+     style={styles.inputs}
+     behavior={Platform.OS == "ios" ? "padding" : "height" } 
+     >
       <TextInput
         style={styles.input}
-        name = 'ligin'
+        name = 'login'
         placeholder="Логін"
         placeholderTextColor="#bdbdbd"
 
@@ -55,70 +86,65 @@ const RegistrationScreen =() => {
             name = 'password'
             placeholder="Пароль"
             placeholderTextColor="#bdbdbd"
-            // secureTextEntry={true}
+            secureTextEntry={show ? false : true}
           />
-          <TouchableOpacity   style={styles.showPassword}  >
+         
+          <TouchableOpacity   style={styles.showPassword} onPress={() => setShow(!show)} >
                     <Text style={styles.textShow}>
-                            Показати
+                    {show ? 'Приховати' : 'Показати'}
                     </Text>
             </TouchableOpacity>
       </View>
-    <View style={styles.btnWrapp}>
+      </KeyboardAvoidingView>
+     
+    {!keyboardVisible && <View style={styles.btnWrapp}>
     <TouchableOpacity style={styles.alreadyHaveAccount}>
         <Text style={styles.alreadyHaveAccountText}>Вже є акаунт? Увійти</Text>
       </TouchableOpacity>  
       <TouchableOpacity style={styles.regBtn}>
         <Text style={styles.regBtn__text}>Зареєстуватися</Text>
       </TouchableOpacity>
+    </View>}
+    </View>
+   
 
+     <View style = {{...styles.homeIndicator, backgroundColor: keyboardVisible ? '#fff0' : '#212121',}} ></View>
     </View>
-
-    </View>
-     <View style = {styles.homeIndicator} ></View>
-    </View>
-        
+  
 
       </ImageBackground>
+       </TouchableWithoutFeedback>
     )
 }
 export default  RegistrationScreen
 
 export const styles = StyleSheet.create({
     background: {
-        // position: 'relative',
-        // flex:1,
-        // gap: 32,
+
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
         resizeMode: 'cover',
         width: '100%',
         height: '100%',
-        // alignItems: 'flex-end',
+
         justifyContent: 'flex-end',
     },
 
-    bar: {
 
-        // position: 'absolute',
-        // top:0,
-        // height:44,
-    },
 
     main: {
         position: 'relative',
-        // flex:1,
  
-        gap: 24,
+        gap: 16,
         alignItems: 'center',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
    
-        backgroundColor: '#fff',
+        backgroundColor:  '#fff',
         width: '100%',
         height: 500,
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
-        borderBottomLeftRadius: 0,
-        borderBottomRightRadius: 0,
+
         paddingTop: 72,
         paddingBottom: 40,
         paddingHorizontal:16,
@@ -152,8 +178,11 @@ export const styles = StyleSheet.create({
         fontWeight: 500,
         textAlign: 'center',
     },
+    inputs: {
+            gap: 16,
+
+    },
     input: {
-       
         width: 343,
         height: 50,
         backgroundColor: '#e8e8e8',
@@ -162,7 +191,6 @@ export const styles = StyleSheet.create({
         color: '#212121',
         borderWidth: 1,
         borderColor: "#bdbdbd",
-
      
     },
     alreadyHaveAccount: {
@@ -177,17 +205,27 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
     },
     form: {
-        flex: 5,
+        flex: 2,
         flexDirection: 'column',
         gap: 16,
         alignItems: 'center',
-        
+        justifyContent:  'flex-start',
     },
     btnWrapp: {
-        flex: 2,
+        flex: 1,
         flexDirection: 'column-reverse',
         gap: 16,
-        // marginTop: 30,
+        // marginBottom: 80,
+        ...Platform.select({
+            ios: {
+
+            },
+            android: {
+
+            },
+
+        }),
+        
     },
     regBtn: {
         
@@ -196,6 +234,8 @@ export const styles = StyleSheet.create({
         width: 343,
         borderRadius: 25,
         padding: 16,
+        alignItems: 'center',
+        justifyContent:  'center',
     
     },
     regBtn__text: {
@@ -204,7 +244,6 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         textAlign: 'center',
 
-        
     },
     inputWrapp: {
         position: 'relative',

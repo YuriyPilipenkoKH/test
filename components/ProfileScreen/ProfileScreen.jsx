@@ -2,6 +2,7 @@ import {
     Text,
     StyleSheet,
     View,
+    ScrollView,
     // TextInput,
     TouchableOpacity,
     // Platform,
@@ -12,10 +13,10 @@ import {
  
 } from "react-native";
 import BackgroundImage from "../../assets/img/photo-bg.jpg";
-
+import { StatusBar } from 'expo-status-bar';
 
 import User from "../../assets/img/user.png";
-import {  AntDesign, Feather,  FontAwesome } from '@expo/vector-icons'; 
+import {MaterialCommunityIcons,  AntDesign, Feather,  FontAwesome } from '@expo/vector-icons'; 
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import { styles as postStyles } from "../PostsScreen/PostsScreen";
 import BgImage1 from "../../assets/img/forest.jpg";
@@ -26,16 +27,20 @@ const ProfileScreen =() => {
 
 
     return (
-        <ImageBackground style = {[regStyles.background, styles.background]} source={BackgroundImage}>
-          
+        <ScrollView>
+        <ImageBackground style = {[ styles.background]} source={BackgroundImage}>
+          <StatusBar style="auto" /> 
 
-    <View style = {[regStyles.main, styles.main]}>
+    <View contentContainerStyle={styles.contentContainer} style={[ styles.main]}>
 
         <ImageBackground style = {regStyles.photoWrapp} source={User}> 
         <TouchableOpacity style = {regStyles.plusBtn}>
             <AntDesign  name="pluscircleo" size={25} style = {[regStyles.plus]} />
         </TouchableOpacity>
          </ImageBackground>
+         <TouchableOpacity style={styles.trayArrowBtn}>
+            <MaterialCommunityIcons style = {styles.trayArrow} name="tray-arrow-up" size={24} color="black" />
+            </TouchableOpacity>
     <Text style={regStyles.title}>Natali Romanova</Text>
 
          <View style={postStyles.card}>
@@ -116,6 +121,7 @@ const ProfileScreen =() => {
     </View>
         
     </ImageBackground>
+    </ScrollView>
     )
 }
 export default  ProfileScreen
@@ -123,14 +129,37 @@ export default  ProfileScreen
 export const styles = StyleSheet.create({
 
     background: {
+
         gap: 160,
         backgroundSize: 'auto',
+        alignItems: 'center',
+        justifyContent: 'space-between',
     },
     main: {
-        minHeight: 500,
-        height: 'auto',
-        justifyContent: 'space-between',
+        width: '100%',
+
+        backgroundColor: '#f5f5f5',
+       marginTop: 140,
         paddingBottom: 8,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingTop: 90,
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+    },
+    contentContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+      
+      },
+      trayArrowBtn: {
+        position: 'absolute',
+        right: 16,
+        top:16,
+    },
+    trayArrow: {
+        transform: [{ rotate: '90deg' }],
+        color: '#bdbdbd',
     },
     cardDescription: {
         position: 'relative',
@@ -157,7 +186,7 @@ export const styles = StyleSheet.create({
     },
 
     footer: {
-        // flex:1,
+        marginTop: 40,
     //   position: 'absolute',
     //   bottom: 0  
     },

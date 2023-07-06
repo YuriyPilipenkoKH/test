@@ -128,12 +128,12 @@ export const styles = StyleSheet.create({
     background: {
         flex: 1,
         paddingTop: 32,
-        // justifyContent: 'center', 
+        // justifyContent: 'flex-end', 
         
     },
     contentContainer: {
       alignItems: 'center',
-    
+      justifyContent: 'center',
     },
 
     postsScreen: {
@@ -142,7 +142,7 @@ export const styles = StyleSheet.create({
     
     },
     main: {  
-        alignSelf: 'stretch', // Stretch the main content to fill the width
+        // alignSelf: 'stretch', // Stretch the main content to fill the width
         height: '100%',
        
         flexDirection: 'column',
@@ -175,9 +175,11 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         left: '50%',
         transform: [{ translateX: 160 }],
+       
     },
     trayArrow: {
         transform: [{ rotate: '90deg' }],
+        color: '#bdbdbd',
     },
     user: { 
         height: 60,

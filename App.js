@@ -28,9 +28,8 @@ if (!fontsLoaded) {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'relative',
+  position: 'relative',
   fontFamily: 'Roboto',
-  backgroundColor: '#f5f5f5',
   flex:1,
   },
 });
