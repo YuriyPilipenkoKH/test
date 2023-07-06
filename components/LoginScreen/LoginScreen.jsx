@@ -24,6 +24,7 @@ const LoginScreen =() => {
   const [show, setShow] = useState(false);
   const [isValidEmail, setIsValidEmail] = useState(false)
   const [isValidPassword, setIsValidPassword] = useState(false)
+  const [message, setMessage] = useState('')
   const [keyboardVisible, setKeyboardVisible] = useState(false);
 
   useEffect(() => {
@@ -72,21 +73,25 @@ const LoginScreen =() => {
 
   const submit = () => {
     if(!isValidEmail){
-      console.log('not valid email')
+      setMessage('Not valid email')
       return
     }
     if(!isValidPassword){
-      console.log('not valid password')
+      setMessage('Not valid password')
       return
     }
+
     const data = {
         email, 
         password,
     }
-    console.log(data)
-    setEmail('')
-    setPassword('')
-    setShow(false)
+     console.log(data)
+        setEmail('')
+        setPassword('')
+        setShow(false)
+        setMessage('')
+        setIsValidEmail(false)
+        setIsValidPassword(false)
 }
 
 
@@ -96,7 +101,7 @@ const LoginScreen =() => {
       <StatusBar style="auto" /> 
 
   <View style = {{...regStyles.main, ...styles.main,
-  height: keyboardVisible ? 280 : 440,
+  height: keyboardVisible ? 300 : 440,
   }}>
 
    
@@ -132,6 +137,8 @@ const LoginScreen =() => {
                   </Text>
           </TouchableOpacity>
     </View>
+    {message ?  <Text style={regStyles.errorMessage}>{message}</Text>         
+               :  null}
     </KeyboardAvoidingView>
 
 { !keyboardVisible &&  <View style={regStyles.btnWrapp}>

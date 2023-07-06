@@ -27,6 +27,7 @@ const RegistrationScreen =() => {
     const [isValidName, setIsValidName] = useState(false)
     const [isValidEmail, setIsValidEmail] = useState(false)
     const [isValidPassword, setIsValidPassword] = useState(false)
+    const [message, setMessage] = useState('')
     const [keyboardVisible, setKeyboardVisible] = useState(false);
 
     useEffect(() => {
@@ -86,17 +87,18 @@ const RegistrationScreen =() => {
 
      const submit = () => {
       if(!isValidName){
-        console.log('not valid login')
+        setMessage('Not valid login')
         return
       }
       if(!isValidEmail){
-        console.log('not valid email')
+        setMessage('Not valid email')
         return
       }
       if(!isValidPassword){
-        console.log('not valid password')
+        setMessage('Not valid password')
         return
       }
+     
         const data = {
             login, 
             email, 
@@ -107,6 +109,10 @@ const RegistrationScreen =() => {
         setEmail('')
         setPassword('')
         setShow(false)
+        setMessage('')
+        setIsValidName(false)
+        setIsValidEmail(false)
+        setIsValidPassword(false)
     }
 
     return (
@@ -115,7 +121,7 @@ const RegistrationScreen =() => {
           <StatusBar style="auto" /> 
 
        <View style = {{...styles.main,
-         height: keyboardVisible ? 320 : 500,
+         height: keyboardVisible ? 360 : 500,
          }}>
 
         <ImageBackground style = {styles.photoWrapp} source={User}> 
@@ -165,6 +171,8 @@ const RegistrationScreen =() => {
                     </Text>
             </TouchableOpacity>
       </View>
+      {message ?  <Text style={styles.errorMessage}>{message}</Text>         
+               :  null}
       </KeyboardAvoidingView>
      
     {!keyboardVisible && <View style={styles.btnWrapp}>
@@ -264,6 +272,14 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#bdbdbd",
         textDecorationLine: 'none',
+    },
+
+    errorMessage: {
+      color: 'crimson',
+      fontFamily: 'Roboto',
+      fontSize: 14,
+      fontWeight:800,
+      marginHorizontal:20,
     },
     alreadyHaveAccount: {
         padding: 2,
