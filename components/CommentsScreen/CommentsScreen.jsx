@@ -172,6 +172,7 @@ const styles = StyleSheet.create({
         width: 343,
         height: 50,
         marginBottom:20,
+        marginTop:32,
 
     },
     commemtInput: {

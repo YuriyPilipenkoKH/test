@@ -191,7 +191,7 @@ export const styles = StyleSheet.create({
         color: '#212121',
         borderWidth: 1,
         borderColor: "#bdbdbd",
-     
+        textDecorationLine: 'none',
     },
     alreadyHaveAccount: {
         padding: 2,
@@ -215,7 +215,6 @@ export const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column-reverse',
         gap: 16,
-        // marginBottom: 80,
         ...Platform.select({
             ios: {
 
@@ -223,7 +222,6 @@ export const styles = StyleSheet.create({
             android: {
 
             },
-
         }),
         
     },
