@@ -15,10 +15,16 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import BackgroundImage from "../../assets/img/photo-bg.jpg";
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
+import { validate } from "react-native-web/dist/cjs/exports/StyleSheet/validate";
 
 const LoginScreen =() => {
-  const [keyboardVisible, setKeyboardVisible] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
+  const [isValidEmail, setIsValidEmail] = useState(false)
+  const [isValidPassword, setIsValidPassword] = useState(false)
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -42,6 +48,47 @@ const LoginScreen =() => {
     };
   }, []);
 
+  const validateEmail = (value) => {
+    setEmail(value)
+    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (pattern.test(value) === false) {
+      setIsValidEmail(false);
+  }
+  else {
+    setIsValidEmail(true);
+  }
+  }
+
+  const validatePassword = (value) => {
+    setPassword(value)
+    const pattern =  /^.{6,}$/
+    if (pattern.test(value) === false) {
+      setIsValidPassword(false);
+  }
+  else {
+    setIsValidPassword(true);
+  }
+  }
+
+  const submit = () => {
+    if(!isValidEmail){
+      console.log('not valid email')
+      return
+    }
+    if(!isValidPassword){
+      console.log('not valid password')
+      return
+    }
+    const data = {
+        email, 
+        password,
+    }
+    console.log(data)
+    setEmail('')
+    setPassword('')
+    setShow(false)
+}
+
 
   return (
   <TouchableWithoutFeedback onPress={Keyboard.dismiss}>  
@@ -62,6 +109,9 @@ const LoginScreen =() => {
      >
     <TextInput
       style={regStyles.input}
+      name = 'email'
+      value={email}
+      onChangeText = {validateEmail}
       placeholder="Адреса електронної пошти"
       placeholderTextColor="#bdbdbd"
 
@@ -69,9 +119,12 @@ const LoginScreen =() => {
     <View style = {regStyles.inputWrapp}>
         <TextInput
           style={regStyles.input}
+          name = 'password'
+          value={password}
+          onChangeText = {validatePassword}
           placeholder="Пароль"
           placeholderTextColor="#bdbdbd"
-          secureTextEntry={show ? false : true}
+          secureTextEntry={!show}
         />
         <TouchableOpacity   style={regStyles.showPassword} onPress={() => setShow(!show)} >
                   <Text style={regStyles.textShow}>
@@ -80,11 +133,14 @@ const LoginScreen =() => {
           </TouchableOpacity>
     </View>
     </KeyboardAvoidingView>
+
 { !keyboardVisible &&  <View style={regStyles.btnWrapp}>
   <TouchableOpacity style={regStyles.alreadyHaveAccount}>
       <Text style={regStyles.alreadyHaveAccountText}>Немає акаунту? Зареєструватися</Text>
     </TouchableOpacity>
-    <TouchableOpacity style={regStyles.regBtn}>
+    <TouchableOpacity style={regStyles.regBtn}
+     onPress={submit}
+     >
       <Text style={regStyles.regBtn__text}>Увійти</Text>
     </TouchableOpacity>
 

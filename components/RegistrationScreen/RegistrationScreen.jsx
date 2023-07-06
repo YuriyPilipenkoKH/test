@@ -19,8 +19,15 @@ import User from "../../assets/img/user.png";
 
 
 const RegistrationScreen =() => {
-    const [keyboardVisible, setKeyboardVisible] = useState(false);
+
+    const [login, setLogin] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [show, setShow] = useState(false);
+    const [isValidName, setIsValidName] = useState(false)
+    const [isValidEmail, setIsValidEmail] = useState(false)
+    const [isValidPassword, setIsValidPassword] = useState(false)
+    const [keyboardVisible, setKeyboardVisible] = useState(false);
 
     useEffect(() => {
       const keyboardDidShowListener = Keyboard.addListener(
@@ -44,6 +51,63 @@ const RegistrationScreen =() => {
       };
     }, []);
 
+    const validateName = (value) => {
+      setLogin(value)
+      const pattern =/^[a-zA-Z' -]+$/
+      if (pattern.test(value) === false) {
+        setIsValidName(false);
+    }
+    else {
+      setIsValidName(true);
+    }
+    }
+
+    const validateEmail = (value) => {
+      setEmail(value)
+      const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (pattern.test(value) === false) {
+        setIsValidEmail(false);
+    }
+    else {
+      setIsValidEmail(true);
+    }
+    }
+  
+    const validatePassword = (value) => {
+      setPassword(value)
+      const pattern =  /^.{6,}$/
+      if (pattern.test(value) === false) {
+        setIsValidPassword(false);
+    }
+    else {
+      setIsValidPassword(true);
+    }
+    }
+
+     const submit = () => {
+      if(!isValidName){
+        console.log('not valid login')
+        return
+      }
+      if(!isValidEmail){
+        console.log('not valid email')
+        return
+      }
+      if(!isValidPassword){
+        console.log('not valid password')
+        return
+      }
+        const data = {
+            login, 
+            email, 
+            password,
+        }
+        console.log(data)
+        setLogin('')
+        setEmail('')
+        setPassword('')
+        setShow(false)
+    }
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -59,7 +123,7 @@ const RegistrationScreen =() => {
             <AntDesign  name="pluscircleo" size={25} style = {[styles.plus]} />
         </TouchableOpacity>
          </ImageBackground>
-    <Text style={styles.title}>Реєстрація</Text>
+    <Text style={styles.title}> Реєстрація </Text>
    
     <View style={styles.form} > 
     <KeyboardAvoidingView
@@ -69,6 +133,8 @@ const RegistrationScreen =() => {
       <TextInput
         style={styles.input}
         name = 'login'
+        value={login}
+        onChangeText = {validateName}
         placeholder="Логін"
         placeholderTextColor="#bdbdbd"
 
@@ -76,6 +142,8 @@ const RegistrationScreen =() => {
       <TextInput
         style={styles.input}
         name = 'email'
+        value={email}
+        onChangeText = {validateEmail}
         placeholder="Адреса електронної пошти"
         placeholderTextColor="#bdbdbd"
 
@@ -84,9 +152,11 @@ const RegistrationScreen =() => {
           <TextInput
             style={styles.input}
             name = 'password'
+            value={password}
+            onChangeText = {validatePassword}
             placeholder="Пароль"
             placeholderTextColor="#bdbdbd"
-            secureTextEntry={show ? false : true}
+            secureTextEntry={!show}
           />
          
           <TouchableOpacity   style={styles.showPassword} onPress={() => setShow(!show)} >
@@ -101,7 +171,9 @@ const RegistrationScreen =() => {
     <TouchableOpacity style={styles.alreadyHaveAccount}>
         <Text style={styles.alreadyHaveAccountText}>Вже є акаунт? Увійти</Text>
       </TouchableOpacity>  
-      <TouchableOpacity style={styles.regBtn}>
+      <TouchableOpacity style={styles.regBtn}
+        onPress={submit}
+      >
         <Text style={styles.regBtn__text}>Зареєстуватися</Text>
       </TouchableOpacity>
     </View>}
