@@ -27,6 +27,18 @@ const LoginScreen =() => {
   const [message, setMessage] = useState('')
   const [keyboardVisible, setKeyboardVisible] = useState(false);
 
+  const [time, setTime] = useState(null)
+
+  useEffect(() => {
+    if(message){
+      setTime(4)
+      setTimeout(() => {
+        setTime(null)
+      }, 4000);
+    }
+  }, [message])
+  
+
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
@@ -105,7 +117,9 @@ const LoginScreen =() => {
   }}>
 
    
-  <Text style={regStyles.title}>Увійти</Text>
+  <Text style={{...regStyles.title, color: time ? 'crimson' : '#212121' }}>
+   {message && time ? 'Wasted' : 'Увійти'}
+    </Text>
 
   <View style={regStyles.form}>
   <KeyboardAvoidingView
