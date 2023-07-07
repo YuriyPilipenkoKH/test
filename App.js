@@ -1,12 +1,15 @@
 import { useFonts } from "expo-font";
-
 import { StyleSheet, View ,Text} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import RegistrationScreen from './components/RegistrationScreen/RegistrationScreen';
 import LoginScreen from "./components/LoginScreen/LoginScreen";
 import PostsScreen from "./components/PostsScreen/PostsScreen";
 import CreatePostsScreen from "./components/CreatePostsScreen/CreatePostsScreen";
 import CommentsScreen from "./components/CommentsScreen/CommentsScreen";
 import ProfileScreen from "./components/ProfileScreen/ProfileScreen";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -19,10 +22,13 @@ if (!fontsLoaded) {
 }
 
   return (
-    <View style={styles.container}>
-      <RegistrationScreen/>
-
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+     
+        <Stack.Screen   name="Registration" options={{headerShown: false,}} component={RegistrationScreen}/>
+        <Stack.Screen   name="Login" options={{headerShown: false,}} component={LoginScreen}/>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

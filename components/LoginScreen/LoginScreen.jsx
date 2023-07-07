@@ -16,6 +16,7 @@ import { StatusBar } from 'expo-status-bar';
 import BackgroundImage from "../../assets/img/photo-bg.jpg";
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import { validate } from "react-native-web/dist/cjs/exports/StyleSheet/validate";
+import { useNavigation } from "@react-navigation/native";
 
 const LoginScreen =() => {
 
@@ -28,6 +29,7 @@ const LoginScreen =() => {
   const [keyboardVisible, setKeyboardVisible] = useState(false);
 
   const [time, setTime] = useState(null)
+   const navigation = useNavigation();
 
   useEffect(() => {
     if(message){
@@ -113,9 +115,9 @@ const LoginScreen =() => {
       <StatusBar style="auto" /> 
 
   <View style = {{...regStyles.main, ...styles.main,
-  height: keyboardVisible ? 350 : 440,
+  height: keyboardVisible ? 330 : 440,
   paddingTop: keyboardVisible ? 20 : 60,
-  paddingBottom: keyboardVisible ? 20 : 60,
+  paddingBottom: keyboardVisible ? 8 : 60,
   }}>
 
    
@@ -158,7 +160,9 @@ const LoginScreen =() => {
     </KeyboardAvoidingView>
 
   <View style={regStyles.btnWrapp}>
-  <TouchableOpacity style={regStyles.alreadyHaveAccount}>
+  <TouchableOpacity 
+  onPress={() => navigation.navigate("Registration")}
+  style={regStyles.alreadyHaveAccount}>
       <Text style={regStyles.alreadyHaveAccountText}>Немає акаунту? Зареєструватися</Text>
     </TouchableOpacity>
     <TouchableOpacity style={regStyles.regBtn}

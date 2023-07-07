@@ -16,6 +16,7 @@ import { StatusBar } from 'expo-status-bar';
 import BackgroundImage from "../../assets/img/photo-bg.jpg";
 import { AntDesign } from '@expo/vector-icons'; 
 import User from "../../assets/img/user.png";
+import { useNavigation } from "@react-navigation/native";
 
 
 const RegistrationScreen =() => {
@@ -29,6 +30,18 @@ const RegistrationScreen =() => {
     const [isValidPassword, setIsValidPassword] = useState(false)
     const [message, setMessage] = useState('')
     const [keyboardVisible, setKeyboardVisible] = useState(false);
+
+    const [time, setTime] = useState(null)
+    const navigation = useNavigation();
+
+    useEffect(() => {
+      if(message){
+        setTime(5)
+        setTimeout(() => {
+          setTime(null)
+        }, 5000);
+      }
+    }, [message])
 
     useEffect(() => {
       const keyboardDidShowListener = Keyboard.addListener(
@@ -129,7 +142,10 @@ const RegistrationScreen =() => {
             <AntDesign  name="pluscircleo" size={25} style = {[styles.plus]} />
         </TouchableOpacity>
          </ImageBackground>
-    <Text style={styles.title}> Реєстрація </Text>
+    {/* <Text style={styles.title}> Реєстрація </Text> */}
+    <Text style={{...styles.title, color: time ? 'crimson' : '#212121' }}>
+   {message && time ? 'Wasted' : 'Реєстрація'}
+    </Text>
    
     <View style={styles.form} > 
     <KeyboardAvoidingView
@@ -176,7 +192,9 @@ const RegistrationScreen =() => {
       </KeyboardAvoidingView>
      
     {!keyboardVisible && <View style={styles.btnWrapp}>
-    <TouchableOpacity style={styles.alreadyHaveAccount}>
+    <TouchableOpacity
+    onPress={() => navigation.navigate("Login")}
+     style={styles.alreadyHaveAccount}>
         <Text style={styles.alreadyHaveAccountText}>Вже є акаунт? Увійти</Text>
       </TouchableOpacity>  
       <TouchableOpacity style={styles.regBtn}
