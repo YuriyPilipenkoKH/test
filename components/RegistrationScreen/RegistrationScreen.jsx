@@ -19,6 +19,7 @@ import User from "../../assets/img/user.png";
 import { useNavigation } from "@react-navigation/native";
 
 
+
 const RegistrationScreen =() => {
 
     const [login, setLogin] = useState("");
@@ -126,6 +127,8 @@ const RegistrationScreen =() => {
         setIsValidName(false)
         setIsValidEmail(false)
         setIsValidPassword(false)
+
+        navigation.navigate("Home")
     }
 
     return (

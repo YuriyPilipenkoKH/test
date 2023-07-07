@@ -19,9 +19,11 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons'; 
 import { Feather } from '@expo/vector-icons'; 
 import BackgroundImage from "../../assets/img/forest.jpg";
+import { useNavigation } from "@react-navigation/native";
 
 
 const CreatePostsScreen =() => {
+    const navigation = useNavigation();
 
     return (
         <View style = {[regStyles.background, postStyles.background]}>
@@ -32,7 +34,9 @@ const CreatePostsScreen =() => {
             <Text style={postStyles.title}>
             Створити публікацію
             </Text>
-            <TouchableOpacity style={styles.arrowleftBtn}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Posts")}
+            style={styles.arrowleftBtn}>
             <AntDesign style = {styles.arrowleft} name="arrowleft" size={24} color="black" />
             </TouchableOpacity>
         </View>

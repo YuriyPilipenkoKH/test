@@ -22,9 +22,11 @@ import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import BgImage1 from "../../assets/img/forest.jpg";
 import BgImage2 from "../../assets/img/sea.jpg";
 import BgImage3 from "../../assets/img/house.jpg";
+import { useNavigation } from "@react-navigation/native";
 
 
 const PostsScreen =() => {
+  const navigation = useNavigation();
 
     return (
         <View style = {[regStyles.background, styles.background]}>
@@ -104,13 +106,19 @@ const PostsScreen =() => {
         </ScrollView>
 
         <View style = {styles.footer}>
-        <TouchableOpacity style={styles.icon}>
+        <TouchableOpacity 
+        onPress={() => navigation.navigate("Posts")}
+        style={styles.icon}>
              <Feather name="grid" size={24} color="#212121" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.addBtn}>
-            <AntDesign name="plus" size={14} color="#eee" />
+        <TouchableOpacity 
+        onPress={() => navigation.navigate("CreatePost")}
+        style={styles.addBtn}>
+            <AntDesign name="plus" size={14} color="#eee" /> 
         </TouchableOpacity>
-        <TouchableOpacity style={styles.icon}>
+        <TouchableOpacity 
+        onPress={() => navigation.navigate("Profile")}
+        style={styles.icon}>
              <Feather name="user" size={24} color="#212121" /> 
         </TouchableOpacity>
 

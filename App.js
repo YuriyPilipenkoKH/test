@@ -4,10 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import RegistrationScreen from './components/RegistrationScreen/RegistrationScreen';
 import LoginScreen from "./components/LoginScreen/LoginScreen";
-import PostsScreen from "./components/PostsScreen/PostsScreen";
-import CreatePostsScreen from "./components/CreatePostsScreen/CreatePostsScreen";
-import CommentsScreen from "./components/CommentsScreen/CommentsScreen";
-import ProfileScreen from "./components/ProfileScreen/ProfileScreen";
+import Home from "./components/Home/Home";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +24,7 @@ if (!fontsLoaded) {
       <Stack.Navigator>
         <Stack.Screen   name="Login" options={{headerShown: false,}} component={LoginScreen}/>
         <Stack.Screen   name="Registration" options={{headerShown: false,}} component={RegistrationScreen}/>
+        <Stack.Screen   name="Home" options={{headerShown: false,}} component={Home}/>
        
       </Stack.Navigator>
     </NavigationContainer>

@@ -17,17 +17,17 @@ import { StatusBar } from 'expo-status-bar';
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import { styles as postStyles } from "../PostsScreen/PostsScreen";
 import { styles as creStyles} from "../CreatePostsScreen/CreatePostsScreen";
-
 import { AntDesign } from '@expo/vector-icons'; 
-
 // import BgImage1 from "../../assets/img/forest.jpg";
 import BgImage2 from "../../assets/img/sea.jpg";
 // import BgImage3 from "../../assets/img/house.jpg";
 import AvImage1 from "../../assets/img/city.png";
 import AvImage0 from "../../assets/img/userAv.png";
+import { useNavigation } from "@react-navigation/native";
 
 
 const CommentsScreen =() => {
+    const navigation = useNavigation();
 
     return (
         <View style = {[regStyles.background, postStyles.background, styles.background]}>
@@ -38,7 +38,9 @@ const CommentsScreen =() => {
             <Text style={postStyles.title}>
             Коментарі
             </Text>
-            <TouchableOpacity style={creStyles.arrowleftBtn}>
+            <TouchableOpacity 
+            onPress={() => navigation.navigate("Posts")}
+            style={creStyles.arrowleftBtn}>
             <AntDesign style = {creStyles.arrowleft} name="arrowleft" size={24} color="#212121" />
             </TouchableOpacity>
         </View>

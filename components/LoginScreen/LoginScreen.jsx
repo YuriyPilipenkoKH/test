@@ -15,7 +15,6 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import BackgroundImage from "../../assets/img/photo-bg.jpg";
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
-import { validate } from "react-native-web/dist/cjs/exports/StyleSheet/validate";
 import { useNavigation } from "@react-navigation/native";
 
 const LoginScreen =() => {
@@ -106,6 +105,8 @@ const LoginScreen =() => {
         setMessage('')
         setIsValidEmail(false)
         setIsValidPassword(false)
+
+        navigation.navigate("Home")
 }
 
 

@@ -22,9 +22,10 @@ import { styles as postStyles } from "../PostsScreen/PostsScreen";
 import BgImage1 from "../../assets/img/forest.jpg";
 import BgImage2 from "../../assets/img/sea.jpg";
 import BgImage3 from "../../assets/img/house.jpg";
+import { useNavigation } from "@react-navigation/native";
 
 const ProfileScreen =() => {
-
+    const navigation = useNavigation();
 
     return (
         <ScrollView>
@@ -105,14 +106,21 @@ const ProfileScreen =() => {
 
 
     <View style = {[postStyles.footer, styles.footer]}>
-        <TouchableOpacity style={postStyles.icon}>
-             <Feather name="grid" size={24} color="#212121" />
+        <TouchableOpacity
+        onPress={() => navigation.navigate("Posts")}
+        style={postStyles.icon}>
+             <Feather name="grid" size={24} color="#21212199" />
         </TouchableOpacity>
-        <TouchableOpacity style={postStyles.addBtn}>
-            <AntDesign name="plus" size={14} color="#eee" />
+        <TouchableOpacity
+        onPress={() => navigation.navigate("Comments")}
+        style={postStyles.addBtn}>
+            <Feather name="user" size={24} color="#eee" />
+                    {/* AntDesign name="plus" */}
         </TouchableOpacity>
-        <TouchableOpacity style={postStyles.icon}>
-             <Feather name="user" size={24} color="#212121" /> 
+        <TouchableOpacity
+        onPress={() => navigation.navigate("CreatePost")}
+        style={postStyles.icon}>
+             <AntDesign name="plus" size={24} color="#21212199" /> 
         </TouchableOpacity>
 
 
