@@ -20,7 +20,7 @@ if (!fontsLoaded) {
 
   return (
     <View style={styles.container}>
-      <LoginScreen/>
+      <RegistrationScreen/>
 
     </View>
   );

@@ -113,7 +113,9 @@ const LoginScreen =() => {
       <StatusBar style="auto" /> 
 
   <View style = {{...regStyles.main, ...styles.main,
-  height: keyboardVisible ? 300 : 440,
+  height: keyboardVisible ? 350 : 440,
+  paddingTop: keyboardVisible ? 20 : 60,
+  paddingBottom: keyboardVisible ? 20 : 60,
   }}>
 
    
@@ -155,7 +157,7 @@ const LoginScreen =() => {
                :  null}
     </KeyboardAvoidingView>
 
-{ !keyboardVisible &&  <View style={regStyles.btnWrapp}>
+  <View style={regStyles.btnWrapp}>
   <TouchableOpacity style={regStyles.alreadyHaveAccount}>
       <Text style={regStyles.alreadyHaveAccountText}>Немає акаунту? Зареєструватися</Text>
     </TouchableOpacity>
@@ -165,7 +167,7 @@ const LoginScreen =() => {
       <Text style={regStyles.regBtn__text}>Увійти</Text>
     </TouchableOpacity>
 
-  </View>}
+  </View>
 
   </View>
    <View style = {{...regStyles.homeIndicator,  backgroundColor: keyboardVisible ? '#fff0' : '#212121'}} ></View>
@@ -185,7 +187,6 @@ export const styles = StyleSheet.create({
   },
   main: {
 
-      paddingTop: 62,
-      paddingBottom: 60,
+
   },
 });
