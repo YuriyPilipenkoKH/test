@@ -30,7 +30,7 @@ const CommentsScreen =() => {
     const navigation = useNavigation();
 
     return (
-        <View style = {[regStyles.background, postStyles.background, styles.background]}>
+        <View style = {[regStyles.background, postStyles.background]}>
         <StatusBar style="auto" /> 
 
         <View style = {creStyles.postsCreate}>
@@ -77,6 +77,8 @@ const CommentsScreen =() => {
             </View>
 
         </View>   
+        </ScrollView>
+
         <View style = {[styles.commemtBar]} >
            <TextInput
                 style={[styles.commemtInput]}
@@ -88,9 +90,7 @@ const CommentsScreen =() => {
            </TouchableHighlight>
 
            </View>
-        </ScrollView>
-
-
+      
         </View>
         </View>
         
@@ -99,9 +99,7 @@ const CommentsScreen =() => {
 export default CommentsScreen
 
 const styles = StyleSheet.create({
-    background: {
-  
-    },
+
     contentContainer: {
         alignItems: 'center',
 
@@ -170,12 +168,12 @@ const styles = StyleSheet.create({
     },
     commemtBar: {
         position: 'relative',
-        // alignSelf: 'center',
+  
         width: 343,
         height: 50,
         marginBottom:20,
-        marginTop:32,
-
+        marginTop: -10,
+    
     },
     commemtInput: {
         flex: 1,
