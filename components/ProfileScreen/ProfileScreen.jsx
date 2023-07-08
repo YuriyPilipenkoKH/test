@@ -28,6 +28,7 @@ const ProfileScreen =() => {
     const navigation = useNavigation();
 
     return (
+        <>
         <ScrollView>
         <ImageBackground style = {[ styles.background]} source={BackgroundImage}>
           <StatusBar style="auto" /> 
@@ -39,12 +40,14 @@ const ProfileScreen =() => {
             <AntDesign  name="pluscircleo" size={25} style = {[regStyles.plus]} />
         </TouchableOpacity>
          </ImageBackground>
-         <TouchableOpacity style={styles.trayArrowBtn}>
+         <TouchableOpacity 
+         onPress={() => navigation.navigate("Login")}
+         style={styles.trayArrowBtn}>
             <MaterialCommunityIcons style = {styles.trayArrow} name="tray-arrow-up" size={24} color="black" />
             </TouchableOpacity>
     <Text style={regStyles.title}>Natali Romanova</Text>
 
-         <View style={postStyles.card}>
+    <View style={postStyles.card}>
         <ImageBackground style={postStyles.photoFrame} source={BgImage1}></ImageBackground>
         <Text style={postStyles.cardText}>Ліс</Text>
         <View style={[postStyles.cardDescription, styles.cardDescription]}>
@@ -117,7 +120,13 @@ const ProfileScreen =() => {
         </View>
 
 
+
+    </View>
+    </ImageBackground>
+    </ScrollView>
+
     <View style = {[postStyles.footer, styles.footer]}>
+
         <TouchableOpacity
         onPress={() => navigation.navigate("Posts")}
         style={postStyles.icon}>
@@ -133,14 +142,11 @@ const ProfileScreen =() => {
         style={postStyles.icon}>
              <AntDesign name="plus" size={24} color="#21212199" /> 
         </TouchableOpacity>
-
-
-        </View>   
-     <View style = {regStyles.homeIndicator} ></View>
-    </View>
-        
-    </ImageBackground>
-    </ScrollView>
+        <View style = {regStyles.homeIndicator} ></View>
+    </View>   
+    </>
+  
+   
     )
 }
 export default  ProfileScreen
@@ -205,7 +211,7 @@ export const styles = StyleSheet.create({
     },
 
     footer: {
-        marginTop: 40,
+        // marginTop: 40,
     //   position: 'absolute',
     //   bottom: 0  
     },

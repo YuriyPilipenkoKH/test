@@ -37,7 +37,9 @@ const PostsScreen =() => {
             <Text style={styles.title}>
               Публікації
             </Text>
-            <TouchableOpacity style={styles.trayArrowBtn}>
+            <TouchableOpacity 
+            onPress={() => navigation.navigate("Login")}
+            style={styles.trayArrowBtn}>
             <MaterialCommunityIcons style = {styles.trayArrow} name="tray-arrow-up" size={24} color="black" />
             </TouchableOpacity>
         </View>
