@@ -66,8 +66,8 @@ const CreatePostsScreen =() => {
                     />
                  <Feather style = {styles.iconMap} name="map-pin" size={24} color="black" />    
             </View>
-            <TouchableOpacity style={regStyles.regBtn}>
-              <Text style={regStyles.regBtn__text}>Опубліковати</Text>
+            <TouchableOpacity style={[regStyles.regBtn, styles.publishBtn]}>
+              <Text style={[regStyles.regBtn__text, styles.publishBtn__text]}>Опубліковати</Text>
             </TouchableOpacity>
            
         </ScrollView>
@@ -163,6 +163,13 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         bottom:42,
         color: '#bdbdbd',
+    },
+
+    publishBtn: {
+        backgroundColor: '#D6D6D6',
+    },
+    publishBtn__text: {
+        color: '#F6F6F6',
     },
 
       icon: {
