@@ -49,7 +49,9 @@ const ProfileScreen =() => {
         <Text style={postStyles.cardText}>Ліс</Text>
         <View style={[postStyles.cardDescription, styles.cardDescription]}>
             <View style={[postStyles.flexWrapp, styles.wrapp1]} >
-            <FontAwesome style={postStyles.iconComment} name="comment" size={24} color="#ff6c00" />
+            <FontAwesome 
+             onPress={() => navigation.navigate("Comments")}
+            style={postStyles.iconComment} name="comment" size={24} color="#ff6c00" />
             <Text style={postStyles.cardComment}>0</Text>
             </View>
             <View style={[postStyles.flexWrapp, styles.wrapp1]} >
@@ -59,7 +61,9 @@ const ProfileScreen =() => {
 
             <View style={[postStyles.flexWrapp, styles.wrapp3]}>
             <Text style={postStyles.cardLocation}>Ukraine</Text>
-            <Feather name="map-pin" size={24} color="#bdbdbd" />
+            <Feather
+            onPress={() => navigation.navigate("Map")}
+            name="map-pin" size={24} color="#bdbdbd" />
             </View>
         </View>
         </View> 
@@ -69,7 +73,9 @@ const ProfileScreen =() => {
         <Text style={postStyles.cardText}>Захід на Чорному морі</Text>
         <View style={[postStyles.cardDescription, styles.cardDescription]}>
             <View style={[postStyles.flexWrapp, styles.wrapp1]} >
-            <FontAwesome style={postStyles.iconComment} name="comment" size={24} color="#ff6c00" />
+            <FontAwesome
+            onPress={() => navigation.navigate("Comments")}
+            style={postStyles.iconComment} name="comment" size={24} color="#ff6c00" />
             <Text style={postStyles.cardComment}>0</Text>
             </View>
             <View style={[postStyles.flexWrapp, styles.wrapp1]} >
@@ -79,7 +85,9 @@ const ProfileScreen =() => {
 
             <View style={[postStyles.flexWrapp, styles.wrapp3]}>
             <Text style={postStyles.cardLocation}> Ukraine</Text>
-            <Feather name="map-pin" size={24} color="#bdbdbd" />
+            <Feather
+            onPress={() => navigation.navigate("Map")}
+            name="map-pin" size={24} color="#bdbdbd" />
             </View>
         </View>
         </View>
@@ -89,7 +97,9 @@ const ProfileScreen =() => {
         <Text style={postStyles.cardText}>Старий будиночок у Венеції</Text>
         <View style={[postStyles.cardDescription, styles.cardDescription]}>
             <View style={[postStyles.flexWrapp, styles.wrapp1]} >
-            <FontAwesome style={postStyles.iconComment} name="comment" size={24} color="#ff6c00" />
+            <FontAwesome 
+            onPress={() => navigation.navigate("Comments")}
+            style={postStyles.iconComment} name="comment" size={24} color="#ff6c00" />
             <Text style={postStyles.cardComment}>0</Text>
             </View>
             <View style={[postStyles.flexWrapp, styles.wrapp1]} >
@@ -99,7 +109,9 @@ const ProfileScreen =() => {
 
             <View style={[postStyles.flexWrapp, styles.wrapp3]}>
             <Text style={postStyles.cardLocation}>Italy</Text>
-            <Feather name="map-pin" size={24} color="#bdbdbd" />
+            <Feather 
+            onPress={() => navigation.navigate("Map")}
+            name="map-pin" size={24} color="#bdbdbd" />
             </View>
         </View>
         </View>
@@ -112,10 +124,9 @@ const ProfileScreen =() => {
              <Feather name="grid" size={24} color="#21212199" />
         </TouchableOpacity>
         <TouchableOpacity
-        onPress={() => navigation.navigate("Comments")}
+        // onPress={() => navigation.navigate("Profile")}
         style={postStyles.addBtn}>
             <Feather name="user" size={24} color="#eee" />
-                    {/* AntDesign name="plus" */}
         </TouchableOpacity>
         <TouchableOpacity
         onPress={() => navigation.navigate("CreatePost")}

@@ -60,12 +60,16 @@ const PostsScreen =() => {
         <Text style={styles.cardText}>Ліс</Text>
         <View style={styles.cardDescription}>
             <View style={styles.flexWrapp} >
-            <FontAwesome5 style={styles.iconComment} name="comment" size={24} color="#bdbdbd" />
+            <FontAwesome5
+            onPress={() => navigation.navigate("Comments")}
+            style={styles.iconComment} name="comment" size={24} color="#bdbdbd" />
             <Text style={styles.cardComment}>0</Text>
             </View>
 
             <View style={styles.flexWrapp}>
-            <Feather name="map-pin" size={24} color="#bdbdbd" />
+            <Feather
+            onPress={() => navigation.navigate("Map")}
+            name="map-pin" size={24} color="#bdbdbd" />
             <Text style={styles.cardLocation}>Ivano-Frankivs'k Region, Ukraine</Text>
             </View>
         </View>
@@ -76,12 +80,16 @@ const PostsScreen =() => {
         <Text style={styles.cardText}>Захід на Чорному морі</Text>
         <View style={styles.cardDescription}>
             <View style={styles.flexWrapp} >
-            <FontAwesome5 style={styles.iconComment} name="comment" size={24} color="#bdbdbd" />
+            <FontAwesome5
+            onPress={() => navigation.navigate("Comments")}
+            style={styles.iconComment} name="comment" size={24} color="#bdbdbd" />
             <Text style={styles.cardComment}>0</Text>
             </View>
 
             <View style={styles.flexWrapp}>
-            <Feather name="map-pin" size={24} color="#bdbdbd" />
+            <Feather 
+            onPress={() => navigation.navigate("Map")}
+            name="map-pin" size={24} color="#bdbdbd" />
             <Text style={styles.cardLocation}>Odesa, Ukraine</Text>
             </View>
         </View>
@@ -92,12 +100,16 @@ const PostsScreen =() => {
         <Text style={styles.cardText}>Старий будиночок у Венеції</Text>
         <View style={styles.cardDescription}>
             <View style={styles.flexWrapp} >
-            <FontAwesome5 style={styles.iconComment} name="comment" size={24} color="#bdbdbd" />
+            <FontAwesome5
+            onPress={() => navigation.navigate("Comments")}
+            style={styles.iconComment} name="comment" size={24} color="#bdbdbd" />
             <Text style={styles.cardComment}>0</Text>
             </View>
 
             <View style={styles.flexWrapp}>
-            <Feather name="map-pin" size={24} color="#bdbdbd" />
+            <Feather
+            onPress={() => navigation.navigate("Map")}
+            name="map-pin" size={24} color="#bdbdbd" />
             <Text style={styles.cardLocation}>Venice, Italy</Text>
             </View>
         </View>
