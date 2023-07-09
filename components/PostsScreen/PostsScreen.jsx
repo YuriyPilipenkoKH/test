@@ -23,6 +23,7 @@ import BgImage1 from "../../assets/img/forest.jpg";
 import BgImage2 from "../../assets/img/sea.jpg";
 import BgImage3 from "../../assets/img/house.jpg";
 import { useNavigation } from "@react-navigation/native";
+import {addData , getData} from "../utils/dataStorage";
 
 
 const PostsScreen =() => {
@@ -38,7 +39,8 @@ const PostsScreen =() => {
               Публікації
             </Text>
             <TouchableOpacity 
-            onPress={() => navigation.navigate("Login")}
+            // onPress={() => navigation.navigate("Login")}
+            onPress={() => getData()}
             style={styles.trayArrowBtn}>
             <MaterialCommunityIcons style = {styles.trayArrow} name="tray-arrow-up" size={24} color="black" />
             </TouchableOpacity>

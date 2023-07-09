@@ -23,6 +23,8 @@ import { Camera } from "expo-camera";
 import { useEffect, useState } from "react";
 import BgImage1 from "../../assets/img/sea.jpg";
 import BgImage2 from "../../assets/img/react-js-native.jpg";
+import {addData , getData} from "../utils/dataStorage";
+
 
 const CreatePostsScreen =() => {
     const [snap, setsnap] = useState(null)
@@ -64,7 +66,7 @@ const CreatePostsScreen =() => {
             let { uri } = await snap.takePictureAsync()
             // await MediaLibrary.createAssetAsync(uri);
             setPhoto(uri) 
-            console.log(uri)
+            // console.log(uri)
 
         }
     }
@@ -115,6 +117,7 @@ const CreatePostsScreen =() => {
             locality,
         }
          console.log(data)
+         addData(data); // Write data to dataStorage.js
          reset()
     }
 
@@ -153,7 +156,7 @@ const CreatePostsScreen =() => {
                     </ImageBackground>
                 </Camera>
                 <Text
-                // onPress={() => setPhoto(BgImage2)}
+                onPress={() => getData()}
                 style={styles.text}>{!photo ? 'Завантажте фото' : 'Редагувати фото'}</Text>
                 </View>
                 <KeyboardAvoidingView
