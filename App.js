@@ -5,12 +5,16 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import RegistrationScreen from './components/RegistrationScreen/RegistrationScreen';
 import LoginScreen from "./components/LoginScreen/LoginScreen";
 import Home from "./components/Home/Home";
+import CreatePostsScreen from "./components/CreatePostsScreen/CreatePostsScreen";
+
 
 
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+
+
   const [fontsLoaded] = useFonts({
     Roboto: require("./assets/fonts/Roboto-Regular.ttf"),
     RobotoMedium: require("./assets/fonts/Roboto-Medium.ttf"),
@@ -23,8 +27,8 @@ if (!fontsLoaded) {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen   name="Login" options={{headerShown: false,}} component={LoginScreen}/>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen   name="Login" options={{headerShown: false,}} component={CreatePostsScreen}/>
         <Stack.Screen   name="Registration" options={{headerShown: false,}} component={RegistrationScreen}/>
         <Stack.Screen   name="Home" options={{headerShown: false,}} component={Home}/>
        

@@ -5,6 +5,7 @@ import CreatePostsScreen from "../CreatePostsScreen/CreatePostsScreen";
 import ProfileScreen from "../ProfileScreen/ProfileScreen";
 import CommentsScreen from "../CommentsScreen/CommentsScreen";
 import MapScreen from "../MapScreen/MapScreen";
+import Loader from "../Loader/Loader";
 
 
 export default function Home() {
@@ -18,6 +19,7 @@ export default function Home() {
            <Tabs.Screen name="Profile" options={{headerShown: false, tabBarStyle: { display: "none" },}} component={ProfileScreen} />
            <Tabs.Screen name="Comments" options={{headerShown: false, tabBarStyle: { display: "none" },}} component={CommentsScreen} />
            <Tabs.Screen name="Map" options={{headerShown: false, tabBarStyle: { display: "none" },}} component={MapScreen} />
+           <Tabs.Screen name="Loader" options={{headerShown: false, tabBarStyle: { display: "none" },}} component={Loader} />
           
         </Tabs.Navigator>
     )

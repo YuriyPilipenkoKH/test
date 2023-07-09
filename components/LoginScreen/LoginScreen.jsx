@@ -17,6 +17,7 @@ import BackgroundImage from "../../assets/img/photo-bg.jpg";
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import { useNavigation } from "@react-navigation/native";
 
+
 const LoginScreen =() => {
 
   const [email, setEmail] = useState("");
@@ -94,6 +95,7 @@ const LoginScreen =() => {
       return
     }
 
+
     const data = {
         email, 
         password,
@@ -110,7 +112,7 @@ const LoginScreen =() => {
 }
 
 
-  return (
+  return  (            
   <TouchableWithoutFeedback onPress={Keyboard.dismiss}>  
   <ImageBackground style = {[regStyles.background, styles.background]} source={BackgroundImage}>
       <StatusBar style="auto" /> 

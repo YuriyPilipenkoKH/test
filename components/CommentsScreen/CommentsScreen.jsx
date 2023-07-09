@@ -33,7 +33,7 @@ const CommentsScreen =() => {
         <View style = {[regStyles.background, postStyles.background]}>
         <StatusBar style="auto" /> 
 
-        <View style = {creStyles.postsCreate}>
+        <View style = {[creStyles.postsCreate, styles.container]}>
         <View style={postStyles.titleWrapp}>
             <Text style={postStyles.title}>
             Коментарі
@@ -100,6 +100,10 @@ export default CommentsScreen
 
 const styles = StyleSheet.create({
 
+    container: {
+        gap: 12,
+
+      },
     contentContainer: {
         alignItems: 'center',
 
@@ -172,7 +176,7 @@ const styles = StyleSheet.create({
         width: 343,
         height: 50,
         marginBottom:20,
-        marginTop: -10,
+        // marginTop: -10,
     
     },
     commemtInput: {
