@@ -20,8 +20,9 @@ import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons'; 
 import { useNavigation } from "@react-navigation/native";
 import { Camera } from "expo-camera";
-import { useState } from "react";
-import BgImage2 from "../../assets/img/sea.jpg";
+import { useEffect, useState } from "react";
+import BgImage1 from "../../assets/img/sea.jpg";
+import BgImage2 from "../../assets/img/react-js-native.jpg";
 
 const CreatePostsScreen =() => {
     const [snap, setsnap] = useState(null)
@@ -31,9 +32,31 @@ const CreatePostsScreen =() => {
     const [isValidNaming, setIsValidNaming] = useState(false)
     const [isValidLocality, setIsValidLocality] = useState(false)
     const [message, setMessage] = useState('')
+    const [keyboardVisible, setKeyboardVisible] = useState(false);
    
-
     const navigation = useNavigation();
+
+    useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener(
+          'keyboardDidShow',
+          () => {
+            setKeyboardVisible(true);
+          }
+        );
+    
+        const keyboardDidHideListener = Keyboard.addListener(
+          'keyboardDidHide',
+          () => {
+            setKeyboardVisible(false);
+          }
+        );
+    
+        // Clean up the listeners when the component unmounts
+        return () => {
+          keyboardDidShowListener.remove();
+          keyboardDidHideListener.remove();
+        };
+      }, []);
 
     const takePicture = async () => {
         
@@ -47,15 +70,17 @@ const CreatePostsScreen =() => {
     }
 
     const reset = () => {
-        setsnap(null)
+       
         setPhoto('')
         setNaming('')
         setLocality('')
         setIsValidNaming(false)
         setIsValidLocality(false)
+        setMessage('')
     }
 
     const validateNaming = (value) => {
+        setNaming(value)
         if(!value){
             setIsValidNaming(false)
         }
@@ -64,10 +89,33 @@ const CreatePostsScreen =() => {
           }
     }
     const validateLocality = (value) => {
+        setLocality(value)
         if(!value){
            setIsValidLocality(false)
         }
         setIsValidLocality(true)
+    }
+    const publish = (value) => {
+
+        if(!photo){
+            setMessage('Take some picture')
+            return
+          }
+        if(!isValidNaming){
+            setMessage('Enter photo name')
+            return
+          }
+          if(!isValidLocality){
+            setMessage('Enter your current location')
+            return
+          }
+          const data = {
+            photo, 
+            naming,
+            locality,
+        }
+         console.log(data)
+         reset()
     }
 
   
@@ -75,6 +123,7 @@ const CreatePostsScreen =() => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style = {[regStyles.background, postStyles.background]}>
                  <StatusBar style="auto" />
+
             <View style = {styles.postsCreate}>
             <View style={postStyles.titleWrapp}>
                 <Text style={postStyles.title}>
@@ -87,7 +136,11 @@ const CreatePostsScreen =() => {
                 </TouchableOpacity>
             </View>
             <ScrollView contentContainerStyle={styles.contentContainer} style={[ styles.main]}>
-                <View  style = {[styles.photoWrapp]}>
+                <View  style = {{...styles.photoWrapp, 
+                  height: keyboardVisible ? 270 : 280,
+                  paddingTop: keyboardVisible ? 8 : 10,
+                  paddingBottom: keyboardVisible ? 8 : 10,
+               }}>
                 <Camera
                 ref={setsnap}
                 style = {[postStyles.photoFrame, ]} >
@@ -104,7 +157,7 @@ const CreatePostsScreen =() => {
                 style={styles.text}>{!photo ? 'Завантажте фото' : 'Редагувати фото'}</Text>
                 </View>
                 <KeyboardAvoidingView
-                // behavior={Platform.OS == "ios" ? "padding" : "height" } 
+                behavior={Platform.OS == "ios" ? "padding" : "height" } 
                 style = {styles.inputWrapp}>
                 <TextInput
                     style={[styles.input]}
@@ -114,21 +167,32 @@ const CreatePostsScreen =() => {
                     placeholder="Назва..."
                     placeholderTextColor={"#BDBDBD"}
                         />
-                <TextInput
-                    style={[styles.input, styles.location]}
-                    name = 'locality'
-                    value={locality}
-                    onChangeText = {validateLocality}
-                    placeholder="Місцевість..."
-                    placeholderTextColor={"#BDBDBD"}
-            
-                        />
-                     <Feather style = {styles.iconMap} name="map-pin" size={24} color="black" />
+                <View>
+                    <TextInput
+                        style={[styles.input, styles.location]}
+                        name = 'locality'
+                        value={locality}
+                        onChangeText = {validateLocality}
+                        placeholder="Місцевість..."
+                        placeholderTextColor={"#BDBDBD"}
+                            />
+                         <Feather style = {{...styles.iconMap,
+                        }}
+                         name="map-pin" size={24} color="black" />
+                </View>
+                {message ?  <Text style={{...regStyles.errorMessage, ...styles.errorMessage,
+                bottom: keyboardVisible ? -60 : -16,
+                }}>{message}</Text>         
+               :  null}
                 </KeyboardAvoidingView>
+
+
                 <TouchableOpacity
+                onPress={publish}
                  style={{...regStyles.regBtn, ...styles.publishBtn,
                     backgroundColor:  photo ? '#ff6c00' : '#D6D6D6',
-                 }}>
+                    marginTop: keyboardVisible ? 75 : 44,
+                }} >
                   <Text style={[regStyles.regBtn__text, styles.publishBtn__text]}>Опубліковати</Text>
                 </TouchableOpacity>
             
@@ -191,10 +255,14 @@ export const styles = StyleSheet.create({
    camera: {
     flex: 1,
     width: 343,
+    height: 260,
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#888',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    resizeMode: 'contain',
     },
 
     cameraBtn: {
@@ -213,12 +281,18 @@ export const styles = StyleSheet.create({
         fontWeight: 500,
      
     },
+    errorMessage: {
+        position: 'absolute',
+        bottom: -16,
+     
+    },
+
     inputWrapp: {
         marginTop:20,
         position: 'relative',
         width: 343,
         flexDirection: 'column',
-        gap: 32,
+        gap: 24,
        
     },
     input: {
@@ -234,15 +308,18 @@ export const styles = StyleSheet.create({
     },
     iconMap: {
         position: 'absolute',
-        bottom:42,
+        bottom: 12,
         color: '#bdbdbd',
     },
 
+
     publishBtn: {
-    
+        
+        
     },
     publishBtn__text: {
         color: '#F6F6F6',
+        
     },
     footer: {
         color: '#F6F6F6',
