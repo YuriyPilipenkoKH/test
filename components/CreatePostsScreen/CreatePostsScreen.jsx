@@ -148,7 +148,7 @@ const CreatePostsScreen =() => {
                         <TouchableOpacity
                         onPress={takePicture}
                          style = {styles.cameraBtn}>
-                          <MaterialIcons name="photo-camera" size={24} color="#bdbdbd" />
+                          <MaterialIcons name="photo-camera" size={24} color="#777" />
                         </TouchableOpacity>
                     </ImageBackground>
                 </Camera>
@@ -269,7 +269,7 @@ export const styles = StyleSheet.create({
 
         width: 60,
         height: 60,
-        backgroundColor: '#fff3',
+        backgroundColor: '#7a799f99',
         borderRadius: 30,
         alignItems: 'center',
         justifyContent: 'center',
