@@ -7,6 +7,6 @@ export const addData = (data) => {
 };
 
 export const getData = () => {
-    console.log(publishedData)
+    // console.log(publishedData)
   return publishedData;
 };

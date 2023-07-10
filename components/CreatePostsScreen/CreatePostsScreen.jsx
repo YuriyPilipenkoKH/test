@@ -112,6 +112,7 @@ const CreatePostsScreen =() => {
             return
           }
           const data = {
+            id: getData().length + 1,
             photo, 
             naming,
             location,

@@ -4,7 +4,7 @@ import {
     StyleSheet,
     Image,
     View,
-    
+    FlatList,
     // TextInput,
     TouchableOpacity,
     // Platform,
@@ -56,7 +56,7 @@ const PostsScreen =({route}) => {
             </TouchableOpacity>
         </View>
 
-        <ScrollView contentContainerStyle={styles.contentContainer} style={[styles.main]}>
+        <View contentContainerStyle={styles.contentContainer} style={[styles.main]}>
 
         <View style={styles.user}>
             <View style={styles.imgContainer}>
@@ -71,67 +71,21 @@ const PostsScreen =({route}) => {
             </View>
         </View>
 
-        <View style={styles.card}>
-        <ImageBackground style={styles.photoFrame} source={BgImage1}></ImageBackground>
-        <Text style={styles.cardText}>Ліс</Text>
-        <View style={styles.cardDescription}>
-            <View style={styles.flexWrapp} >
-            <FontAwesome5
-            onPress={() => navigation.navigate("Comments")}
-            style={styles.iconComment} name="comment" size={24} color="#bdbdbd" />
-            <Text style={styles.cardComment}>0</Text>
-            </View>
-
-            <View style={styles.flexWrapp}>
-            <Feather
-            onPress={() => navigation.navigate("Map")}
-            name="map-pin" size={24} color="#bdbdbd" />
-            <Text style={styles.cardLocation}>Ivano-Frankivs'k Region, Ukraine</Text>
-            </View>
-        </View>
+       {posts && <FlatList 
+        data={posts} keyExtractor={(item, index) => index.toString()}
+        renderItem={({item}) => (
+        <View key={item.id.toString()}>
+          <Image 
+          source={{uri: item.photo}}
+          style ={{width: 300, height:200,marginBottom:20,}}
+          />
         </View>
 
-        {/* <View style={styles.card}>
-        <ImageBackground style={styles.photoFrame} source={BgImage2}></ImageBackground>
-        <Text style={styles.cardText}>Захід на Чорному морі</Text>
-        <View style={styles.cardDescription}>
-            <View style={styles.flexWrapp} >
-            <FontAwesome5
-            onPress={() => navigation.navigate("Comments")}
-            style={styles.iconComment} name="comment" size={24} color="#bdbdbd" />
-            <Text style={styles.cardComment}>0</Text>
-            </View>
+        )} /> }
 
-            <View style={styles.flexWrapp}>
-            <Feather 
-            onPress={() => navigation.navigate("Map")}
-            name="map-pin" size={24} color="#bdbdbd" />
-            <Text style={styles.cardLocation}>Odesa, Ukraine</Text>
-            </View>
+    
+
         </View>
-        </View> */}
-{/* 
-        <View style={styles.card}>
-        <ImageBackground style={styles.photoFrame} source={BgImage3}></ImageBackground>
-        <Text style={styles.cardText}>Старий будиночок у Венеції</Text>
-        <View style={styles.cardDescription}>
-            <View style={styles.flexWrapp} >
-            <FontAwesome5
-            onPress={() => navigation.navigate("Comments")}
-            style={styles.iconComment} name="comment" size={24} color="#bdbdbd" />
-            <Text style={styles.cardComment}>0</Text>
-            </View>
-
-            <View style={styles.flexWrapp}>
-            <Feather
-            onPress={() => navigation.navigate("Map")}
-            name="map-pin" size={24} color="#bdbdbd" />
-            <Text style={styles.cardLocation}>Venice, Italy</Text>
-            </View>
-        </View>
-        </View> */}
-
-        </ScrollView>
 
         <View style = {styles.footer}>
         <TouchableOpacity 
@@ -179,7 +133,7 @@ export const styles = StyleSheet.create({
     },
     main: {  
         // alignSelf: 'stretch', // Stretch the main content to fill the width
-        height: '100%',
+        // height: '100%',
        
         flexDirection: 'column',
         gap: 32,
@@ -299,8 +253,8 @@ export const styles = StyleSheet.create({
       },
 
       footer: {
-        // position: 'absolute',
-        // bottom: 0,
+        position: 'absolute',
+        bottom: 0,
         height: 83,
         paddingTop: 8,
         paddingBottom: 34,
