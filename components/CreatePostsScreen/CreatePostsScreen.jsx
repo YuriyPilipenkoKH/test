@@ -21,7 +21,7 @@ import { Feather } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 import { Camera } from "expo-camera";
 import { useEffect, useState } from "react";
-import BgImage1 from "../../assets/img/sea.jpg";
+// import BgImage1 from "../../assets/img/sea.jpg";
 import BgImage2 from "../../assets/img/react-js-native.jpg";
 import {addData , getData} from "../utils/dataStorage";
 
@@ -30,9 +30,9 @@ const CreatePostsScreen =() => {
     const [snap, setsnap] = useState(null)
     const [photo, setPhoto] = useState('')
     const [naming, setNaming] = useState('')
-    const [locality, setLocality] = useState('')
+    const [location, setLocation] = useState('')
     const [isValidNaming, setIsValidNaming] = useState(false)
-    const [isValidLocality, setIsValidLocality] = useState(false)
+    const [isValidLocation, setIsValidLocation] = useState(false)
     const [message, setMessage] = useState('')
     const [keyboardVisible, setKeyboardVisible] = useState(false);
    
@@ -75,9 +75,9 @@ const CreatePostsScreen =() => {
        
         setPhoto('')
         setNaming('')
-        setLocality('')
+        setLocation('')
         setIsValidNaming(false)
-        setIsValidLocality(false)
+        setIsValidLocation(false)
         setMessage('')
     }
 
@@ -90,12 +90,12 @@ const CreatePostsScreen =() => {
             setIsValidNaming(true);
           }
     }
-    const validateLocality = (value) => {
-        setLocality(value)
+    const validateLocation = (value) => {
+        setLocation(value)
         if(!value){
-           setIsValidLocality(false)
+           setIsValidLocation(false)
         }
-        setIsValidLocality(true)
+        setIsValidLocation(true)
     }
     const publish = (value) => {
 
@@ -107,16 +107,17 @@ const CreatePostsScreen =() => {
             setMessage('Enter photo name')
             return
           }
-          if(!isValidLocality){
+          if(!isValidLocation){
             setMessage('Enter your current location')
             return
           }
           const data = {
             photo, 
             naming,
-            locality,
+            location,
         }
-         console.log(data)
+        //  console.log(data)
+         navigation.navigate('Posts', {data})
          addData(data); // Write data to dataStorage.js
          reset()
     }
@@ -173,9 +174,9 @@ const CreatePostsScreen =() => {
                 <View>
                     <TextInput
                         style={[styles.input, styles.location]}
-                        name = 'locality'
-                        value={locality}
-                        onChangeText = {validateLocality}
+                        name = 'location'
+                        value={location}
+                        onChangeText = {validateLocation}
                         placeholder="Місцевість..."
                         placeholderTextColor={"#BDBDBD"}
                             />

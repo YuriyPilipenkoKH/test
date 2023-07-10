@@ -28,7 +28,7 @@ if (!fontsLoaded) {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen   name="Login" options={{headerShown: false,}} component={CreatePostsScreen}/>
+        <Stack.Screen   name="Login" options={{headerShown: false,}} component={LoginScreen}/>
         <Stack.Screen   name="Registration" options={{headerShown: false,}} component={RegistrationScreen}/>
         <Stack.Screen   name="Home" options={{headerShown: false,}} component={Home}/>
        

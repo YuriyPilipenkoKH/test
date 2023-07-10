@@ -24,10 +24,20 @@ import BgImage2 from "../../assets/img/sea.jpg";
 import BgImage3 from "../../assets/img/house.jpg";
 import { useNavigation } from "@react-navigation/native";
 import {addData , getData} from "../utils/dataStorage";
+import { useEffect, useState } from "react";
 
 
-const PostsScreen =() => {
+const PostsScreen =({route}) => {
+  const [posts, setPosts] = useState([])
   const navigation = useNavigation();
+
+  useEffect(() => {
+    if(route.params){
+      setPosts(prev => [...prev, route.params.data])
+    }
+    
+  }, [route.params])
+  
 
     return (
         <View style = {[regStyles.background, styles.background]}>
@@ -53,7 +63,9 @@ const PostsScreen =() => {
                  <Image style={styles.userAvatar} source={User} />
             </View>
             <View style={styles.userWrapp}>
-            <Text style={styles.userName}>Natali Romanova</Text>
+            <Text 
+            onPress={() => console.log(posts)}
+            style={styles.userName}>Natali Romanova</Text>
             <Text style={styles.userEmail}>email@example.com</Text>
 
             </View>
@@ -79,7 +91,7 @@ const PostsScreen =() => {
         </View>
         </View>
 
-        <View style={styles.card}>
+        {/* <View style={styles.card}>
         <ImageBackground style={styles.photoFrame} source={BgImage2}></ImageBackground>
         <Text style={styles.cardText}>Захід на Чорному морі</Text>
         <View style={styles.cardDescription}>
@@ -97,8 +109,8 @@ const PostsScreen =() => {
             <Text style={styles.cardLocation}>Odesa, Ukraine</Text>
             </View>
         </View>
-        </View>
-
+        </View> */}
+{/* 
         <View style={styles.card}>
         <ImageBackground style={styles.photoFrame} source={BgImage3}></ImageBackground>
         <Text style={styles.cardText}>Старий будиночок у Венеції</Text>
@@ -117,7 +129,7 @@ const PostsScreen =() => {
             <Text style={styles.cardLocation}>Venice, Italy</Text>
             </View>
         </View>
-        </View>
+        </View> */}
 
         </ScrollView>
 
