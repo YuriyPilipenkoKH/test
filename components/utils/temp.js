@@ -27,8 +27,11 @@ const styles = StyleSheet.create({
 })
 
 
-{/* <View style={styles.card}>
-<ImageBackground style={styles.photoFrame} source={BgImage1}></ImageBackground>
+
+const temp = () => {
+  return (
+<View style={styles.card} key={item.id.toString()}>
+<Image source={{uri: item.photo}}  style={styles.photoFrame} />
 <Text style={styles.cardText}>Ліс</Text>
 <View style={styles.cardDescription}>
     <View style={styles.flexWrapp} >
@@ -45,7 +48,22 @@ const styles = StyleSheet.create({
     <Text style={styles.cardLocation}>Ivano-Frankivs'k Region, Ukraine</Text>
     </View>
 </View>
-</View> */}
+</View> 
+  )
+}
+
+const temp2 = () => {
+  return (
+    <View key={item.id.toString()}>
+    <Image 
+    source={{uri: item.photo}}
+    style ={{flex: 1 , }}
+    />
+  </View>
+    )
+  }
+
+
 
 {/* <View style={styles.card}>
 <ImageBackground style={styles.photoFrame} source={BgImage2}></ImageBackground>

@@ -202,14 +202,14 @@ const CreatePostsScreen =() => {
                 </TouchableOpacity>
             
             </ScrollView>
-            <View style = {[postStyles.footer]}>
+            {!keyboardVisible && <View style = {[postStyles.footer]}>
             <TouchableOpacity
             onPress={reset}
             style={[postStyles.addBtn, styles.deleteBtn]}>
                  <AntDesign style={styles.icoDelete} name="delete" size={24} color="#bdbdbd" />
             </TouchableOpacity>
-            </View>
-               <View style = {regStyles.homeIndicator} ></View>
+            </View>}
+             { !keyboardVisible && <View style = {regStyles.homeIndicator} ></View>}
             </View>
             </View>
         </TouchableWithoutFeedback>

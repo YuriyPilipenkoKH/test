@@ -71,15 +71,28 @@ const PostsScreen =({route}) => {
             </View>
         </View>
 
-       {posts && <FlatList 
-        data={posts} keyExtractor={(item, index) => index.toString()}
-        renderItem={({item}) => (
-        <View key={item.id.toString()}>
-          <Image 
-          source={{uri: item.photo}}
-          style ={{width: 300, height:200,marginBottom:20,}}
-          />
+        {posts && <FlatList 
+                data={posts} keyExtractor={(item, index) => index.toString()}
+                renderItem={({item}) => (
+        <View style={styles.card} key={item.id.toString()}>
+        <Image source={{uri: item.photo}}  style={styles.photoFrame} />
+        <Text style={styles.cardText}>{item.naming}</Text>
+        <View style={styles.cardDescription}>
+            <View style={styles.flexWrapp} >
+            <FontAwesome5
+            onPress={() => navigation.navigate("Comments")}
+            style={styles.iconComment} name="comment" size={24} color="#bdbdbd" />
+            <Text style={styles.cardComment}>0</Text>
+            </View>
+
+            <View style={styles.flexWrapp}>
+            <Feather
+            onPress={() => navigation.navigate("Map")}
+            name="map-pin" size={24} color="#bdbdbd" />
+            <Text style={styles.cardLocation}>{item.location}</Text>
+            </View>
         </View>
+        </View> 
 
         )} /> }
 
@@ -116,7 +129,7 @@ export default PostsScreen
 
 export const styles = StyleSheet.create({
     background: {
-        flex: 1,
+        
         paddingTop: 32,
         // justifyContent: 'flex-end', 
         
@@ -136,10 +149,11 @@ export const styles = StyleSheet.create({
         // height: '100%',
        
         flexDirection: 'column',
-        gap: 32,
+        gap: 22,
+        
         paddingLeft: 16,
         paddingRight: 16,
-        
+        alignItems: 'center',
     },
  
 
@@ -198,10 +212,12 @@ export const styles = StyleSheet.create({
         fontSize: 13,
     },
     card: {
-        marginTop:32,
+        flex: 1 ,
+        // height: 320,
+        marginBottom:22,
         flexDirection: 'column',
         gap: 8,  
-       
+
       },
     photoFrame: {
       width: 343,
