@@ -20,7 +20,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons'; 
 import { useNavigation } from "@react-navigation/native";
 import { Camera } from "expo-camera";
-import * as MediaLibrary from "expo-media-library";
+// import * as MediaLibrary from "expo-media-library";
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 // import BgImage1 from "../../assets/img/sea.jpg";

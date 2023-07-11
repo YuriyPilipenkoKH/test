@@ -5,25 +5,24 @@ import {
     Image,
     View,
     FlatList,
-    // TextInput,
     TouchableOpacity,
     // Platform,
     // KeyboardAvoidingView,
     // TouchableWithoutFeedback,
     // Keyboard,
-    ImageBackground,
-    ScrollView,
+    // ImageBackground,
+    // ScrollView,
     
 } from "react-native";
 import { StatusBar } from 'expo-status-bar';
 import User from "../../assets/img/user.png";
 import { MaterialCommunityIcons, AntDesign, Feather, FontAwesome5 } from '@expo/vector-icons'; 
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
-import BgImage1 from "../../assets/img/forest.jpg";
-import BgImage2 from "../../assets/img/sea.jpg";
-import BgImage3 from "../../assets/img/house.jpg";
+// import BgImage1 from "../../assets/img/forest.jpg";
+// import BgImage2 from "../../assets/img/sea.jpg";
+// import BgImage3 from "../../assets/img/house.jpg";
 import { useNavigation } from "@react-navigation/native";
-import {addData , getData} from "../utils/dataStorage";
+import { getData} from "../utils/dataStorage";
 import { useEffect, useState } from "react";
 
 
@@ -45,12 +44,12 @@ const PostsScreen =({route}) => {
 
         <View style= {[styles.postsScreen ]}>
         <View style={styles.titleWrapp}>
-            <Text style={styles.title}>
+            <Text style={styles.title}
+            onPress={() => getData()}>
               Публікації
             </Text>
             <TouchableOpacity 
-            // onPress={() => navigation.navigate("Login")}
-            onPress={() => getData()}
+            onPress={() => navigation.navigate("Login")}
             style={styles.trayArrowBtn}>
             <MaterialCommunityIcons style = {styles.trayArrow} name="tray-arrow-up" size={24} color="black" />
             </TouchableOpacity>
@@ -87,7 +86,7 @@ const PostsScreen =({route}) => {
 
             <View style={styles.flexWrapp}>
             <Feather
-            onPress={() => navigation.navigate("Map")}
+            onPress={() => navigation.navigate("Map",{item})}
             name="map-pin" size={24} color="#bdbdbd" />
             <Text style={styles.cardLocation}>{item.location}</Text>
             </View>

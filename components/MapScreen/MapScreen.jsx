@@ -1,28 +1,40 @@
 import { View, Text,  Dimensions, StyleSheet } from "react-native";
 import MapView, {Marker} from 'react-native-maps'
 
-const MapScreen = ({gps}) => {
+const MapScreen = ({ route }) => {
+  let x 
+  let y 
+  const { item } = route.params;
 
-  // const {longitude, latitude} = gps
+  if(item.gps){
+     x = item.gps.latitude
+     y = item.gps.longitude
+  }
+  else {
+    x = 50.515339
+    y = 30.602185
+
+  }
+
+ 
   return (
-    // <ImageBackground style={styles.container} source={BackgroundMap}>
+   
      <View style={styles.map}>
       <MapView  style={{ flex: 1,}}
       initialRegion={{
-        longitude: 30.602185,
-        latitude: 50.515339,
-        // longitude,
-        // latitude,
+        // longitude: 30.602185,
+        // latitude: 50.515339,
+        longitude: y,
+        latitude: x,
         longitudeDelta:  0.1,
         latitudeDelta: 0.1 ,
       }}
       >
         <Marker 
-        onPress={()=> console.log(gps)}
-         coordinate={{ longitude: 30.602185, latitude: 50.515339,}}
+      onPress={() => console.log('x:',x, 'y:',y)}
+        coordinate={{ longitude: y, latitude: x,}}
         title="travel photo"
         />
-        {/* <Text>Map</Text> */}
       </MapView>
      </View>
   

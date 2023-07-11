@@ -39,11 +39,11 @@ export const addData = (data) => {
 };
 
 export const getData = () => {
-    // console.log(publishedData)
+  console.log('getData():',publishedData)
   return publishedData;
 };
 
 export const getPlaces = () => {
-    // console.log(publishedData)
+  console.log('getPlaces():',places)
   return places;
 };
