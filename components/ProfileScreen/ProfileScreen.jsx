@@ -15,6 +15,7 @@ import {
 import BackgroundImage from "../../assets/img/photo-bg.jpg";
 import { StatusBar } from 'expo-status-bar';
 
+
 import User from "../../assets/img/user.png";
 import {MaterialCommunityIcons,  AntDesign, Feather,  FontAwesome } from '@expo/vector-icons'; 
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
@@ -25,13 +26,20 @@ import BgImage3 from "../../assets/img/house.jpg";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { getData, getPlaces, gpsDefault } from "../utils/dataStorage";
+
 const item = gpsDefault
 
 
 const ProfileScreen =({ route }) => {
     const {posts: renamedPosts} = route.params;
-    const [posts, setPosts] = useState( getPlaces())
+
+    const [posts, setPosts] = useState( getData())
     const navigation = useNavigation();
+
+    useEffect(() => {
+
+    }, [])
+    
 
     return (
         <>
@@ -39,7 +47,8 @@ const ProfileScreen =({ route }) => {
                     <ImageBackground style = {[ styles.background]} source={BackgroundImage}>
                       <StatusBar style="auto" /> 
             
-                <View contentContainerStyle={styles.contentContainer} style={[ styles.main]}>
+                <View contentContainerStyle={styles.contentContainer} 
+                style={ {...styles.main, marginBottom: posts ? 0 : 80,}}>
             
                     <ImageBackground style = {regStyles.photoWrapp} source={User}> 
                     <TouchableOpacity 
@@ -58,7 +67,7 @@ const ProfileScreen =({ route }) => {
                 style={regStyles.title}>Natali Romanova</Text>
 
 
-        <FlatList style ={{marginBottom:80,}}
+        {posts && <FlatList style ={{marginBottom:80,}}
                 data={posts} keyExtractor={(item, index) => index.toString()}
                 renderItem={({item}) => (
                 <View style={postStyles.card}>
@@ -85,7 +94,7 @@ const ProfileScreen =({ route }) => {
         </View>
         </View> 
 
-                  )} />  
+                  )} />  }
             
                 </View>
                 </ImageBackground>
@@ -136,7 +145,7 @@ export const styles = StyleSheet.create({
 
         backgroundColor: '#f5f5f5',
        marginTop: 140,
-       marginBottom: 80,
+    //    marginBottom: 80,
         paddingBottom: 8,
         alignItems: 'center',
         justifyContent: 'center',

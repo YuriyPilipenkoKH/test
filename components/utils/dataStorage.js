@@ -43,6 +43,13 @@ export const getData = () => {
   return publishedData;
 };
 
+export const resetData = () => {
+  console.log('RESET')
+  publishedData = [];
+};
+
+
+
 export const getPlaces = () => {
   console.log('getPlaces():',places)
   return places;
