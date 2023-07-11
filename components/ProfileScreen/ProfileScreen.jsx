@@ -23,8 +23,13 @@ import BgImage1 from "../../assets/img/forest.jpg";
 import BgImage2 from "../../assets/img/sea.jpg";
 import BgImage3 from "../../assets/img/house.jpg";
 import { useNavigation } from "@react-navigation/native";
+import { useEffect, useState } from "react";
+import { getData } from "../utils/dataStorage";
 
-const ProfileScreen =() => {
+
+const ProfileScreen =({ route }) => {
+    const {posts: renamedPosts} = route.params;
+    const [posts, setPosts] = useState(getData())
     const navigation = useNavigation();
 
     return (
@@ -36,7 +41,9 @@ const ProfileScreen =() => {
     <View contentContainerStyle={styles.contentContainer} style={[ styles.main]}>
 
         <ImageBackground style = {regStyles.photoWrapp} source={User}> 
-        <TouchableOpacity style = {regStyles.plusBtn}>
+        <TouchableOpacity 
+        onPress={() => console.log(posts)}
+        style = {regStyles.plusBtn}>
             <AntDesign  name="pluscircleo" size={25} style = {[regStyles.plus]} />
         </TouchableOpacity>
          </ImageBackground>
@@ -45,7 +52,9 @@ const ProfileScreen =() => {
          style={styles.trayArrowBtn}>
             <MaterialCommunityIcons style = {styles.trayArrow} name="tray-arrow-up" size={24} color="black" />
             </TouchableOpacity>
-    <Text style={regStyles.title}>Natali Romanova</Text>
+    <Text 
+     onPress={() => getData()}
+    style={regStyles.title}>Natali Romanova</Text>
 
     <View style={postStyles.card}>
         <ImageBackground style={postStyles.photoFrame} source={BgImage1}></ImageBackground>

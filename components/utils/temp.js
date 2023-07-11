@@ -159,3 +159,36 @@ const places = [{
   photo: 'https://www.holidify.com/images/bgImages/GREAT-BARRIER-REEF.jpg'
 },
 ]
+
+
+const fort = () => {
+return(
+  <View style={postStyles.card}>
+        <ImageBackground style={postStyles.photoFrame} source={BgImage1}></ImageBackground>
+        <Text style={postStyles.cardText}>Ліс</Text>
+        <View style={[postStyles.cardDescription, styles.cardDescription]}>
+            <View style={[postStyles.flexWrapp, styles.wrapp1]} >
+            <FontAwesome 
+             onPress={() => navigation.navigate("Comments")}
+            style={postStyles.iconComment} name="comment" size={24} color="#ff6c00" />
+            <Text style={postStyles.cardComment}>0</Text>
+            </View>
+            <View style={[postStyles.flexWrapp, styles.wrapp1]} >
+           <AntDesign name="like2" size={24} color="#ff6c00" />
+            <Text style={postStyles.cardComment}>0</Text>
+            </View>
+
+            <View style={[postStyles.flexWrapp, styles.wrapp3]}>
+            <Text style={postStyles.cardLocation}>Ukraine</Text>
+            <Feather
+            onPress={() => navigation.navigate("Map")}
+            name="map-pin" size={24} color="#bdbdbd" />
+            </View>
+        </View>
+        </View> 
+
+
+
+)
+}
+

@@ -63,7 +63,7 @@ const PostsScreen =({route}) => {
             </View>
             <View style={styles.userWrapp}>
             <Text 
-            onPress={() => console.log(posts)}
+            onPress={() => console.log("posts:",posts)}
             style={styles.userName}>Natali Romanova</Text>
             <Text style={styles.userEmail}>email@example.com</Text>
 
@@ -111,7 +111,7 @@ const PostsScreen =({route}) => {
             <AntDesign name="plus" size={14} color="#eee" /> 
         </TouchableOpacity>
         <TouchableOpacity 
-        onPress={() => navigation.navigate("Profile")}
+        onPress={() => navigation.navigate("Profile", {posts})}
         style={styles.icon}>
              <Feather name="user" size={24} color="#212121" /> 
         </TouchableOpacity>
