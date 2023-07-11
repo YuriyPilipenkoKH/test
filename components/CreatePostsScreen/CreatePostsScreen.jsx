@@ -20,6 +20,8 @@ import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons'; 
 import { useNavigation } from "@react-navigation/native";
 import { Camera } from "expo-camera";
+import * as MediaLibrary from "expo-media-library";
+import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 // import BgImage1 from "../../assets/img/sea.jpg";
 import BgImage2 from "../../assets/img/react-js-native.jpg";
@@ -31,6 +33,7 @@ const CreatePostsScreen =() => {
     const [photo, setPhoto] = useState('')
     const [naming, setNaming] = useState('')
     const [location, setLocation] = useState('')
+    const [gps, setGps] = useState(null)
     const [isValidNaming, setIsValidNaming] = useState(false)
     const [isValidLocation, setIsValidLocation] = useState(false)
     const [message, setMessage] = useState('')
@@ -60,6 +63,9 @@ const CreatePostsScreen =() => {
         };
       }, []);
 
+      
+
+
     const takePicture = async () => {
         
         if (snap) {
@@ -68,7 +74,20 @@ const CreatePostsScreen =() => {
             setPhoto(uri) 
             // console.log(uri)
 
+            let locationUser =
+            await Location.requestForegroundPermissionsAsync();
+        if (locationUser.status !== "granted") {
+            console.log("Permission to access location was denied");
         }
+
+            let locality = await Location.getCurrentPositionAsync({});
+            const coords = {
+                latitude: locality.coords.latitude,
+                longitude: locality.coords.longitude,
+            };
+            setGps(coords)
+        }
+
     }
 
     const reset = () => {
@@ -76,6 +95,7 @@ const CreatePostsScreen =() => {
         setPhoto('')
         setNaming('')
         setLocation('')
+        setGps(null)
         setIsValidNaming(false)
         setIsValidLocation(false)
         setMessage('')
@@ -116,6 +136,7 @@ const CreatePostsScreen =() => {
             photo, 
             naming,
             location,
+            gps,
         }
         //  console.log(data)
          navigation.navigate('Posts', {data})
@@ -158,7 +179,7 @@ const CreatePostsScreen =() => {
                     </ImageBackground>
                 </Camera>
                 <Text
-                onPress={() => getData()}
+                // onPress={() => getData()}
                 style={styles.text}>{!photo ? 'Завантажте фото' : 'Редагувати фото'}</Text>
                 </View>
                 <KeyboardAvoidingView

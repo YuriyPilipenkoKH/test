@@ -57,7 +57,7 @@ const temp2 = () => {
     <View key={item.id.toString()}>
     <Image 
     source={{uri: item.photo}}
-    style ={{flex: 1 , }}
+    style ={{marginBottom:100,}}
     />
   </View>
     )
@@ -104,3 +104,58 @@ const temp2 = () => {
     </View>
 </View>
 </View> */}
+
+useEffect(() => {
+  (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      await MediaLibrary.requestPermissionsAsync();
+
+      setHasPermission(status === "granted");
+
+      let locationUser =
+          await Location.requestForegroundPermissionsAsync();
+      if (locationUser.status !== "granted") {
+          console.log("Permission to access location was denied");
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      const coords = {
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+      };
+      setLocation(coords);
+  })();
+  return reset();
+}, []);
+
+const places = [{
+  id: '01',
+  naming: 'The City of Lights',
+  location: 'Paris, France',
+  photo: 'https://www.holidify.com/images/bgImages/PARIS.jpg'
+},
+{
+  id: '02',
+  naming: 'The Grand Canyon',
+  location: 'USA',
+  photo: 'https://www.holidify.com/images/cmsuploads/compressed/grand_20181214130027.jpg'
+},
+{
+  id: '03',
+  naming: 'The Land Where Adventures Wait',
+  location: 'New Zealand',
+  photo: 'https://holidify.com/images/bgImages/NEW-ZEALAND.jpg'
+},
+{
+  id: '04',
+  naming: ' The heritage of England',
+  location: 'London, UK',
+  photo: 'https://www.holidify.com/images/bgImages/LONDON.jpg'
+},
+{
+  id: '05',
+  naming: ' Great Barrier Reef ',
+  location: 'Australia',
+  photo: 'https://www.holidify.com/images/bgImages/GREAT-BARRIER-REEF.jpg'
+},
+]

@@ -71,7 +71,7 @@ const PostsScreen =({route}) => {
             </View>
         </View>
 
-        {posts && <FlatList 
+        {posts && <FlatList style ={{marginBottom:260,}}
                 data={posts} keyExtractor={(item, index) => index.toString()}
                 renderItem={({item}) => (
         <View style={styles.card} key={item.id.toString()}>

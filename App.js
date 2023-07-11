@@ -6,7 +6,7 @@ import RegistrationScreen from './components/RegistrationScreen/RegistrationScre
 import LoginScreen from "./components/LoginScreen/LoginScreen";
 import Home from "./components/Home/Home";
 // import CreatePostsScreen from "./components/CreatePostsScreen/CreatePostsScreen";
-
+import ProfileScreen from "./components/ProfileScreen/ProfileScreen";
 
 
 
