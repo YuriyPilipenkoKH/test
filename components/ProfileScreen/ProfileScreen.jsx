@@ -3,7 +3,7 @@ import {
     StyleSheet,
     View,
     ScrollView,
-    // TextInput,
+    FlatList,
     TouchableOpacity,
     // Platform,
     // KeyboardAvoidingView,
@@ -24,41 +24,46 @@ import BgImage2 from "../../assets/img/sea.jpg";
 import BgImage3 from "../../assets/img/house.jpg";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { getData } from "../utils/dataStorage";
+import { getData, getPlaces, gpsDefault } from "../utils/dataStorage";
+const item = gpsDefault
 
 
 const ProfileScreen =({ route }) => {
     const {posts: renamedPosts} = route.params;
-    const [posts, setPosts] = useState(getData())
+    const [posts, setPosts] = useState( getPlaces())
     const navigation = useNavigation();
 
     return (
         <>
-        <ScrollView>
-        <ImageBackground style = {[ styles.background]} source={BackgroundImage}>
-          <StatusBar style="auto" /> 
+  <View>
+                    <ImageBackground style = {[ styles.background]} source={BackgroundImage}>
+                      <StatusBar style="auto" /> 
+            
+                <View contentContainerStyle={styles.contentContainer} style={[ styles.main]}>
+            
+                    <ImageBackground style = {regStyles.photoWrapp} source={User}> 
+                    <TouchableOpacity 
+                    onPress={() => console.log('posts:', posts)}
+                    style = {regStyles.plusBtn}>
+                        <AntDesign  name="pluscircleo" size={25} style = {[regStyles.plus]} />
+                    </TouchableOpacity>
+                     </ImageBackground>
+                     <TouchableOpacity 
+                     onPress={() => navigation.navigate("Login")}
+                     style={styles.trayArrowBtn}>
+                        <MaterialCommunityIcons style = {styles.trayArrow} name="tray-arrow-up" size={24} color="black" />
+                        </TouchableOpacity>
+                <Text 
+                 onPress={() => getData()}
+                style={regStyles.title}>Natali Romanova</Text>
 
-    <View contentContainerStyle={styles.contentContainer} style={[ styles.main]}>
 
-        <ImageBackground style = {regStyles.photoWrapp} source={User}> 
-        <TouchableOpacity 
-        onPress={() => console.log(posts)}
-        style = {regStyles.plusBtn}>
-            <AntDesign  name="pluscircleo" size={25} style = {[regStyles.plus]} />
-        </TouchableOpacity>
-         </ImageBackground>
-         <TouchableOpacity 
-         onPress={() => navigation.navigate("Login")}
-         style={styles.trayArrowBtn}>
-            <MaterialCommunityIcons style = {styles.trayArrow} name="tray-arrow-up" size={24} color="black" />
-            </TouchableOpacity>
-    <Text 
-     onPress={() => getData()}
-    style={regStyles.title}>Natali Romanova</Text>
-
-    <View style={postStyles.card}>
-        <ImageBackground style={postStyles.photoFrame} source={BgImage1}></ImageBackground>
-        <Text style={postStyles.cardText}>Ліс</Text>
+        <FlatList style ={{marginBottom:80,}}
+                data={posts} keyExtractor={(item, index) => index.toString()}
+                renderItem={({item}) => (
+                <View style={postStyles.card}>
+        <ImageBackground style={postStyles.photoFrame} source={{uri: item.photo}}></ImageBackground>
+        <Text style={postStyles.cardText}>{item.naming}</Text>
         <View style={[postStyles.cardDescription, styles.cardDescription]}>
             <View style={[postStyles.flexWrapp, styles.wrapp1]} >
             <FontAwesome 
@@ -72,67 +77,20 @@ const ProfileScreen =({ route }) => {
             </View>
 
             <View style={[postStyles.flexWrapp, styles.wrapp3]}>
-            <Text style={postStyles.cardLocation}>Ukraine</Text>
+            <Text style={postStyles.cardLocation}>{item.location}</Text>
             <Feather
-            onPress={() => navigation.navigate("Map")}
+            onPress={() => navigation.navigate("Map", {item})}
             name="map-pin" size={24} color="#bdbdbd" />
             </View>
         </View>
         </View> 
 
-        <View style={postStyles.card}>
-        <ImageBackground style={postStyles.photoFrame} source={BgImage2}></ImageBackground>
-        <Text style={postStyles.cardText}>Захід на Чорному морі</Text>
-        <View style={[postStyles.cardDescription, styles.cardDescription]}>
-            <View style={[postStyles.flexWrapp, styles.wrapp1]} >
-            <FontAwesome
-            onPress={() => navigation.navigate("Comments")}
-            style={postStyles.iconComment} name="comment" size={24} color="#ff6c00" />
-            <Text style={postStyles.cardComment}>0</Text>
-            </View>
-            <View style={[postStyles.flexWrapp, styles.wrapp1]} >
-           <AntDesign name="like2" size={24} color="#ff6c00" />
-            <Text style={postStyles.cardComment}>0</Text>
-            </View>
+                  )} />  
+            
+                </View>
+                </ImageBackground>
+                </View>
 
-            <View style={[postStyles.flexWrapp, styles.wrapp3]}>
-            <Text style={postStyles.cardLocation}> Ukraine</Text>
-            <Feather
-            onPress={() => navigation.navigate("Map")}
-            name="map-pin" size={24} color="#bdbdbd" />
-            </View>
-        </View>
-        </View>
-
-        <View style={postStyles.card}>
-        <ImageBackground style={postStyles.photoFrame} source={BgImage3}></ImageBackground>
-        <Text style={postStyles.cardText}>Старий будиночок у Венеції</Text>
-        <View style={[postStyles.cardDescription, styles.cardDescription]}>
-            <View style={[postStyles.flexWrapp, styles.wrapp1]} >
-            <FontAwesome 
-            onPress={() => navigation.navigate("Comments")}
-            style={postStyles.iconComment} name="comment" size={24} color="#ff6c00" />
-            <Text style={postStyles.cardComment}>0</Text>
-            </View>
-            <View style={[postStyles.flexWrapp, styles.wrapp1]} >
-           <AntDesign name="like2" size={24} color="#ff6c00" />
-            <Text style={postStyles.cardComment}>0</Text>
-            </View>
-
-            <View style={[postStyles.flexWrapp, styles.wrapp3]}>
-            <Text style={postStyles.cardLocation}>Italy</Text>
-            <Feather 
-            onPress={() => navigation.navigate("Map")}
-            name="map-pin" size={24} color="#bdbdbd" />
-            </View>
-        </View>
-        </View>
-
-
-
-    </View>
-    </ImageBackground>
-    </ScrollView>
 
     <View style = {[postStyles.footer, styles.footer]}>
 
@@ -151,7 +109,11 @@ const ProfileScreen =({ route }) => {
         style={postStyles.icon}>
              <AntDesign name="plus" size={24} color="#21212199" /> 
         </TouchableOpacity>
-        <View style = {regStyles.homeIndicator} ></View>
+        <View
+  
+         style = {regStyles.homeIndicator} > 
+         <Text onPress={() => console.log('posts:', posts)}>get</Text>
+         </View>
     </View>   
     </>
   
@@ -222,7 +184,7 @@ export const styles = StyleSheet.create({
 
     footer: {
         // marginTop: 40,
-    //   position: 'absolute',
-    //   bottom: 0  
+      position: 'absolute',
+      bottom: 0  
     },
   });

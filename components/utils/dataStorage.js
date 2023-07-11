@@ -47,3 +47,10 @@ export const getPlaces = () => {
   console.log('getPlaces():',places)
   return places;
 };
+
+export const gpsDefault = {
+gps:{ 
+        longitude: 30.602185,
+        latitude: 50.515339,
+      },
+}
