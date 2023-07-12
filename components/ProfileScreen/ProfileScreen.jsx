@@ -67,7 +67,7 @@ const ProfileScreen =({ route }) => {
                 style={regStyles.title}>Natali Romanova</Text>
 
 
-        {posts && <FlatList style ={{marginBottom:80,}}
+        {posts && <FlatList style ={{marginBottom:120,}}
                 data={posts} keyExtractor={(item, index) => index.toString()}
                 renderItem={({item}) => (
                 <View style={postStyles.card}>

@@ -207,7 +207,7 @@ const CreatePostsScreen =() => {
                          name="map-pin" size={24} color="black" />
                 </View>
                 {message ?  <Text style={{...regStyles.errorMessage, ...styles.errorMessage,
-                bottom: keyboardVisible ? -60 : -16,
+                bottom: keyboardVisible ? -70 : -16,
                 }}>{message}</Text>         
                :  null}
                 </KeyboardAvoidingView>
@@ -217,7 +217,8 @@ const CreatePostsScreen =() => {
                 onPress={publish}
                  style={{...regStyles.regBtn, ...styles.publishBtn,
                     backgroundColor:  photo ? '#ff6c00' : '#D6D6D6',
-                    marginTop: keyboardVisible ? 75 : 44,
+                    marginTop: keyboardVisible ? 80 : 44,
+                    marginBottom: keyboardVisible ? 60: 100,
                 }} >
                   <Text style={[regStyles.regBtn__text, styles.publishBtn__text]}>Опубліковати</Text>
                 </TouchableOpacity>

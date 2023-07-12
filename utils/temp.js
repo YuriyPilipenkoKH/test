@@ -1,3 +1,5 @@
+// import { useRoute } from "@react-navigation/native"
+import { useState } from "react"
 
 {!photo 
     ? <Camera   ref={setsnap}
@@ -191,4 +193,47 @@ return(
 
 )
 }
+// private routes
+const [isAuth, setIsAuth] = useState(false)
 
+const useRoute =()=> {
+  if(!isAuth){
+    return (
+      <Stack.Navigator initialRouteName="Login">
+      <Stack.Screen   name="Login" options={{headerShown: false,}} component={LoginScreen}/>
+      <Stack.Screen   name="Registration" options={{headerShown: false,}} component={RegistrationScreen}/>
+      
+    </Stack.Navigator>
+    )
+  }
+  else {
+    return (
+      <Stack.Navigator initialRouteName="Login">
+      <Stack.Screen   name="Home" options={{headerShown: false,}} component={Home}/>
+    </Stack.Navigator>
+    )
+  }
+}
+
+
+  export default App =() =>{
+const [isReady, setIsReady] = useState(false)
+const [isLoading, setIsLoading] = useState(false)
+
+
+const routing = useRoute(null)
+
+if(!isReady){
+  return(
+    <AppLoading></AppLoading>
+   )
+}
+else{
+  return (
+    <NavigationContainer>
+      {routing}
+    </NavigationContainer>
+  )
+}
+
+  }
