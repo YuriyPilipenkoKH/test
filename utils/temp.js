@@ -199,18 +199,22 @@ const [isAuth, setIsAuth] = useState(false)
 const useRoute =()=> {
   if(!isAuth){
     return (
+      <Provider store={store }>
       <Stack.Navigator initialRouteName="Login">
       <Stack.Screen   name="Login" options={{headerShown: false,}} component={LoginScreen}/>
       <Stack.Screen   name="Registration" options={{headerShown: false,}} component={RegistrationScreen}/>
       
     </Stack.Navigator>
+    </Provider>
     )
   }
   else {
     return (
+      <Provider store={store }>
       <Stack.Navigator initialRouteName="Login">
       <Stack.Screen   name="Home" options={{headerShown: false,}} component={Home}/>
     </Stack.Navigator>
+    </Provider>
     )
   }
 }
@@ -223,7 +227,7 @@ const [isLoading, setIsLoading] = useState(false)
 
 const routing = useRoute(null)
 
-if(!isReady){
+if(isLoading){
   return(
     <AppLoading></AppLoading>
    )
@@ -234,6 +238,21 @@ else{
       {routing}
     </NavigationContainer>
   )
+ {
+  return (
+    <Provider store={store }>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Login">
+          <Stack.Screen   name="Login" options={{headerShown: false,}} component={LoginScreen}/>
+          <Stack.Screen   name="Registration" options={{headerShown: false,}} component={RegistrationScreen}/>
+          <Stack.Screen   name="Home" options={{headerShown: false,}} component={Home}/>
+      
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
+  );
+  }
 }
+
 
   }

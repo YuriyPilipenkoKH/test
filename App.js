@@ -7,12 +7,34 @@ import LoginScreen from "./components/LoginScreen/LoginScreen";
 import Home from "./components/Home/Home";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/app";
+// import firebase from 'firebase/app';
+// import 'firebase/auth';
 
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [isAuth, setIsAuth] = useState(false)
+  const [user, setUser] = useState(null)
 
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged((user) => {
+  //     if (user) {
+  //       // User is signed in.
+  //       setUser(user);
+  //     } else {
+  //       // User is signed out.
+  //       setUser(null);
+  //     }
+  //   });
+
+  //   // Clean up the listener when the component unmounts
+  //   return () => unsubscribe();
+  // }, []);
+
+  // onAuthStateChanged((user) => setUser(user))
 
   const [fontsLoaded] = useFonts({
     Roboto: require("./assets/fonts/Roboto-Regular.ttf"),
@@ -24,24 +46,50 @@ if (!fontsLoaded) {
     return null;
 }
 
-  return (
-    <Provider store={store }>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen   name="Login" options={{headerShown: false,}} component={LoginScreen}/>
-          <Stack.Screen   name="Registration" options={{headerShown: false,}} component={RegistrationScreen}/>
-          <Stack.Screen   name="Home" options={{headerShown: false,}} component={Home}/>
+return (
+  <Provider store={store }>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen   name="Login" options={{headerShown: false,}} component={LoginScreen}/>
+        <Stack.Screen   name="Registration" options={{headerShown: false,}} component={RegistrationScreen}/>
+        <Stack.Screen   name="Home" options={{headerShown: false,}} component={Home}/>
+    
+      </Stack.Navigator>
+    </NavigationContainer>
+  </Provider>
+);
+
+// if(!isAuth){
+//   return (
+//     <Provider store={store }>
+//     <NavigationContainer>
+//       <Stack.Navigator initialRouteName="Login">
+//       <Stack.Screen   name="Login" options={{headerShown: false,}} component={LoginScreen}/>
+//       <Stack.Screen   name="Registration" options={{headerShown: false,}} component={RegistrationScreen}/>
       
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Provider>
-  );
+//         </Stack.Navigator>
+//     </NavigationContainer>
+//   </Provider>
+//   )
+// }
+// else {
+//   return (
+//     <Provider store={store }>
+//     <NavigationContainer>
+//       <Stack.Navigator initialRouteName="Login">
+//       <Stack.Screen   name="Home" options={{headerShown: false,}} component={Home}/>
+//         </Stack.Navigator>
+//     </NavigationContainer>
+//   </Provider>
+//   )
+// }
+
 }
 
-const styles = StyleSheet.create({
-  container: {
-  position: 'relative',
-  fontFamily: 'Roboto',
-  flex:1,
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//   position: 'relative',
+//   fontFamily: 'Roboto',
+//   flex:1,
+//   },
+// });

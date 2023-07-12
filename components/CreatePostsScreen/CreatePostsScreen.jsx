@@ -218,7 +218,7 @@ const CreatePostsScreen =() => {
                  style={{...regStyles.regBtn, ...styles.publishBtn,
                     backgroundColor:  photo ? '#ff6c00' : '#D6D6D6',
                     marginTop: keyboardVisible ? 80 : 44,
-                    marginBottom: keyboardVisible ? 60: 100,
+                    marginBottom: keyboardVisible ? 60: 120,
                 }} >
                   <Text style={[regStyles.regBtn__text, styles.publishBtn__text]}>Опубліковати</Text>
                 </TouchableOpacity>

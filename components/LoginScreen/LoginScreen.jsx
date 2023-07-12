@@ -17,6 +17,8 @@ import BackgroundImage from "../../assets/img/photo-bg.jpg";
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import { useNavigation } from "@react-navigation/native";
 import { resetData } from "../../utils/dataStorage";
+import { authLogInUser } from "../../redux/auth/authOperations";
+import { useDispatch } from "react-redux";
 
 
 const LoginScreen =() => {
@@ -31,6 +33,7 @@ const LoginScreen =() => {
 
   const [time, setTime] = useState(null)
    const navigation = useNavigation();
+   const dispatch = useDispatch()
 
   useEffect(() => {
     if(message){
@@ -97,11 +100,11 @@ const LoginScreen =() => {
     }
 
 
-    const data = {
+    const userData = {
         email, 
         password,
     }
-     console.log(data)
+    //  console.log(userData)
         setEmail('')
         setPassword('')
         setShow(false)
@@ -110,7 +113,9 @@ const LoginScreen =() => {
         setIsValidPassword(false)
         resetData()
 
-        navigation.navigate("Home")
+        dispatch(authLogInUser(userData))
+
+        // navigation.navigate("Home")
 }
 
 

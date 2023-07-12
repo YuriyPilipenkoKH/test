@@ -18,6 +18,9 @@ import { AntDesign } from '@expo/vector-icons';
 import User from "../../assets/img/user.png";
 import { useNavigation } from "@react-navigation/native";
 import { resetData } from "../../utils/dataStorage";
+import { authSignUpUser} from "../../redux/auth/authOperations";
+import { useDispatch } from "react-redux";
+
 
 const RegistrationScreen =() => {
 
@@ -33,6 +36,7 @@ const RegistrationScreen =() => {
 
     const [time, setTime] = useState(null)
     const navigation = useNavigation();
+    const dispatch = useDispatch()
 
     useEffect(() => {
       if(message){
@@ -112,12 +116,12 @@ const RegistrationScreen =() => {
         return
       }
      
-        const data = {
+        const userData = {
             login, 
             email, 
             password,
         }
-        console.log(data)
+        // console.log(userData)
         setLogin('')
         setEmail('')
         setPassword('')
@@ -127,6 +131,8 @@ const RegistrationScreen =() => {
         setIsValidEmail(false)
         setIsValidPassword(false)
         resetData()
+
+        dispatch(authSignUpUser(userData))
 
         navigation.navigate("Home")
     }

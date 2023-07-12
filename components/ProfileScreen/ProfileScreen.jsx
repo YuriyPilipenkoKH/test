@@ -33,7 +33,7 @@ const item = gpsDefault
 const ProfileScreen =({ route }) => {
     const {posts: renamedPosts} = route.params;
     
-    const [posts, setPosts] = useState( getPlaces())
+    const [posts, setPosts] = useState( getData())
     const [likes, setLikes] = useState(Array(posts.length).fill(0))
     const navigation = useNavigation();
 
@@ -44,6 +44,10 @@ const ProfileScreen =({ route }) => {
           return newLikes;
         });
       };
+
+      useEffect(() => {
+        // useState(Array(posts.length).fill(0))
+      }, []);
 
 
     
