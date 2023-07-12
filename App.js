@@ -8,7 +8,8 @@ import Home from "./components/Home/Home";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import { useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/app";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase/config";
 // import firebase from 'firebase/app';
 // import 'firebase/auth';
 
@@ -19,22 +20,27 @@ export default function App() {
   const [isAuth, setIsAuth] = useState(false)
   const [user, setUser] = useState(null)
 
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged((user) => {
-  //     if (user) {
-  //       // User is signed in.
-  //       setUser(user);
-  //     } else {
-  //       // User is signed out.
-  //       setUser(null);
-  //     }
-  //   });
+  // auth.onAuthStateChanged((user) => {
+  //   console.log(user)
+  //   setUser(user)})
 
-  //   // Clean up the listener when the component unmounts
-  //   return () => unsubscribe();
-  // }, []);
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in.
+        console.log(user.uid)
+        setUser(user);
+      } else {
+        // User is signed out.
+        setUser(null);
+      }
+    });
 
-  // onAuthStateChanged((user) => setUser(user))
+    // Clean up the listener when the component unmounts
+    return () => unsubscribe();
+  }, []);
+
+
 
   const [fontsLoaded] = useFonts({
     Roboto: require("./assets/fonts/Roboto-Regular.ttf"),

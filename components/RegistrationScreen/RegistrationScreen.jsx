@@ -134,7 +134,7 @@ const RegistrationScreen =() => {
 
         dispatch(authSignUpUser(userData))
 
-        navigation.navigate("Home")
+        // navigation.navigate("Home")
     }
 
     return (
