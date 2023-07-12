@@ -32,15 +32,21 @@ const item = gpsDefault
 
 const ProfileScreen =({ route }) => {
     const {posts: renamedPosts} = route.params;
-
-    const [posts, setPosts] = useState( getData())
+    
+    const [posts, setPosts] = useState( getPlaces())
+    const [likes, setLikes] = useState(Array(posts.length).fill(0))
     const navigation = useNavigation();
 
-    useEffect(() => {
+    const handleLike = (index) => {
+        setLikes((prevLikes) => {
+          const newLikes = [...prevLikes];
+          newLikes[index] += 1; // Increment the likes for the specific index
+          return newLikes;
+        });
+      };
 
-    }, [])
+
     
-
     return (
         <>
   <View>
@@ -81,8 +87,16 @@ const ProfileScreen =({ route }) => {
             <Text style={postStyles.cardComment}>0</Text>
             </View>
             <View style={[postStyles.flexWrapp, styles.wrapp1]} >
-           <AntDesign name="like2" size={24} color="#ff6c00" />
-            <Text style={postStyles.cardComment}>0</Text>
+           <AntDesign
+            onPress={(value) =>{
+                //  console.log(item.id)
+                 handleLike(item.id -1)
+                }}
+            name="like2" size={24} color="#ff6c00" />
+            <Text style={{...postStyles.cardComment,
+            color:  likes[item.id -1] ? '#ff6c00' : '#D6D6D6',
+            }}>
+                {likes[Number(item.id -1)]}</Text>
             </View>
 
             <View style={[postStyles.flexWrapp, styles.wrapp3]}>
@@ -121,7 +135,10 @@ const ProfileScreen =({ route }) => {
         <View
   
          style = {regStyles.homeIndicator} > 
-         <Text onPress={() => console.log('posts:', posts)}>get</Text>
+         <Text onPress={() =>{
+            //  console.log('posts:', posts)
+             console.log('likes:', likes)
+             }}>get</Text>
          </View>
     </View>   
     </>

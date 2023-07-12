@@ -3,31 +3,31 @@
 let publishedData = [];
 
 const places = [{
-  id: '01',
+  id: '1',
   naming: 'The City of Lights',
   location: 'Paris, France',
   photo: 'https://www.holidify.com/images/bgImages/PARIS.jpg'
 },
 {
-  id: '02',
+  id: '2',
   naming: 'The Grand Canyon',
   location: 'USA',
   photo: 'https://www.holidify.com/images/cmsuploads/compressed/grand_20181214130027.jpg'
 },
 {
-  id: '03',
+  id: '3',
   naming: 'The Land Where Adventures Wait',
   location: 'New Zealand',
   photo: 'https://holidify.com/images/bgImages/NEW-ZEALAND.jpg'
 },
 {
-  id: '04',
+  id: '4',
   naming: ' The heritage of England',
   location: 'London, UK',
   photo: 'https://www.holidify.com/images/bgImages/LONDON.jpg'
 },
 {
-  id: '05',
+  id: '5',
   naming: ' Great Barrier Reef ',
   location: 'Australia',
   photo: 'https://www.holidify.com/images/bgImages/GREAT-BARRIER-REEF.jpg'
