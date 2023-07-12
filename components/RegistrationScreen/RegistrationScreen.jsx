@@ -17,7 +17,7 @@ import BackgroundImage from "../../assets/img/photo-bg.jpg";
 import { AntDesign } from '@expo/vector-icons'; 
 import User from "../../assets/img/user.png";
 import { useNavigation } from "@react-navigation/native";
-import { resetData } from "../utils/dataStorage";
+import { resetData } from "../../utils/dataStorage";
 
 const RegistrationScreen =() => {
 

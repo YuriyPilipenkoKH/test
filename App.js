@@ -5,7 +5,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import RegistrationScreen from './components/RegistrationScreen/RegistrationScreen';
 import LoginScreen from "./components/LoginScreen/LoginScreen";
 import Home from "./components/Home/Home";
-
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 
 const Stack = createNativeStackNavigator();
@@ -24,14 +25,16 @@ if (!fontsLoaded) {
 }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen   name="Login" options={{headerShown: false,}} component={LoginScreen}/>
-        <Stack.Screen   name="Registration" options={{headerShown: false,}} component={RegistrationScreen}/>
-        <Stack.Screen   name="Home" options={{headerShown: false,}} component={Home}/>
-       
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store }>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Login">
+          <Stack.Screen   name="Login" options={{headerShown: false,}} component={LoginScreen}/>
+          <Stack.Screen   name="Registration" options={{headerShown: false,}} component={RegistrationScreen}/>
+          <Stack.Screen   name="Home" options={{headerShown: false,}} component={Home}/>
+      
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 

@@ -25,7 +25,7 @@ import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 // import BgImage1 from "../../assets/img/sea.jpg";
 import BgImage2 from "../../assets/img/react-js-native.jpg";
-import {addData , getData} from "../utils/dataStorage";
+import {addData , getData} from "../../utils/dataStorage";
 
 
 const CreatePostsScreen =() => {

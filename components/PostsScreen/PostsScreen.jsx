@@ -22,7 +22,7 @@ import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 // import BgImage2 from "../../assets/img/sea.jpg";
 // import BgImage3 from "../../assets/img/house.jpg";
 import { useNavigation } from "@react-navigation/native";
-import { getData} from "../utils/dataStorage";
+import { getData} from "../../utils/dataStorage";
 import { useEffect, useState } from "react";
 
 

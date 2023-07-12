@@ -16,7 +16,7 @@ import { StatusBar } from 'expo-status-bar';
 import BackgroundImage from "../../assets/img/photo-bg.jpg";
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import { useNavigation } from "@react-navigation/native";
-import { resetData } from "../utils/dataStorage";
+import { resetData } from "../../utils/dataStorage";
 
 
 const LoginScreen =() => {

@@ -25,7 +25,7 @@ import BgImage2 from "../../assets/img/sea.jpg";
 import BgImage3 from "../../assets/img/house.jpg";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { getData, getPlaces, gpsDefault } from "../utils/dataStorage";
+import { getData, getPlaces, gpsDefault } from "../../utils/dataStorage";
 
 const item = gpsDefault
 
@@ -48,7 +48,7 @@ const ProfileScreen =({ route }) => {
                       <StatusBar style="auto" /> 
             
                 <View contentContainerStyle={styles.contentContainer} 
-                style={ {...styles.main, marginBottom: posts ? 0 : 80,}}>
+                style={ {...styles.main, marginBottom: posts ? 0 : 90,}}>
             
                     <ImageBackground style = {regStyles.photoWrapp} source={User}> 
                     <TouchableOpacity 
