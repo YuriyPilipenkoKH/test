@@ -227,6 +227,22 @@ const [isLoading, setIsLoading] = useState(false)
 
 const routing = useRoute(null)
 
+useEffect(() => {
+  const unsubscribe = auth.onAuthStateChanged((user) => {
+    if (user) {
+      // User is signed in.
+      console.log(user.email)
+      setUser(user);
+    } else {
+      // User is signed out.
+      setUser(null);
+    }
+  });
+
+  // Clean up the listener when the component unmounts
+  return () => unsubscribe();
+}, []);
+
 if(isLoading){
   return(
     <AppLoading></AppLoading>
@@ -256,3 +272,4 @@ else{
 
 
   }
+

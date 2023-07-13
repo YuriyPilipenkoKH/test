@@ -24,11 +24,16 @@ import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import { useNavigation } from "@react-navigation/native";
 import { getData} from "../../utils/dataStorage";
 import { useEffect, useState } from "react";
+import {  useSelector } from "react-redux";
+import { selectLogin, selectUserId,selectEmail } from "../../redux/selectors";
 
 
 const PostsScreen =({route}) => {
   const [posts, setPosts] = useState([])
   const navigation = useNavigation();
+  const nickName = useSelector(selectLogin)
+  const userEmail = useSelector(selectEmail)
+  console.log(nickName)
 
   useEffect(() => {
     if(route.params){
@@ -64,8 +69,8 @@ const PostsScreen =({route}) => {
             <View style={styles.userWrapp}>
             <Text 
             onPress={() => console.log("posts:",posts)}
-            style={styles.userName}>Natali Romanova</Text>
-            <Text style={styles.userEmail}>email@example.com</Text>
+            style={styles.userName}>{nickName}</Text>
+            <Text style={styles.userEmail}>{userEmail}</Text>
 
             </View>
         </View>
