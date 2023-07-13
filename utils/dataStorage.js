@@ -39,7 +39,7 @@ export const addData = (data) => {
 };
 
 export const getData = () => {
-  console.log('getData():',publishedData)
+  // console.log('getData():',publishedData)
   return publishedData;
 };
 
@@ -51,7 +51,7 @@ export const resetData = () => {
 
 
 export const getPlaces = () => {
-  console.log('getPlaces():',places)
+  // console.log('getPlaces():',places)
   return places;
 };
 

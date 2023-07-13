@@ -2,7 +2,6 @@ import {
     Text,
     StyleSheet,
     View,
-    ScrollView,
     FlatList,
     TouchableOpacity,
     // Platform,
@@ -20,12 +19,12 @@ import User from "../../assets/img/user.png";
 import {MaterialCommunityIcons,  AntDesign, Feather,  FontAwesome } from '@expo/vector-icons'; 
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import { styles as postStyles } from "../PostsScreen/PostsScreen";
-import BgImage1 from "../../assets/img/forest.jpg";
-import BgImage2 from "../../assets/img/sea.jpg";
-import BgImage3 from "../../assets/img/house.jpg";
+
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { getData, getPlaces, gpsDefault } from "../../utils/dataStorage";
+import { signOutUser } from "../../redux/auth/authOperations";
+import { useDispatch } from "react-redux";
 
 const item = gpsDefault
 
@@ -36,6 +35,7 @@ const ProfileScreen =({ route }) => {
     const [posts, setPosts] = useState( getData())
     const [likes, setLikes] = useState(Array(posts.length).fill(0))
     const navigation = useNavigation();
+    const dispatch = useDispatch()
 
     const handleLike = (index) => {
         setLikes((prevLikes) => {
@@ -68,7 +68,7 @@ const ProfileScreen =({ route }) => {
                     </TouchableOpacity>
                      </ImageBackground>
                      <TouchableOpacity 
-                     onPress={() => navigation.navigate("Login")}
+                     onPress={() => dispatch(signOutUser())}
                      style={styles.trayArrowBtn}>
                         <MaterialCommunityIcons style = {styles.trayArrow} name="tray-arrow-up" size={24} color="black" />
                         </TouchableOpacity>

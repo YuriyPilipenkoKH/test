@@ -24,8 +24,9 @@ import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import { useNavigation } from "@react-navigation/native";
 import { getData} from "../../utils/dataStorage";
 import { useEffect, useState } from "react";
-import {  useSelector } from "react-redux";
+import {  useDispatch, useSelector } from "react-redux";
 import { selectLogin, selectUserId,selectEmail } from "../../redux/selectors";
+import {  signOutUser } from "../../redux/auth/authOperations";
 
 
 const PostsScreen =({route}) => {
@@ -34,6 +35,7 @@ const PostsScreen =({route}) => {
   const nickName = useSelector(selectLogin)
   const userEmail = useSelector(selectEmail)
   console.log(nickName)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if(route.params){
@@ -54,7 +56,7 @@ const PostsScreen =({route}) => {
               Публікації
             </Text>
             <TouchableOpacity 
-            onPress={() => navigation.navigate("Login")}
+            onPress={() => dispatch(signOutUser())}
             style={styles.trayArrowBtn}>
             <MaterialCommunityIcons style = {styles.trayArrow} name="tray-arrow-up" size={24} color="black" />
             </TouchableOpacity>

@@ -273,3 +273,18 @@ else{
 
   }
 
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+     console.log('user->',user)
+     setUser(user)
+     dispatch(authSlice.actions.updateUserProfile({ 
+         email: user.email,
+         login: user.displayName,
+         userId: user.uid,
+     }))
+ })
+ 
+     }, []);
+
+     //===========================
+     

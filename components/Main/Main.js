@@ -8,31 +8,44 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../firebase/config';
 import { useDispatch, useSelector } from 'react-redux';
 import { authSlice } from '../../redux/auth/authReducer';
+import { authStateChangeUser } from '../../redux/auth/authOperations';
+import { watchAuthState } from '../../redux/auth/authOperations';
+import { useAuth } from '../../redux/selectors';
+
 
 const Stack = createNativeStackNavigator();
 
 const Main = () => {
-    const [isAuth, setIsAuth] = useState(false)
-    const [user, setUser] = useState(null)
 
     const state = useSelector((state) => state)
-    console.log('state:', state)
+    const {userId } = useAuth();
+
+    // console.log('state:', state)
     const dispatch = useDispatch()
 
-    useEffect(() => {
-   auth.onAuthStateChanged((user) => {
-    console.log('user->',user)
-    setUser(user)
-    dispatch(authSlice.actions.updateUserProfile({ 
-        email: user.email,
-        login: user.displayName,
-        userId: user.uid,
-    }))
-})
+    // useEffect(() => {
 
+    //     dispatch(authStateChangeUser())
+    //     setUser(user)
+    //  }, []);
+
+    useEffect(() => {
+    //  dispatch(watchAuthState((user) => {
+    //   console.log('user->',user)
+    //     // setUser(user.userId)
+    //  }))
+  //  auth.onAuthStateChanged((user) => {
+  //   console.log('user->',user)
+  //   setUser(user)
+  //   dispatch(authSlice.actions.updateUserProfile({ 
+  //       email: user.email,
+  //       login: user.displayName,
+  //       userId: user.uid,
+//     }))
+// })
     }, []);
 
-  if(!user){
+  if(!userId){
     return (
     
       <NavigationContainer>
