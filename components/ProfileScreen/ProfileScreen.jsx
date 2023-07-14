@@ -25,6 +25,7 @@ import { useEffect, useState } from "react";
 import { getData, getPlaces, gpsDefault } from "../../utils/dataStorage";
 import { signOutUser } from "../../redux/auth/authOperations";
 import { useDispatch } from "react-redux";
+import { logOut } from "../../redux/auth/authOperations";
 
 const item = gpsDefault
 
@@ -68,7 +69,9 @@ const ProfileScreen =({ route }) => {
                     </TouchableOpacity>
                      </ImageBackground>
                      <TouchableOpacity 
-                     onPress={() => dispatch(signOutUser())}
+                     onPress={() =>{
+                        console.log("exit")
+                        dispatch(logOut())}}
                      style={styles.trayArrowBtn}>
                         <MaterialCommunityIcons style = {styles.trayArrow} name="tray-arrow-up" size={24} color="black" />
                         </TouchableOpacity>

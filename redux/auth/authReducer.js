@@ -1,67 +1,46 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createUser, signInUser, watchAuthState, signOutUser } from './authOperations';
+import { createSlice } from "@reduxjs/toolkit";
 
-const authSlice = createSlice({
-    name: 'auth',
-    initialState: {
-      userId: null,
-      login: null,
-      email: null,
-      stateChange: false,
-      isLoading: false,
+const initialState = {
+  userId: null,
+  userName: null,
+  userAvatar: null,
+  userEmail: "",
+  stateChange: false,
+  isLoading: false,
+  error: null,
+};
+
+export const authSlice = createSlice({
+  name: "auth",
+  initialState,
+  reducers: {
+    fetchingInProgress: (state) => {
+      return { ...state, isLoading: true };
     },
-    reducers: {},
-    extraReducers: (builder) => {
-      builder
-        .addCase(createUser.pending, (state) => {
-          state.isLoading = true;
-        })
-        .addCase(createUser.fulfilled, (state, action) => {
-          state.isLoading = false;
-          state.userId = action.payload.userId;
-          state.email = action.payload.email;
-        })
-        .addCase(createUser.rejected, (state) => {
-          state.isLoading = false;
-        })
-        .addCase(signInUser.pending, (state) => {
-          state.isLoading = true;
-        })
-        .addCase(signInUser.fulfilled, (state, action) => {
-          state.isLoading = false;
-          state.userId = action.payload.userId;
-          state.email = action.payload.email;
-        })
-        .addCase(signInUser.rejected, (state) => {
-          state.isLoading = false;
-        })
-        .addCase(watchAuthState.pending, (state) => {
-          state.isLoading = true;
-        })
-        .addCase(watchAuthState.fulfilled, (state, action) => {
-          state.isLoading = false;
-          state.userId = action.payload.userId;
-          state.email = action.payload.email;
-          state.login = action.payload.login;
-          state.stateChange = action.payload.stateChange;
-        })
-        .addCase(watchAuthState.rejected, (state) => {
-          state.isLoading = false;
-        })
-        .addCase(signOutUser.pending, (state) => {
-          state.isLoading = true;
-        })
-        .addCase(signOutUser.fulfilled, (state, action) => {
-          state.isLoading = false;
-          state.userId = action.payload.userId;
-          state.email = action.payload.email;
-          state.login = action.payload.login;
-          state.stateChange = true;
-        })
-        .addCase(signOutUser.rejected, (state) => {
-          state.isLoading = false;
-        });
+    fetchingError: (state, { payload }) => {
+      return { ...state, isLoading: false, error: payload };
     },
-  });
-  
+    updateUserProfile: (state, { payload }) => {
+      return {
+        ...state,
+        userId: payload.userId,
+        userName: payload.userName,
+        userAvatar: payload.userAvatar,
+        userEmail: payload.userEmail,
+        isLoading: false,
+        error: null,
+      };
+    },
+    authStateChange: (state, { payload }) => {
+      return {
+        ...state,
+        stateChange: payload.stateChange,
+        isLoading: false,
+        error: null,
+      };
+    },
+    authSignOut: () => initialState,
+  },
+});
+
 export const authReducer = authSlice.reducer;

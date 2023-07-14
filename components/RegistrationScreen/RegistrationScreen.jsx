@@ -18,11 +18,13 @@ import { AntDesign } from '@expo/vector-icons';
 import User from "../../assets/img/user.png";
 import { useNavigation } from "@react-navigation/native";
 import { resetData } from "../../utils/dataStorage";
-import {  createUser} from "../../redux/auth/authOperations";
 import { useDispatch } from "react-redux";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { register } from "../../redux/auth/authOperations";
 
 
 const RegistrationScreen =() => {
+  const [load, setLoad] = useState(false);
 
     const [login, setLogin] = useState("");
     const [email, setEmail] = useState("");
@@ -102,7 +104,28 @@ const RegistrationScreen =() => {
     }
     }
 
-     const submit = () => {
+    const uploadAvatarToServer = async () => {
+      setLoad(true);
+      try {
+        const response = await fetch(avatar);
+        const file = await response.blob();
+  
+        const avatarId = Date.now().toString();
+  
+        const storageRef = ref(storage, `avatars/${avatarId}`);
+        await uploadBytes(storageRef, file);
+  
+        const avatarRef = await getDownloadURL(storageRef);
+        setLoad(false);
+        return avatarRef;
+      } catch (error) {
+        console.log("Upload avatar to server error", error.message);
+        setLoad(false);
+        setError(`Upload avatar to server error ${error.message}`);
+      }
+    };
+
+     const submit = async () => {
       if(!isValidName){
         setMessage('Not valid login')
         return
@@ -132,9 +155,19 @@ const RegistrationScreen =() => {
         setIsValidPassword(false)
         resetData()
 
-        dispatch(createUser(userData))
-
-        // navigation.navigate("Home")
+        setLoad(true);
+        try {
+          // const avatarRef = await uploadAvatarToServer();
+          dispatch(register({ ...userData,
+            //  avatar: avatarRef 
+            }));     
+          setLoad(false);
+        }
+         catch (error) {
+          console.log("Upload avatar to server error", error.message);
+          setLoad(false);
+          // setError(`Upload avatar to server error ${error.message}`);
+        }
     }
 
     return (

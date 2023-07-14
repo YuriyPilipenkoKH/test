@@ -1,81 +1,161 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
-import { auth } from '../../firebase/config';
+import { auth } from "../../firebase/config";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+  signOut,
+  onAuthStateChanged,
+} from "firebase/auth";
+import Toast from "react-native-root-toast";
+import { authSlice } from "./authReducer";
 
+const {
+  authSignOut,
+  updateUserProfile,
+  authStateChange,
+  fetchingError,
+  fetchingInProgress,
+} = authSlice.actions;
 
-// Async thunk to handle createUserWithEmailAndPassword
-export const createUser = createAsyncThunk(
-  'auth/createUser',
-  async ({ email, password }) => {
+export const register =
+  ({ email, password, login, avatar }) =>
+  async (dispatch) => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      
-      const user = userCredential.user;
-      const userinfo = await auth.currentUser
-      console.log('user->',userinfo)
-      return { userId: user.uid, email: user.email ,login: displayName,};
-    } catch (error) {
-      throw error;
-    }
-  }
-);
+      dispatch(fetchingInProgress());
+      const response = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
-// Async thunk to handle signInWithEmailAndPassword
-export const signInUser = createAsyncThunk(
-  'auth/signInUser',
-  async ({ email, password }) => {
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      const userinfo = await auth.currentUser
-      console.log('user->',userinfo)
-      return { userId: user.uid, email: user.email  };
-    } catch (error) {
-      throw error;
-    }
-  }
-);
+      const user = response.user;
 
-export const setAuthData = (userData) => {
-  return {
-    type: 'auth/setAuthData',
-    payload: userData,
-  };
-};
-
-// Async thunk to handle onAuthStateChanged
-export const watchAuthState = createAsyncThunk(
-  'auth/watchAuthState',
-  async ({ dispatch, getState}) => {
-    try {
-      // console.log('watchAuthState')
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
-        if (user) {
-          // User is signed in
-          const userData = { userId: user.uid, email: user.email, login: user.displayName, stateChange: true };
-          // Dispatch an action with the serializable payload
-          dispatch(setAuthData(userData));
-        } else {
-          // User is signed out
-          const userData = { userId: null, email: null, login: false, stateChange: true };
-          // Dispatch an action with the serializable payload
-          dispatch(setAuthData(userData));
-        }
+      Toast.show("You have successfully registered", {
+        duration: 5000,
+        position: 50,
       });
 
-      return unsubscribe;
-    } catch (error) {
-      throw error;
-    }
-  }
-);
+      await updateProfile(auth.currentUser, {
+        displayName: login,
+        userId: user.uid,
+        photoURL: avatar,
+      });
 
-// Async thunk to handle signOut
-export const signOutUser = createAsyncThunk('auth/signOutUser', async () => {
+      const { displayName, uid, photoURL } = await auth.currentUser;
+
+      const userUpdateProfile = {
+        userName: displayName,
+        userId: uid,
+        userAvatar: photoURL,
+        userEmail: email,
+      };
+
+      dispatch(updateUserProfile(userUpdateProfile));
+    } catch (error) {
+      console.log("error.message", error.message);
+      dispatch(fetchingError(error.message));
+    }
+  };
+
+export const signIn =
+  ({ email, password }) =>
+  async (dispatch) => {
+    try {
+      dispatch(fetchingInProgress());
+      const user = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      const { displayName, uid, photoURL } = user.user;
+
+      const userUpdateProfile = {
+        userName: displayName,
+        userId: uid,
+        userAvatar: photoURL,
+        userEmail: email,
+      };
+
+      dispatch(updateUserProfile(userUpdateProfile));
+
+      Toast.show(`Signed in!!`, {
+        duration: 5000,
+        position: 50,
+      });
+    } catch (error) {
+      dispatch(fetchingError(error.message));
+      console.log("error.message", error.message);
+    }
+  };
+
+export const deleteAvatar = () => async (dispatch) => {
   try {
-    await signOut(auth);
-    return { userId: null, email: null, login: false };
+    dispatch(fetchingInProgress());
+
+    await updateProfile(auth.currentUser, {
+      displayName,
+      userId: uid,
+      photoURL: null,
+    });
+
+    const { displayName, uid, photoURL, email } =
+      await auth.currentUser;
+
+  
+
+    const userUpdateProfile = {
+      userName: displayName,
+      userId: uid,
+      userAvatar: null,
+      userEmail: email,
+    };
+
+    dispatch(updateUserProfile(userUpdateProfile));
+
+    Toast.show(`Avatar deleted!!`, {
+      duration: 5000,
+      position: 50,
+    });
   } catch (error) {
-    throw error;
+    dispatch(fetchingError(error.message));
+    console.log("error.message", error.message);
   }
-});
+};
+
+export const logOut = () => async (dispatch) => {
+  try {
+    dispatch(fetchingInProgress());
+    await signOut(auth);
+    dispatch(authSignOut());
+
+    Toast.show("Account logged out!", {
+      duration: 5000,
+      position: 50,
+    });
+  } catch (error) {
+    console.log("error", error);
+    dispatch(fetchingError(error.message));
+  }
+};
+
+export const authStateChangeUser = () => async (dispatch) => {
+  try {
+    await onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const userUpdateProfile = {
+          userName: user.displayName,
+          userId: user.uid,
+          userAvatar: user.photoURL,
+          userEmail: user.email,
+        };
+        dispatch(fetchingInProgress());
+        dispatch(authStateChange({ stateChange: true }));
+        dispatch(updateUserProfile(userUpdateProfile));
+      }
+    });
+  } catch (error) {
+    dispatch(fetchingError(error.message));
+    console.log("error", error.message);
+  }
+};

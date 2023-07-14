@@ -17,7 +17,7 @@ import BackgroundImage from "../../assets/img/photo-bg.jpg";
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import { useNavigation } from "@react-navigation/native";
 import { resetData } from "../../utils/dataStorage";
-import {  signInUser } from "../../redux/auth/authOperations";
+import { signIn } from "../../redux/auth/authOperations";
 import { useDispatch } from "react-redux";
 
 
@@ -104,7 +104,7 @@ const LoginScreen =() => {
         email, 
         password,
     }
-    //  console.log(userData)
+
         setEmail('')
         setPassword('')
         setShow(false)
@@ -113,9 +113,8 @@ const LoginScreen =() => {
         setIsValidPassword(false)
         resetData()
 
-        dispatch(signInUser(userData))
 
-        // navigation.navigate("Home")
+         dispatch(signIn(userData));
 }
 
 

@@ -18,23 +18,20 @@ import { StatusBar } from 'expo-status-bar';
 import User from "../../assets/img/user.png";
 import { MaterialCommunityIcons, AntDesign, Feather, FontAwesome5 } from '@expo/vector-icons'; 
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
-// import BgImage1 from "../../assets/img/forest.jpg";
-// import BgImage2 from "../../assets/img/sea.jpg";
-// import BgImage3 from "../../assets/img/house.jpg";
 import { useNavigation } from "@react-navigation/native";
 import { getData} from "../../utils/dataStorage";
 import { useEffect, useState } from "react";
-import {  useDispatch, useSelector } from "react-redux";
-import { selectLogin, selectUserId,selectEmail } from "../../redux/selectors";
-import {  signOutUser } from "../../redux/auth/authOperations";
+import { useDispatch} from "react-redux";
+import { useAuth } from "../../redux/auth/authSelectors";
+import { logOut } from "../../redux/auth/authOperations";
+
 
 
 const PostsScreen =({route}) => {
   const [posts, setPosts] = useState([])
   const navigation = useNavigation();
-  const nickName = useSelector(selectLogin)
-  const userEmail = useSelector(selectEmail)
-  console.log(nickName)
+  const {nickName }= useAuth() 
+  const {userEmail} = useAuth() 
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -56,7 +53,9 @@ const PostsScreen =({route}) => {
               Публікації
             </Text>
             <TouchableOpacity 
-            onPress={() => dispatch(signOutUser())}
+                                 onPress={() =>{
+                                  console.log("exit")
+                                  dispatch(logOut())}}
             style={styles.trayArrowBtn}>
             <MaterialCommunityIcons style = {styles.trayArrow} name="tray-arrow-up" size={24} color="black" />
             </TouchableOpacity>
