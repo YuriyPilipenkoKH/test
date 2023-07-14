@@ -23,9 +23,9 @@ import { styles as postStyles } from "../PostsScreen/PostsScreen";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { getData, getPlaces, gpsDefault } from "../../utils/dataStorage";
-import { signOutUser } from "../../redux/auth/authOperations";
 import { useDispatch } from "react-redux";
 import { logOut } from "../../redux/auth/authOperations";
+import { useAuth } from "../../redux/auth/authSelectors";
 
 const item = gpsDefault
 
@@ -37,6 +37,7 @@ const ProfileScreen =({ route }) => {
     const [likes, setLikes] = useState(Array(posts.length).fill(0))
     const navigation = useNavigation();
     const dispatch = useDispatch()
+    const {login }= useAuth()
 
     const handleLike = (index) => {
         setLikes((prevLikes) => {
@@ -45,10 +46,6 @@ const ProfileScreen =({ route }) => {
           return newLikes;
         });
       };
-
-      useEffect(() => {
-        // useState(Array(posts.length).fill(0))
-      }, []);
 
 
     
@@ -77,7 +74,7 @@ const ProfileScreen =({ route }) => {
                         </TouchableOpacity>
                 <Text 
                  onPress={() => getData()}
-                style={regStyles.title}>Natali Romanova</Text>
+                style={regStyles.title}>{login}</Text>
 
 
         {posts && <FlatList style ={{marginBottom:120,}}

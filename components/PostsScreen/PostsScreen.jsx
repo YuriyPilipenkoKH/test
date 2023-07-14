@@ -24,22 +24,41 @@ import { useEffect, useState } from "react";
 import { useDispatch} from "react-redux";
 import { useAuth } from "../../redux/auth/authSelectors";
 import { logOut } from "../../redux/auth/authOperations";
-
+import { db } from "../../firebase/config";
+import { collection, getDocs} from "firebase/firestore";
 
 
 const PostsScreen =({route}) => {
   const [posts, setPosts] = useState([])
   const navigation = useNavigation();
-  const {nickName }= useAuth() 
-  const {userEmail} = useAuth() 
+  const {login }= useAuth() 
+  const {email} = useAuth() 
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    if(route.params){
-      setPosts(prev => [...prev, route.params.data])
-    }
+  // useEffect(() => {
+  //   if(route.params){
+  //     setPosts(prev => [...prev, route.params.data])
+  //   }
     
-  }, [route.params])
+  // }, [route.params])
+
+  const getAllPosts = async () => {
+   
+    try {
+      const querySnapshot = await getDocs(collection(db, "posts"));
+      querySnapshot.forEach((doc) => {
+        setPosts((prevState) => [...prevState, doc.data()]);
+      });
+      
+    } catch (error) {
+     
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getAllPosts();
+  }, []);
   
 
     return (
@@ -70,16 +89,16 @@ const PostsScreen =({route}) => {
             <View style={styles.userWrapp}>
             <Text 
             onPress={() => console.log("posts:",posts)}
-            style={styles.userName}>{nickName}</Text>
-            <Text style={styles.userEmail}>{userEmail}</Text>
+            style={styles.userName}>{login}</Text>
+            <Text style={styles.userEmail}>{email}</Text>
 
             </View>
         </View>
 
         {posts && <FlatList style ={{marginBottom:260,}}
-                data={posts} keyExtractor={(item, index) => index.toString()}
+              data={posts} keyExtractor={(item, index) => index.toString()}
                 renderItem={({item}) => (
-        <View style={styles.card} key={item.id.toString()}>
+        <View style={styles.card} key={item.id}>
         <Image source={{uri: item.photo}}  style={styles.photoFrame} />
         <Text style={styles.cardText}>{item.naming}</Text>
         <View style={styles.cardDescription}>

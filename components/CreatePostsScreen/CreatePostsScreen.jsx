@@ -26,10 +26,16 @@ import { useEffect, useState } from "react";
 // import BgImage1 from "../../assets/img/sea.jpg";
 import BgImage2 from "../../assets/img/react-js-native.jpg";
 import {addData , getData} from "../../utils/dataStorage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { db, storage } from "../../firebase/config";
+import { addDoc,  collection, doc, serverTimestamp, setDoc, } from "firebase/firestore";
+import { useAuth } from "../../redux/auth/authSelectors";
+import Toast from "react-native-root-toast";
 
 
 const CreatePostsScreen =() => {
     const [snap, setsnap] = useState(null)
+    const [id, setId] = useState(null)
     const [photo, setPhoto] = useState('')
     const [naming, setNaming] = useState('')
     const [location, setLocation] = useState('')
@@ -40,6 +46,7 @@ const CreatePostsScreen =() => {
     const [keyboardVisible, setKeyboardVisible] = useState(false);
    
     const navigation = useNavigation();
+    const {userId, login} = useAuth()
 
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(
@@ -67,6 +74,8 @@ const CreatePostsScreen =() => {
 
 
     const takePicture = async () => {
+        const postId = Date.now().toString();
+        setId(postId)
         
         if (snap) {
             let { uri } = await snap.takePictureAsync()
@@ -89,9 +98,64 @@ const CreatePostsScreen =() => {
         }
 
     }
+    const logger = () => {
+        console.log('photo', photo, 'naming', naming, 'location',location, 'gps',gps, 'userId', userId, 'userName',login,'timestamp',serverTimestamp())
+       
+    }
+
+
+    const uploadPhotoToServer = async () => {
+      
+        try {
+          const response = await fetch(photo);
+          const file = await response.blob();
+          const imgId = Date.now().toString();
+    
+          const storageRef = ref(storage, `images/${imgId}`);
+          await uploadBytes(storageRef, file);
+          console.log(storageRef)
+    
+          const urlRef = await getDownloadURL(storageRef);
+        
+          return urlRef;
+        } catch (error) {
+          console.error(error);
+         
+     
+        }
+      };
+
+      const uploadPostToServer = async () => {
+ 
+        try {
+          const uploadPhoto = await uploadPhotoToServer();
+          const collectionRef = doc(collection(db, "posts"));
+    
+          await setDoc(collectionRef, {
+            photo,
+            // location: gps,
+            placeName: location,
+            comments: 0,
+            userId,
+            userName : login,
+            timestamp: serverTimestamp(),
+          });
+    
+          Toast.show("Post uploaded", {
+            duration: 5000,
+            position: 50,
+          });
+    
+        
+        } catch (error) {
+          console.log("upload post", error);
+         
+        }
+      };
+      
 
     const reset = () => {
-       
+        setId(null)
         setPhoto('')
         setNaming('')
         setLocation('')
@@ -110,6 +174,7 @@ const CreatePostsScreen =() => {
             setIsValidNaming(true);
           }
     }
+
     const validateLocation = (value) => {
         setLocation(value)
         if(!value){
@@ -117,6 +182,7 @@ const CreatePostsScreen =() => {
         }
         setIsValidLocation(true)
     }
+
     const publish = (value) => {
 
         if(!photo){
@@ -132,15 +198,19 @@ const CreatePostsScreen =() => {
             return
           }
           const data = {
-            id: getData().length + 1,
+            // id: getData().length + 1,
+            id,
             photo, 
             naming,
             location,
             gps,
         }
         //  console.log(data)
-         navigation.navigate('Posts', {data})
+        uploadPostToServer();
+         
          addData(data); // Write data to dataStorage.js
+        //  navigation.navigate('Posts', {data})
+         navigation.navigate('Posts')
          reset()
     }
 
@@ -152,7 +222,9 @@ const CreatePostsScreen =() => {
 
             <View style = {styles.postsCreate}>
             <View style={postStyles.titleWrapp}>
-                <Text style={postStyles.title}>
+                <Text 
+                onPress={() => logger()}
+                style={postStyles.title}>
                 Створити публікацію
                 </Text>
                 <TouchableOpacity
