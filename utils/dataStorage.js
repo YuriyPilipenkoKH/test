@@ -1,6 +1,6 @@
 // dataStorage.js
 
-export const publishedData = [];
+let publishedData = [];
 
 const places = [{
   id: '1',
@@ -44,7 +44,7 @@ export const getData = () => {
 };
 
 export const resetData = () => {
-  console.log('RESET')
+  // console.log('RESET')
   publishedData = [];
 };
 

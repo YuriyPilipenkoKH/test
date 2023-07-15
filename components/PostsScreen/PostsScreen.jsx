@@ -26,13 +26,13 @@ import { useAuth } from "../../redux/auth/authSelectors";
 import { deleteAvatar, logOut } from "../../redux/auth/authOperations";
 import { db } from "../../firebase/config";
 import { collection, getDoc, getDocs, onSnapshot, query, where} from "firebase/firestore";
-import { getData ,publishedData} from "../../utils/dataStorage";
+
 
 
 const PostsScreen =({route}) => {
   const [posts, setPosts] = useState([])
   const navigation = useNavigation();
-  const {userId, login , email, stateChange }= useAuth() 
+  const { login , email}= useAuth() 
 
   const dispatch = useDispatch()
 
@@ -59,7 +59,6 @@ const PostsScreen =({route}) => {
       );
 
   }  
-
 
   useEffect(() => {
     getAllPosts();
