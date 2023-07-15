@@ -23,15 +23,15 @@ import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useDispatch} from "react-redux";
 import { useAuth } from "../../redux/auth/authSelectors";
-import { logOut } from "../../redux/auth/authOperations";
+import { deleteAvatar, logOut } from "../../redux/auth/authOperations";
 import { db } from "../../firebase/config";
-import { collection, getDocs} from "firebase/firestore";
+import { collection, getDocs, onSnapshot, query, where} from "firebase/firestore";
 
 
 const PostsScreen =({route}) => {
   const [posts, setPosts] = useState([])
   const navigation = useNavigation();
-  const {login ,email, stateChange }= useAuth() 
+  const {userId, login , email, stateChange }= useAuth() 
 
   const dispatch = useDispatch()
 
@@ -39,26 +39,24 @@ const PostsScreen =({route}) => {
   //   if(route.params){
   //     setPosts(prev => [...prev, route.params.data])
   //   }
-  // }, [route.params])
+  // }, [route.params])  
 
-  const getAllPosts = async () => {
+  const getPostsByCurrentUser = async () => {
    
-    try {
-      const querySnapshot = await getDocs(collection(db, "posts"));
-      querySnapshot.forEach((doc) => {
-        // console.log(doc)
-        setPosts((prevState) => [...prevState, doc.data()]);
-      });
-      
-    } catch (error) {
-     
-      console.log(error.message);
-    }
+    const dbRef = collection(db, "posts");
+    const searchQuery = query(dbRef, where("userId", "==", userId));
+    onSnapshot(searchQuery, (docSnap) =>
+      setPosts(docSnap.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+    );
+  };
+
+  const deleteAvatarFromUser = async () => {
+    dispatch(deleteAvatar());
   };
 
   useEffect(() => {
-    getAllPosts();
-  }, [stateChange]);
+    getPostsByCurrentUser();
+  }, []);
   
 
     return (
@@ -104,7 +102,7 @@ const PostsScreen =({route}) => {
         <View style={styles.cardDescription}>
             <View style={styles.flexWrapp} >
             <FontAwesome5
-            onPress={() => navigation.navigate("Comments")}
+            onPress={() => navigation.navigate("Comments", {posts})}
             style={styles.iconComment} name="comment" size={24} color="#bdbdbd" />
             <Text style={styles.cardComment}>{item.comments}</Text>
             </View>
