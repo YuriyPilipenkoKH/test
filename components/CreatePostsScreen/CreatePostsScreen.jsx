@@ -173,6 +173,7 @@ const CreatePostsScreen =() => {
         }
         else {
             setIsValidNaming(true);
+            
           }
     }
 
@@ -182,6 +183,7 @@ const CreatePostsScreen =() => {
            setIsValidLocation(false)
         }
         setIsValidLocation(true)
+       
     }
 
     const publish = () => {

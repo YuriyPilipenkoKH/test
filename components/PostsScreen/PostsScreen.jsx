@@ -76,9 +76,7 @@ const PostsScreen =({route}) => {
               Публікації
             </Text>
             <TouchableOpacity 
-                                 onPress={() =>{
-                                  console.log("exit")
-                                  dispatch(logOut())}}
+             onPress={() =>{dispatch(logOut())}}
             style={styles.trayArrowBtn}>
             <MaterialCommunityIcons style = {styles.trayArrow} name="tray-arrow-up" size={24} color="black" />
             </TouchableOpacity>
@@ -91,9 +89,7 @@ const PostsScreen =({route}) => {
                  <Image style={styles.userAvatar} source={User} />
             </View>
             <View style={styles.userWrapp}>
-            <Text 
-            onPress={() => console.log("posts:",posts)}
-            style={styles.userName}>{login}</Text>
+            <Text style={styles.userName}>{login}</Text>
             <Text style={styles.userEmail}>{email}</Text>
 
             </View>
@@ -108,7 +104,7 @@ const PostsScreen =({route}) => {
         <View style={styles.cardDescription}>
             <View style={styles.flexWrapp} >
             <FontAwesome5
-            onPress={() => navigation.navigate("Comments", {posts})}
+            onPress={() => navigation.navigate("Comments", {postId: item.id})}
             style={styles.iconComment} name="comment" size={24} color="#bdbdbd" />
             <Text style={styles.cardComment}>{item.comments}</Text>
             </View>

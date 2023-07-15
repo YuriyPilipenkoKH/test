@@ -24,10 +24,75 @@ import BgImage2 from "../../assets/img/sea.jpg";
 import AvImage1 from "../../assets/img/city.png";
 import AvImage0 from "../../assets/img/userAv.png";
 import { useNavigation } from "@react-navigation/native";
+import { useAuth } from "../../redux/auth/authSelectors";
+import { db } from "../../firebase/config";
+import { useEffect, useState } from "react";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 
 
-const CommentsScreen =() => {
+const CommentsScreen =({route}) => {
+    const {postId} = route.params;
     const navigation = useNavigation();
+    const { login }= useAuth() 
+    const [comment, setComment] = useState('')
+    const [allComments, setAllComments] = useState([])
+    const [isValidComment, setIsValidComment] = useState(false)
+    const [message, setMessage] = useState('')
+
+
+
+    
+    const validateComment = (value) => {
+        setComment(value)
+        if(!value){
+            setIsValidComment(false)
+        }
+        else {
+            setIsValidComment(true);
+            setMessage('')
+          }
+    }
+
+    const createComment = async () => {
+        if(!isValidComment){
+            setMessage('Comment shouldn`t be empty string')
+            return
+          }
+          
+
+        await addDoc(collection(db, `posts/${postId}/comments`), {
+            comment: comment,
+            userName: login
+          });
+        
+          setComment('');
+
+        // db.firestore()
+        //   .collection('posts')  
+        //   .doc(postId)
+        //   .collection('comments')  
+        //   .add({comment, userName: login})
+
+        };
+
+    
+        const getAllComments = async (postId) => {
+            const commentsRef = collection(db, `posts/${postId}/comments`);
+            const querySnapshot = await getDocs(commentsRef);
+            const comments = [];
+          
+            querySnapshot.forEach((doc) => {
+                console.log(doc.data())
+            //   comments.push(doc.data());
+            });
+          
+            setAllComments(comments) ;
+          };    
+
+          useEffect(() => {
+            getAllComments()  
+         }, [comment]);  
+    
 
     return (
         <View style = {[regStyles.background, postStyles.background]}>
@@ -35,7 +100,9 @@ const CommentsScreen =() => {
 
         <View style = {[creStyles.postsCreate, styles.container]}>
         <View style={postStyles.titleWrapp}>
-            <Text style={postStyles.title}>
+            <Text 
+            onPress={() => console.log(allComments)}
+            style={postStyles.title}>
             Коментарі
             </Text>
             <TouchableOpacity 
@@ -79,15 +146,23 @@ const CommentsScreen =() => {
         </View>   
         </ScrollView>
 
+        {message ?  <Text style={{...regStyles.errorMessage, }}>{message}</Text>         
+                 :  null}
+
         <View style = {[styles.commemtBar]} >
            <TextInput
                 style={[styles.commemtInput]}
+                name = 'comment'
+                value={comment}
+                onChangeText={validateComment}
                 placeholder="Коментувати..."
                 placeholderTextColor="#bdbdbd"
                     />
-            <TouchableHighlight style={styles.sendBtn}>
+            <TouchableOpacity
+            onPress={createComment}
+            style={styles.sendBtn}>
             <AntDesign style = {styles.arrowup} name="arrowleft" size={18} />
-           </TouchableHighlight>
+           </TouchableOpacity>
 
            </View>
       
