@@ -287,4 +287,24 @@ else{
      }, []);
 
      //===========================
+     const [posts, setPosts] = useState([])
+
+     const getAllPosts = async () => {
+   
+
+      const q = query(collection(db, "posts"));
+
+      const querySnapshot = await getDocs(collection(db, "posts"));
+      querySnapshot.forEach((doc) => {
      
+        console.log(doc.id, " => ", doc.data());
+
+      });
+
+  }  
+
+
+  useEffect(() => {
+    getAllPosts();
+  }, []);
+  

@@ -25,7 +25,8 @@ import { useDispatch} from "react-redux";
 import { useAuth } from "../../redux/auth/authSelectors";
 import { deleteAvatar, logOut } from "../../redux/auth/authOperations";
 import { db } from "../../firebase/config";
-import { collection, getDocs, onSnapshot, query, where} from "firebase/firestore";
+import { collection, getDoc, getDocs, onSnapshot, query, where} from "firebase/firestore";
+import { getData ,publishedData} from "../../utils/dataStorage";
 
 
 const PostsScreen =({route}) => {
@@ -41,22 +42,28 @@ const PostsScreen =({route}) => {
   //   }
   // }, [route.params])  
 
-  const getPostsByCurrentUser = async () => {
-   
-    const dbRef = collection(db, "posts");
-    const searchQuery = query(dbRef, where("userId", "==", userId));
-    onSnapshot(searchQuery, (docSnap) =>
-      setPosts(docSnap.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-    );
-  };
+  const getAllPosts = async () => {
 
-  const deleteAvatarFromUser = async () => {
-    dispatch(deleteAvatar());
-  };
+      // const querySnapshot = await getDocs(collection(db, "posts"));
+      // querySnapshot.forEach((doc) => {
+     
+      //   console.log(doc.id, " => ", doc.data());
+      //   setPosts((prevState) => [...prevState, { id: doc.id, ...doc.data() }]);
+      //   // setPosts((prevState) => [...prevState,  { id: doc.id, ...doc.data() }]);
+      // });
+
+      const dbRef = collection(db, "posts");
+      const searchQuery = query(dbRef);
+      onSnapshot(searchQuery, (docSnap) =>
+        setPosts(docSnap.docs.map((doc) => ({ ...doc.data() })))
+      );
+
+  }  
+
 
   useEffect(() => {
-    getPostsByCurrentUser();
-  }, []);
+    getAllPosts();
+  }, [route.params]);
   
 
     return (

@@ -211,7 +211,7 @@ const CreatePostsScreen =() => {
          
          addData(data); // Write data to dataStorage.js
         //  navigation.navigate('Posts', {data})
-         navigation.navigate('Posts')
+         navigation.navigate('Posts', {data})
          reset()
     }
 

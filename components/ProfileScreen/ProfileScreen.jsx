@@ -4,10 +4,6 @@ import {
     View,
     FlatList,
     TouchableOpacity,
-    // Platform,
-    // KeyboardAvoidingView,
-    // TouchableWithoutFeedback,
-    // Keyboard,
     ImageBackground,
  
 } from "react-native";
@@ -27,7 +23,7 @@ import { useDispatch } from "react-redux";
 import { logOut } from "../../redux/auth/authOperations";
 import { useAuth } from "../../redux/auth/authSelectors";
 import { db } from "../../firebase/config";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 
 const item = gpsDefault
 
@@ -38,7 +34,7 @@ const ProfileScreen =({ route }) => {
     const [likes, setLikes] = useState(Array(posts.length).fill(0))
     const navigation = useNavigation();
     const dispatch = useDispatch()
-    const {login , stateChange }= useAuth()
+    const {userId, login , stateChange }= useAuth()
 
     const handleLike = (index) => {
         setLikes((prevLikes) => {
@@ -48,24 +44,24 @@ const ProfileScreen =({ route }) => {
         });
       };
 
-      const getAllPosts = async () => {
+
+
+      const getPostsByCurrentUser = async () => {
    
-        try {
-          const querySnapshot = await getDocs(collection(db, "posts"));
-          querySnapshot.forEach((doc) => {
-            // console.log(doc)
-            setPosts((prevState) => [...prevState, doc.data()]);
-          });
-          
-        } catch (error) {
-         
-          console.log(error.message);
-        }
+        const dbRef = collection(db, "posts");
+        const searchQuery = query(dbRef, where("userId", "==", userId));
+        onSnapshot(searchQuery, (docSnap) =>
+          setPosts(docSnap.docs.map((doc) => ({ ...doc.data() })))
+        );
+      };
+    
+      const deleteAvatarFromUser = async () => {
+        dispatch(deleteAvatar());
       };
     
       useEffect(() => {
-        getAllPosts();
-      }, [stateChange]);
+         getPostsByCurrentUser();
+      }, []);
 
 
     
@@ -100,15 +96,15 @@ const ProfileScreen =({ route }) => {
         {posts && <FlatList style ={{marginBottom:120,}}
                 data={posts} keyExtractor={(item, index) => index.toString()}
                 renderItem={({item}) => (
-                <View style={postStyles.card}>
+                <View style={postStyles.card} key={item.id}>
         <ImageBackground style={postStyles.photoFrame} source={{uri: item.photo}}></ImageBackground>
         <Text style={postStyles.cardText}>{item.postName}</Text>
         <View style={[postStyles.cardDescription, styles.cardDescription]}>
             <View style={[postStyles.flexWrapp, styles.wrapp1]} >
             <FontAwesome 
-             onPress={() => navigation.navigate("Comments")}
+             onPress={() => navigation.navigate("Comments", {posts})}
             style={postStyles.iconComment} name="comment" size={24} color="#ff6c00" />
-            <Text style={postStyles.cardComment}>0</Text>
+            <Text style={postStyles.cardComment}>{item.comments}</Text>
             </View>
             <View style={[postStyles.flexWrapp, styles.wrapp1]} >
            <AntDesign
@@ -120,7 +116,7 @@ const ProfileScreen =({ route }) => {
             <Text style={{...postStyles.cardComment,
             // color:  likes[item.id -1] ? '#ff6c00' : '#D6D6D6',
             }}>
-                {item.comments}</Text>
+                0</Text>
             </View>
 
             <View style={[postStyles.flexWrapp, styles.wrapp3]}>

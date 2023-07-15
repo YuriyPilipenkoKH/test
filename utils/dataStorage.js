@@ -1,6 +1,6 @@
 // dataStorage.js
 
-let publishedData = [];
+export const publishedData = [];
 
 const places = [{
   id: '1',
