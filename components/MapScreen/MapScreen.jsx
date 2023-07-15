@@ -1,4 +1,4 @@
-import { View, Text,  Dimensions, StyleSheet } from "react-native";
+import { View,  Dimensions, StyleSheet } from "react-native";
 import MapView, {Marker} from 'react-native-maps'
 
 const MapScreen = ({ route }) => {
@@ -6,9 +6,9 @@ const MapScreen = ({ route }) => {
   let y 
   const { item } = route.params;
 
-  if(item.gps){
-     x = item.gps.latitude
-     y = item.gps.longitude
+  if(item.location){
+     x = item.location[0]
+     y = item.location[1]
   }
   else {
     x = 50.515339

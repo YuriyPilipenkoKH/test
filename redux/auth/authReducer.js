@@ -4,7 +4,7 @@ const initialState = {
   userId: null,
   userName: null,
   userAvatar: null,
-  userEmail: "",
+  userEmail: null,
   stateChange: false,
   isLoading: false,
   error: null,
@@ -27,6 +27,7 @@ export const authSlice = createSlice({
         userName: payload.userName,
         userAvatar: payload.userAvatar,
         userEmail: payload.userEmail,
+        stateChange: true,
         isLoading: false,
         error: null,
       };

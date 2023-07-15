@@ -19,7 +19,7 @@ import User from "../../assets/img/user.png";
 import { MaterialCommunityIcons, AntDesign, Feather, FontAwesome5 } from '@expo/vector-icons'; 
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import { useNavigation } from "@react-navigation/native";
-import { getData} from "../../utils/dataStorage";
+// import { getData} from "../../utils/dataStorage";
 import { useEffect, useState } from "react";
 import { useDispatch} from "react-redux";
 import { useAuth } from "../../redux/auth/authSelectors";
@@ -39,7 +39,6 @@ const PostsScreen =({route}) => {
   //   if(route.params){
   //     setPosts(prev => [...prev, route.params.data])
   //   }
-    
   // }, [route.params])
 
   const getAllPosts = async () => {

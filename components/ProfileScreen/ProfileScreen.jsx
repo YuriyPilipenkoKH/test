@@ -26,18 +26,19 @@ import { getData, getPlaces, gpsDefault } from "../../utils/dataStorage";
 import { useDispatch } from "react-redux";
 import { logOut } from "../../redux/auth/authOperations";
 import { useAuth } from "../../redux/auth/authSelectors";
+import { db } from "../../firebase/config";
+import { collection, getDocs } from "firebase/firestore";
 
 const item = gpsDefault
 
 
 const ProfileScreen =({ route }) => {
-    const {posts: renamedPosts} = route.params;
     
     const [posts, setPosts] = useState( getData())
     const [likes, setLikes] = useState(Array(posts.length).fill(0))
     const navigation = useNavigation();
     const dispatch = useDispatch()
-    const {login }= useAuth()
+    const {login , stateChange }= useAuth()
 
     const handleLike = (index) => {
         setLikes((prevLikes) => {
@@ -46,6 +47,25 @@ const ProfileScreen =({ route }) => {
           return newLikes;
         });
       };
+
+      const getAllPosts = async () => {
+   
+        try {
+          const querySnapshot = await getDocs(collection(db, "posts"));
+          querySnapshot.forEach((doc) => {
+            // console.log(doc)
+            setPosts((prevState) => [...prevState, doc.data()]);
+          });
+          
+        } catch (error) {
+         
+          console.log(error.message);
+        }
+      };
+    
+      useEffect(() => {
+        getAllPosts();
+      }, [stateChange]);
 
 
     
@@ -82,7 +102,7 @@ const ProfileScreen =({ route }) => {
                 renderItem={({item}) => (
                 <View style={postStyles.card}>
         <ImageBackground style={postStyles.photoFrame} source={{uri: item.photo}}></ImageBackground>
-        <Text style={postStyles.cardText}>{item.naming}</Text>
+        <Text style={postStyles.cardText}>{item.postName}</Text>
         <View style={[postStyles.cardDescription, styles.cardDescription]}>
             <View style={[postStyles.flexWrapp, styles.wrapp1]} >
             <FontAwesome 
@@ -92,19 +112,19 @@ const ProfileScreen =({ route }) => {
             </View>
             <View style={[postStyles.flexWrapp, styles.wrapp1]} >
            <AntDesign
-            onPress={(value) =>{
+            onPress={() =>{
                 //  console.log(item.id)
-                 handleLike(item.id -1)
+                //  handleLike(item.id -1)
                 }}
             name="like2" size={24} color="#ff6c00" />
             <Text style={{...postStyles.cardComment,
-            color:  likes[item.id -1] ? '#ff6c00' : '#D6D6D6',
+            // color:  likes[item.id -1] ? '#ff6c00' : '#D6D6D6',
             }}>
-                {likes[Number(item.id -1)]}</Text>
+                {item.comments}</Text>
             </View>
 
             <View style={[postStyles.flexWrapp, styles.wrapp3]}>
-            <Text style={postStyles.cardLocation}>{item.location}</Text>
+            <Text style={postStyles.cardLocation}>{item.placeName}</Text>
             <Feather
             onPress={() => navigation.navigate("Map", {item})}
             name="map-pin" size={24} color="#bdbdbd" />

@@ -31,6 +31,7 @@ import { db, storage } from "../../firebase/config";
 import { addDoc,  collection, doc, serverTimestamp, setDoc, } from "firebase/firestore";
 import { useAuth } from "../../redux/auth/authSelectors";
 import Toast from "react-native-root-toast";
+import { gpsDefault } from "../../utils/dataStorage";
 
 
 const CreatePostsScreen =() => {
@@ -39,7 +40,7 @@ const CreatePostsScreen =() => {
     const [photo, setPhoto] = useState('')
     const [naming, setNaming] = useState('')
     const [location, setLocation] = useState('')
-    const [gps, setGps] = useState(null)
+    const [gps, setGps] = useState(gpsDefault)
     const [isValidNaming, setIsValidNaming] = useState(false)
     const [isValidLocation, setIsValidLocation] = useState(false)
     const [message, setMessage] = useState('')

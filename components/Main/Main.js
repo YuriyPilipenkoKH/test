@@ -6,7 +6,7 @@ import Home from '../Home/Home';
 import RegistrationScreen from '../RegistrationScreen/RegistrationScreen';
 
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import { authStateChangeUser } from '../../redux/auth/authOperations';
 import { useAuth } from '../../redux/auth/authSelectors';
 
