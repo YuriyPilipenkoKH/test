@@ -51,7 +51,7 @@ const ProfileScreen =({ route }) => {
         const dbRef = collection(db, "posts");
         const searchQuery = query(dbRef, where("userId", "==", userId));
         onSnapshot(searchQuery, (docSnap) =>
-          setPosts(docSnap.docs.map((doc) => ({ ...doc.data() })))
+          setPosts(docSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
         );
       };
     

@@ -55,7 +55,7 @@ const PostsScreen =({route}) => {
       const dbRef = collection(db, "posts");
       const searchQuery = query(dbRef);
       onSnapshot(searchQuery, (docSnap) =>
-        setPosts(docSnap.docs.map((doc) => ({ ...doc.data() })))
+        setPosts(docSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
       );
 
   }  
@@ -72,7 +72,7 @@ const PostsScreen =({route}) => {
         <View style= {[styles.postsScreen ]}>
         <View style={styles.titleWrapp}>
             <Text style={styles.title}
-            onPress={() => posts}>
+            onPress={() => console.log(posts)}>
               Публікації
             </Text>
             <TouchableOpacity 
