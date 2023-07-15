@@ -51,6 +51,7 @@ export const register =
       };
 
       dispatch(updateUserProfile(userUpdateProfile));
+      
     } catch (error) {
       console.log("error.message", error.message);
       dispatch(fetchingError(error.message));

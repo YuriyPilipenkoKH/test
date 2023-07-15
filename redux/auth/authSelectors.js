@@ -2,7 +2,6 @@ import { useSelector } from 'react-redux';
 
 export const selectAuth = (state) => state.auth;
 
-
 export const selectUserId = (state) => state.auth.userId;
 export const selectUserName = (state) => state.auth.userName;
 export const selectEmail = (state) => state.auth.userEmail;
@@ -16,12 +15,14 @@ export const useAuth = () => {
 
     return {
 
+      auth: useSelector(selectAuth),
       userId: useSelector(selectUserId),
       login: useSelector(selectUserName),
       email: useSelector(selectEmail),
       avatar: useSelector(selectAvatar),
       isLoading: useSelector(selectIsLoading),
       stateChange: useSelector(selectStateChange),
+      error: useSelector(selectError),
       
     };
   };

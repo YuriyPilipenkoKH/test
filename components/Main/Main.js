@@ -14,12 +14,8 @@ import { useAuth } from '../../redux/auth/authSelectors';
 const Stack = createNativeStackNavigator();
 
 const Main = () => {
-  // const { stateChange } = useAuth()
 
-    // const state = useSelector((state) => state)
-    const { userId } = useAuth();
-
-    // console.log('state:', state)
+    const { userId,stateChange } = useAuth();
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -28,8 +24,7 @@ const Main = () => {
 
 
   if(!userId){
-    return (
-    
+    return (   
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Login">
         <Stack.Screen   name="Login" options={{headerShown: false,}} component={LoginScreen}/>
@@ -37,18 +32,15 @@ const Main = () => {
         
             </Stack.Navigator>
       </NavigationContainer>
-  
     )
   }
   else {
     return (
-    
       <NavigationContainer>
         <Stack.Navigator >
            <Stack.Screen   name="Home" options={{headerShown: false,}} component={Home}/>
        </Stack.Navigator>
       </NavigationContainer>
-  
     )
   }
 }

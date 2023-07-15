@@ -156,6 +156,7 @@ const RegistrationScreen =() => {
         resetData()
 
         setLoad(true);
+
         try {
           // const avatarRef = await uploadAvatarToServer();
           dispatch(register({ ...userData,
@@ -184,7 +185,7 @@ const RegistrationScreen =() => {
             <AntDesign  name="pluscircleo" size={25} style = {[styles.plus]} />
         </TouchableOpacity>
          </ImageBackground>
-    {/* <Text style={styles.title}> Реєстрація </Text> */}
+
     <Text style={{...styles.title, color: time ? 'crimson' : '#212121' }}>
    {message && time ? 'Wasted' : 'Реєстрація'}
     </Text>

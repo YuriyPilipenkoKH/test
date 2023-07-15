@@ -121,7 +121,6 @@ const CreatePostsScreen =() => {
         } catch (error) {
           console.error(error);
          
-     
         }
       };
 
@@ -133,7 +132,8 @@ const CreatePostsScreen =() => {
     
           await setDoc(collectionRef, {
             photo,
-            // location: gps,
+            location:[ gps.latitude, gps.longitude],
+            postName: naming,
             placeName: location,
             comments: 0,
             userId,
@@ -183,7 +183,7 @@ const CreatePostsScreen =() => {
         setIsValidLocation(true)
     }
 
-    const publish = (value) => {
+    const publish = () => {
 
         if(!photo){
             setMessage('Take some picture')

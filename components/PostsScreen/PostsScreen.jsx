@@ -31,8 +31,8 @@ import { collection, getDocs} from "firebase/firestore";
 const PostsScreen =({route}) => {
   const [posts, setPosts] = useState([])
   const navigation = useNavigation();
-  const {login }= useAuth() 
-  const {email} = useAuth() 
+  const {login ,email, stateChange }= useAuth() 
+
   const dispatch = useDispatch()
 
   // useEffect(() => {
@@ -47,6 +47,7 @@ const PostsScreen =({route}) => {
     try {
       const querySnapshot = await getDocs(collection(db, "posts"));
       querySnapshot.forEach((doc) => {
+        // console.log(doc)
         setPosts((prevState) => [...prevState, doc.data()]);
       });
       
@@ -58,7 +59,7 @@ const PostsScreen =({route}) => {
 
   useEffect(() => {
     getAllPosts();
-  }, []);
+  }, [stateChange]);
   
 
     return (
@@ -68,7 +69,7 @@ const PostsScreen =({route}) => {
         <View style= {[styles.postsScreen ]}>
         <View style={styles.titleWrapp}>
             <Text style={styles.title}
-            onPress={() => getData()}>
+            onPress={() => posts}>
               Публікації
             </Text>
             <TouchableOpacity 
@@ -100,20 +101,20 @@ const PostsScreen =({route}) => {
                 renderItem={({item}) => (
         <View style={styles.card} key={item.id}>
         <Image source={{uri: item.photo}}  style={styles.photoFrame} />
-        <Text style={styles.cardText}>{item.naming}</Text>
+        <Text style={styles.cardText}>{item.postName}</Text>
         <View style={styles.cardDescription}>
             <View style={styles.flexWrapp} >
             <FontAwesome5
             onPress={() => navigation.navigate("Comments")}
             style={styles.iconComment} name="comment" size={24} color="#bdbdbd" />
-            <Text style={styles.cardComment}>0</Text>
+            <Text style={styles.cardComment}>{item.comments}</Text>
             </View>
 
             <View style={styles.flexWrapp}>
             <Feather
             onPress={() => navigation.navigate("Map",{item})}
             name="map-pin" size={24} color="#bdbdbd" />
-            <Text style={styles.cardLocation}>{item.location}</Text>
+            <Text style={styles.cardLocation}>{item.placeName}</Text>
             </View>
         </View>
         </View> 
