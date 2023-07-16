@@ -31,8 +31,7 @@ const MapScreen = ({ route }) => {
       }}
       >
         <Marker 
-      // onPress={() => console.log('x:',x, 'y:',y)}
-      onPress={() => console.log(item)}
+
         coordinate={{ longitude: y, latitude: x,}}
         title="travel photo"
         />
@@ -41,7 +40,6 @@ const MapScreen = ({ route }) => {
   
   );
 };
-
 
 
 const styles = StyleSheet.create({

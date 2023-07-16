@@ -34,7 +34,7 @@ const ProfileScreen =({ route }) => {
     const [likes, setLikes] = useState(Array(posts.length).fill(0))
     const navigation = useNavigation();
     const dispatch = useDispatch()
-    const {userId, login , stateChange }= useAuth()
+    const {userId, login  }= useAuth()
 
     const handleLike = (index) => {
         setLikes((prevLikes) => {
@@ -43,7 +43,6 @@ const ProfileScreen =({ route }) => {
           return newLikes;
         });
       };
-
 
 
       const getPostsByCurrentUser = async () => {
@@ -108,10 +107,6 @@ const ProfileScreen =({ route }) => {
             </View>
             <View style={[postStyles.flexWrapp, styles.wrapp1]} >
            <AntDesign
-            onPress={() =>{
-                //  console.log(item.id)
-                //  handleLike(item.id -1)
-                }}
             name="like2" size={24} color="#ff6c00" />
             <Text style={{...postStyles.cardComment,
             // color:  likes[item.id -1] ? '#ff6c00' : '#D6D6D6',
@@ -156,7 +151,7 @@ const ProfileScreen =({ route }) => {
   
          style = {regStyles.homeIndicator} > 
          <Text onPress={() =>{
-            //  console.log('posts:', posts)
+          
              console.log('likes:', likes)
              }}>get</Text>
          </View>
@@ -182,7 +177,6 @@ export const styles = StyleSheet.create({
 
         backgroundColor: '#f5f5f5',
        marginTop: 140,
-    //    marginBottom: 80,
         paddingBottom: 8,
         alignItems: 'center',
         justifyContent: 'center',
@@ -229,7 +223,7 @@ export const styles = StyleSheet.create({
     },
 
     footer: {
-        // marginTop: 40,
+    
       position: 'absolute',
       bottom: 0  
     },

@@ -20,15 +20,13 @@ import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons'; 
 import { useNavigation } from "@react-navigation/native";
 import { Camera } from "expo-camera";
-// import * as MediaLibrary from "expo-media-library";
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
-// import BgImage1 from "../../assets/img/sea.jpg";
 import BgImage2 from "../../assets/img/react-js-native.jpg";
-import {addData , getData} from "../../utils/dataStorage";
+import {addData } from "../../utils/dataStorage";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../../firebase/config";
-import { addDoc,  collection, doc, serverTimestamp, setDoc, } from "firebase/firestore";
+import {  collection, doc, serverTimestamp, setDoc, } from "firebase/firestore";
 import { useAuth } from "../../redux/auth/authSelectors";
 import Toast from "react-native-root-toast";
 import { gpsDefault } from "../../utils/dataStorage";
@@ -82,7 +80,6 @@ const CreatePostsScreen =() => {
             let { uri } = await snap.takePictureAsync()
             // await MediaLibrary.createAssetAsync(uri);
             setPhoto(uri) 
-            // console.log(uri)
 
             let locationUser =
             await Location.requestForegroundPermissionsAsync();
@@ -99,10 +96,7 @@ const CreatePostsScreen =() => {
         }
 
     }
-    const logger = () => {
-        console.log('photo', photo, 'naming', naming, 'location',location, 'gps',gps, 'userId', userId, 'userName',login,'timestamp',serverTimestamp())
-       
-    }
+
 
 
     const uploadPhotoToServer = async () => {
@@ -114,7 +108,7 @@ const CreatePostsScreen =() => {
     
           const storageRef = ref(storage, `images/${imgId}`);
           await uploadBytes(storageRef, file);
-          console.log(storageRef)
+         
     
           const urlRef = await getDownloadURL(storageRef);
         
@@ -201,7 +195,7 @@ const CreatePostsScreen =() => {
             return
           }
           const data = {
-            // id: getData().length + 1,
+   
             id,
             photo, 
             naming,
@@ -226,7 +220,7 @@ const CreatePostsScreen =() => {
             <View style = {styles.postsCreate}>
             <View style={postStyles.titleWrapp}>
                 <Text 
-                onPress={() => logger()}
+               
                 style={postStyles.title}>
                 Створити публікацію
                 </Text>

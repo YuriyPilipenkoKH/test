@@ -6,12 +6,7 @@ import {
     View,
     FlatList,
     TouchableOpacity,
-    // Platform,
-    // KeyboardAvoidingView,
-    // TouchableWithoutFeedback,
-    // Keyboard,
-    // ImageBackground,
-    // ScrollView,
+
     
 } from "react-native";
 import { StatusBar } from 'expo-status-bar';
@@ -25,7 +20,7 @@ import { useDispatch} from "react-redux";
 import { useAuth } from "../../redux/auth/authSelectors";
 import { deleteAvatar, logOut } from "../../redux/auth/authOperations";
 import { db } from "../../firebase/config";
-import { collection, getDoc, getDocs, onSnapshot, query, where} from "firebase/firestore";
+import { collection,  onSnapshot, query} from "firebase/firestore";
 
 
 

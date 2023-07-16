@@ -15,7 +15,7 @@ const Stack = createNativeStackNavigator();
 
 const Main = () => {
 
-    const { userId,stateChange } = useAuth();
+    const { userId } = useAuth();
     const dispatch = useDispatch()
 
     useEffect(() => {
