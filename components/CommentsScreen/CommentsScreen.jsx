@@ -28,6 +28,7 @@ import { useAuth } from "../../redux/auth/authSelectors";
 import { db } from "../../firebase/config";
 import { useEffect, useState } from "react";
 import { addDoc, collection, getDocs } from "firebase/firestore";
+import { FlatList } from "react-native-gesture-handler";
 
 
 const CommentsScreen =({route}) => {
@@ -77,21 +78,28 @@ const CommentsScreen =({route}) => {
 
     
         const getAllComments = async (postId) => {
+
             const commentsRef = collection(db, `posts/${postId}/comments`);
             const querySnapshot = await getDocs(commentsRef);
-            const comments = [];
-          
+            const comments = []  
+
             querySnapshot.forEach((doc) => {
-                console.log(doc.data())
-            //   comments.push(doc.data());
+                comments.push(doc.data());
             });
-          
-            setAllComments(comments) ;
+            setTimeout(() => {
+                setAllComments(comments);
+              }, 0);
           };    
 
-          useEffect(() => {
-            getAllComments()  
-         }, [comment]);  
+          useEffect(() => {    
+            const intervalId = setInterval(() => {
+                getAllComments(postId);
+              }, 5000);
+            
+              return () => {
+                clearInterval(intervalId);
+              };    
+         }, [postId]);  
     
 
     return (
@@ -112,39 +120,25 @@ const CommentsScreen =({route}) => {
             </TouchableOpacity>
         </View>
 
-        <ScrollView  style={[ styles.main]}>
+        <View  style={[ styles.main]}>
             <View style = {[styles.photoWrapp]}>
             <ImageBackground style = {postStyles.photoFrame} source={BgImage2}>     
             </ImageBackground>    
             </View>
 
-        <View style = {[styles.commentsWrapp]}>  
-            <View style = {styles.comment}>
+            {allComments && <FlatList style ={{marginBottom:20, ...styles.commentsWrapp }}
+                data={allComments} keyExtractor={(item, index) => index.toString()}
+                renderItem={({item}) => (
+            <View  style = {styles.comment}>
             <ImageBackground style = {styles.avatar} source={AvImage1} size = {28}></ImageBackground>   
             <View style = {styles.card}>
-                <Text style = {styles.commentText}>Really love your most recent photo. I’ve been trying to capture the same thing for a few months and would love some tips!</Text>
+                <Text style = {styles.commentText}>{item.comment}</Text>
                 <Text style = {styles.createdAt}> 09 червня, 2020 | 08:40</Text>
             </View> 
-            </View>
-
-            <View style = {styles.comment}>
-            <ImageBackground style = {styles.avatar} source={AvImage0} size = {28}></ImageBackground>   
-            <View style = {styles.card}>
-                <Text style = {styles.commentText}>A fast 50mm like f1.8 would help with the bokeh. I’ve been using primes as they tend to get a bit sharper images.</Text>
-                <Text style = {styles.createdAt}> 09 червня, 2020 | 09:14</Text>
             </View> 
-            </View>
 
-            <View style = {styles.comment}>
-            <ImageBackground style = {styles.avatar} source={AvImage1} size = {28}></ImageBackground>   
-            <View style = {styles.card}>
-                <Text style = {styles.commentText}>Thank you! That was very helpful!</Text>
-                <Text style = {styles.createdAt}>09 червня, 2020 | 09:20</Text>
-            </View> 
-            </View>
-
-        </View>   
-        </ScrollView>
+                  )} />  }
+        </View>
 
         {message ?  <Text style={{...regStyles.errorMessage, }}>{message}</Text>         
                  :  null}
@@ -219,6 +213,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         gap: 8,
         backgroundColor: '#f7f7f7',
+        marginBottom:20,
    
         borderTopLeftRadius: 0,
         borderTopRightRadius: 6,
