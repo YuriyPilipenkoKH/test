@@ -99,7 +99,10 @@ const PostsScreen =({route}) => {
         <View style={styles.cardDescription}>
             <View style={styles.flexWrapp} >
             <FontAwesome5
-            onPress={() => navigation.navigate("Comments", {postId: item.id, photo: item.photo})}
+            onPress={() => navigation.navigate("Comments", {
+              postId: item.id,
+               photo: item.photo,
+              })}
             style={styles.iconComment} name="comment" size={24} color="#bdbdbd" />
             <Text style={styles.cardComment}>{item.comments}</Text>
             </View>

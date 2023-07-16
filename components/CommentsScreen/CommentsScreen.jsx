@@ -17,8 +17,9 @@ import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../../redux/auth/authSelectors";
 import { db } from "../../firebase/config";
 import { useEffect, useState } from "react";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs, serverTimestamp } from "firebase/firestore";
 import { FlatList } from "react-native-gesture-handler";
+import moment from "moment";
 
 
 const CommentsScreen =({route}) => {
@@ -54,7 +55,8 @@ const CommentsScreen =({route}) => {
 
         await addDoc(collection(db, `posts/${postId}/comments`), {
             comment: comment,
-            userName: login
+            userName: login,
+            timestamp: serverTimestamp()
           });
         
           setComment('');
@@ -124,7 +126,10 @@ const CommentsScreen =({route}) => {
             <ImageBackground style = {styles.avatar} source={AvImage0} size = {28}></ImageBackground>   
             <View style = {styles.card}>
                 <Text style = {styles.commentText}>{item.comment}</Text>
-                <Text style = {styles.createdAt}> 09 червня, 2020 | 08:40</Text>
+                <Text style = {styles.createdAt}> {moment(item.timestamp.toDate()).format('MMMM/DD/YYYY hh:mm a')}</Text>
+
+
+                {/* moment(item.timestamp.toDate().toLocaleString()).format('MM/DD/YYYY hh:mm a') */}
             </View> 
             </View> 
 
