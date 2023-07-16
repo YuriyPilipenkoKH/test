@@ -32,7 +32,8 @@ import { FlatList } from "react-native-gesture-handler";
 
 
 const CommentsScreen =({route}) => {
-    const {postId} = route.params;
+    const {postId, photo} = route.params;
+
     const navigation = useNavigation();
     const { login }= useAuth() 
     const [comment, setComment] = useState('')
@@ -122,7 +123,7 @@ const CommentsScreen =({route}) => {
 
         <View  style={[ styles.main]}>
             <View style = {[styles.photoWrapp]}>
-            <ImageBackground style = {postStyles.photoFrame} source={BgImage2}>     
+            <ImageBackground style = {postStyles.photoFrame} source={{uri: photo}}>     
             </ImageBackground>    
             </View>
 
@@ -130,7 +131,7 @@ const CommentsScreen =({route}) => {
                 data={allComments} keyExtractor={(item, index) => index.toString()}
                 renderItem={({item}) => (
             <View  style = {styles.comment}>
-            <ImageBackground style = {styles.avatar} source={AvImage1} size = {28}></ImageBackground>   
+            <ImageBackground style = {styles.avatar} source={AvImage0} size = {28}></ImageBackground>   
             <View style = {styles.card}>
                 <Text style = {styles.commentText}>{item.comment}</Text>
                 <Text style = {styles.createdAt}> 09 червня, 2020 | 08:40</Text>

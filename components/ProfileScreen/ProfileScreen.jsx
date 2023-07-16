@@ -102,7 +102,7 @@ const ProfileScreen =({ route }) => {
         <View style={[postStyles.cardDescription, styles.cardDescription]}>
             <View style={[postStyles.flexWrapp, styles.wrapp1]} >
             <FontAwesome 
-             onPress={() => navigation.navigate("Comments", {posts})}
+             onPress={() => navigation.navigate("Comments", {postId: item.id, photo: item.photo})}
             style={postStyles.iconComment} name="comment" size={24} color="#ff6c00" />
             <Text style={postStyles.cardComment}>{item.comments}</Text>
             </View>
