@@ -4,18 +4,13 @@ import {
     View,
     FlatList,
     TouchableOpacity,
-    ImageBackground,
- 
-} from "react-native";
+    ImageBackground,} from "react-native";
 import BackgroundImage from "../../assets/img/photo-bg.jpg";
 import { StatusBar } from 'expo-status-bar';
-
-
 import User from "../../assets/img/user.png";
 import {MaterialCommunityIcons,  AntDesign, Feather,  FontAwesome } from '@expo/vector-icons'; 
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import { styles as postStyles } from "../PostsScreen/PostsScreen";
-
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { getData, getPlaces, gpsDefault } from "../../utils/dataStorage";
@@ -24,6 +19,7 @@ import { logOut } from "../../redux/auth/authOperations";
 import { useAuth } from "../../redux/auth/authSelectors";
 import { db } from "../../firebase/config";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
+import Loader from "../Loader/Loader";
 
 const item = gpsDefault
 
@@ -32,6 +28,7 @@ const ProfileScreen =({ route }) => {
     
     const [posts, setPosts] = useState( getData())
     const [likes, setLikes] = useState(Array(posts.length).fill(0))
+    const [loading, setLoading] = useState(false);
     const navigation = useNavigation();
     const dispatch = useDispatch()
     const {userId, login  }= useAuth()
@@ -92,7 +89,8 @@ const ProfileScreen =({ route }) => {
                 style={regStyles.title}>{login}</Text>
 
 
-        {posts && <FlatList style ={{marginBottom:120,}}
+        {posts &&
+         <FlatList style ={{marginBottom:120,}}
                 data={posts} keyExtractor={(item, index) => index.toString()}
                 renderItem={({item}) => (
                 <View style={postStyles.card} key={item.id}>
@@ -123,13 +121,13 @@ const ProfileScreen =({ route }) => {
         </View>
         </View> 
 
-                  )} />  }
+            )} />  }
             
-                </View>
-                </ImageBackground>
-                </View>
+        </View>
+        </ImageBackground>
+        </View>
 
-
+        {loading &&  <Loader/>}
     <View style = {[postStyles.footer, styles.footer]}>
 
         <TouchableOpacity

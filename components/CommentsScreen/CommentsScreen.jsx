@@ -11,7 +11,6 @@ import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import { styles as postStyles } from "../PostsScreen/PostsScreen";
 import { styles as creStyles} from "../CreatePostsScreen/CreatePostsScreen";
 import { AntDesign } from '@expo/vector-icons'; 
-// import AvImage1 from "../../assets/img/city.png";
 import AvImage0 from "../../assets/img/userAv.png";
 import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../../redux/auth/authSelectors";
@@ -20,6 +19,7 @@ import { useEffect, useState } from "react";
 import { addDoc, collection, getDocs, serverTimestamp } from "firebase/firestore";
 import { FlatList } from "react-native-gesture-handler";
 import moment from "moment";
+
 
 
 const CommentsScreen =({route}) => {
@@ -31,7 +31,7 @@ const CommentsScreen =({route}) => {
     const [allComments, setAllComments] = useState([])
     const [isValidComment, setIsValidComment] = useState(false)
     const [message, setMessage] = useState('')
-
+    const [loading, setLoading] = useState(false);
 
 
     
@@ -48,7 +48,7 @@ const CommentsScreen =({route}) => {
 
     const createComment = async () => {
         if(!isValidComment){
-            setMessage('Comment shouldn`t be empty string')
+            setMessage('Comment shouldn`t be blank')
             return
           }
           
@@ -72,16 +72,27 @@ const CommentsScreen =({route}) => {
     
         const getAllComments = async (postId) => {
 
-            const commentsRef = collection(db, `posts/${postId}/comments`);
-            const querySnapshot = await getDocs(commentsRef);
-            const comments = []  
+            setLoading(true);
 
-            querySnapshot.forEach((doc) => {
-                comments.push(doc.data());
-            });
-            setTimeout(() => {
-                setAllComments(comments);
-              }, 0);
+            try {
+                const commentsRef = collection(db, `posts/${postId}/comments`);
+                const querySnapshot = await getDocs(commentsRef);
+                const comments = []  
+    
+                querySnapshot.forEach((doc) => {
+                    comments.push(doc.data());
+                });
+                setTimeout(() => {
+                    setAllComments(comments);
+                  }, 0);
+          
+              setLoading(false);
+            } catch (error) {
+              console.log('Error fetching comments:', error);
+              setLoading(false);
+            }
+
+
           };    
 
           useEffect(() => {    
@@ -135,7 +146,7 @@ const CommentsScreen =({route}) => {
 
                   )} />  }
         </View>
-
+              
         {message ?  <Text style={{...regStyles.errorMessage, }}>{message}</Text>         
                  :  null}
 

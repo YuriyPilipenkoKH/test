@@ -4,6 +4,7 @@ import store from "./redux/store";
 import Main from "./components/Main/Main";
 
 
+
 export default function App() {
 
   const [fontsLoaded] = useFonts({

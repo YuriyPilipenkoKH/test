@@ -35,9 +35,13 @@ const Loader = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    transform: [{ translateX: -60 }],
+    // flex: 1,
+    // justifyContent: 'center',
+    // alignItems: 'center',
     backgroundColor:  '#8880',
   },
   spinner: {
