@@ -21,7 +21,10 @@ import { resetData } from "../../utils/dataStorage";
 import { useDispatch } from "react-redux";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { register } from "../../redux/auth/authOperations";
+import { storage } from "../../firebase/config";
+// import avatar from 'C:/GitHub/Home-Work/test/assets/img/Avatar/av-01.jpg'
 
+import { firebase } from "@react-native-firebase/storage";
 
 const RegistrationScreen =() => {
   const [load, setLoad] = useState(false);
@@ -35,6 +38,7 @@ const RegistrationScreen =() => {
     const [isValidPassword, setIsValidPassword] = useState(false)
     const [message, setMessage] = useState('')
     const [keyboardVisible, setKeyboardVisible] = useState(false);
+    const [error, setError] = useState(null);
 
     const [time, setTime] = useState(null)
     const navigation = useNavigation();
@@ -116,7 +120,6 @@ const RegistrationScreen =() => {
         await uploadBytes(storageRef, file);
   
         const avatarRef = await getDownloadURL(storageRef);
-        setLoad(false);
         return avatarRef;
       } catch (error) {
         console.log("Upload avatar to server error", error.message);
@@ -138,13 +141,18 @@ const RegistrationScreen =() => {
         setMessage('Not valid password')
         return
       }
-     
-        const userData = {
-            login, 
-            email, 
-            password,
-        }
-        // console.log(userData)
+      const userData = {
+        login, 
+        email, 
+        password,
+       
+    }
+      
+      setLoad(true);
+
+      try {
+        const avatarRef = await uploadAvatarToServer();
+
         setLogin('')
         setEmail('')
         setPassword('')
@@ -155,20 +163,17 @@ const RegistrationScreen =() => {
         setIsValidPassword(false)
         resetData()
 
-        setLoad(true);
+        dispatch(register({ ...userData,
+           avatar: avatarRef ,
+          }));     
 
-        try {
-          // const avatarRef = await uploadAvatarToServer();
-          dispatch(register({ ...userData,
-            //  avatar: avatarRef 
-            }));     
-          setLoad(false);
-        }
-         catch (error) {
-          console.log("Upload avatar to server error", error.message);
-          setLoad(false);
-          // setError(`Upload avatar to server error ${error.message}`);
-        }
+        setLoad(false);
+      } catch (error) {
+        console.log("Upload avatar to server error", error.message);
+        setLoad(false);
+        setError(`Upload avatar to server error ${error.message}`);
+      }
+
     }
 
     return (

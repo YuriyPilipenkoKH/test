@@ -43,7 +43,7 @@ const CreatePostsScreen =() => {
     const [isValidLocation, setIsValidLocation] = useState(false)
     const [message, setMessage] = useState('')
     const [keyboardVisible, setKeyboardVisible] = useState(false);
-   
+    const [load, setLoad] = useState(false);
     const navigation = useNavigation();
     const {userId, login} = useAuth()
 
@@ -100,7 +100,7 @@ const CreatePostsScreen =() => {
 
 
     const uploadPhotoToServer = async () => {
-      
+      setLoad(true);
         try {
           const response = await fetch(photo);
           const file = await response.blob();
@@ -111,23 +111,23 @@ const CreatePostsScreen =() => {
          
     
           const urlRef = await getDownloadURL(storageRef);
-        
+          setLoad(false);
           return urlRef;
         } catch (error) {
           console.error(error);
-         
+          setLoad(false);
         }
       };
 
       const uploadPostToServer = async () => {
- 
+        setLoad(true);
         try {
-          const uploadPhoto = await uploadPhotoToServer();
+          const uploadPhoto = await uploadPhotoToServer();//Add photo so storage/images
           const collectionRef = doc(collection(db, "posts"));
     
           await setDoc(collectionRef, {
             photo,
-            location:[ gps.latitude, gps.longitude],
+            location:[ gps.latitude || 32, gps.longitude || 50],
             postName: naming,
             placeName: location,
             comments: 0,
@@ -140,11 +140,12 @@ const CreatePostsScreen =() => {
             duration: 5000,
             position: 50,
           });
+          setLoad(false);
     
         
         } catch (error) {
           console.log("upload post", error);
-         
+          setLoad(false);
         }
       };
       
@@ -248,7 +249,7 @@ const CreatePostsScreen =() => {
                     </ImageBackground>
                 </Camera>
                 <Text
-                // onPress={() => getData()}
+                onPress={() => console.log(photo)}
                 style={styles.text}>{!photo ? 'Завантажте фото' : 'Редагувати фото'}</Text>
                 </View>
                 <KeyboardAvoidingView
