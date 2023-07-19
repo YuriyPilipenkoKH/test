@@ -5,6 +5,7 @@ import {
     TextInput,
     TouchableOpacity,
     ImageBackground,
+    Keyboard,
 } from "react-native";
 import { StatusBar } from 'expo-status-bar';
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
@@ -64,7 +65,7 @@ const CommentsScreen =({route}) => {
             setMessage('Comment shouldn`t be blank')
             return
           }
-          
+          validateComment()
 
         await addDoc(collection(db, `posts/${postId}/comments`), {
             comment: comment,
@@ -73,6 +74,7 @@ const CommentsScreen =({route}) => {
           });
         
           setComment('');
+          Keyboard.dismiss()
 
         // db.firestore()
         //   .collection('posts')  
@@ -143,17 +145,17 @@ const CommentsScreen =({route}) => {
             </ImageBackground>    
             </View>
 
-            {allComments && <FlatList style ={{marginBottom:20, ...styles.commentsWrapp }}
+            {allComments && 
+            <FlatList style ={{marginBottom:20, ...styles.commentsWrapp }}
                 data={allComments} keyExtractor={(item, index) => index.toString()}
                 renderItem={({item}) => (
+
             <View  style = {styles.comment}>
             <ImageBackground style = {styles.avatar} source={AvImage0} size = {28}></ImageBackground>   
-            <View style = {styles.card}>
-                <Text style = {styles.commentText}>{item.comment}</Text>
+            <View style = {[styles.card,  { backgroundColor: mode.commentBg}]}>
+                <Text style = {[styles.commentText, {color: mode.textColor }]}>{item.comment}</Text>
                 <Text style = {styles.createdAt}> {moment(item.timestamp.toDate()).format('MMMM/DD/YYYY hh:mm a')}</Text>
 
-
-                {/* moment(item.timestamp.toDate().toLocaleString()).format('MM/DD/YYYY hh:mm a') */}
             </View> 
             </View> 
 
@@ -165,7 +167,7 @@ const CommentsScreen =({route}) => {
 
         <View style = {[styles.commemtBar]} >
            <TextInput
-                style={[styles.commemtInput]}
+                style={[styles.commemtInput,  { backgroundColor: mode.commentBg,color: mode.textColor}]}
                 name = 'comment'
                 value={comment}
                 onChangeText={validateComment}
@@ -276,8 +278,6 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         borderWidth: 1,
         borderColor: "#bdbdbd",
-
-
 
     },
     sendBtn: {

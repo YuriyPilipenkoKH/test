@@ -52,9 +52,13 @@ const CreatePostsScreen =() => {
 
     const theme = useSelector(getTheme)
 
+//theme
     const toggleMode = () => {
       setMode(theme === 'light' ? lightTheme : darkTheme);
     };
+    useEffect(() => {
+      toggleMode()
+    }, [theme])
 
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(
@@ -78,9 +82,7 @@ const CreatePostsScreen =() => {
         };
       }, []);
 
-      useEffect(() => {
-        toggleMode()
-      }, [theme])
+
 
       
 
@@ -299,9 +301,10 @@ const CreatePostsScreen =() => {
                 <TouchableOpacity
                 onPress={publish}
                  style={{...regStyles.regBtn, ...styles.publishBtn,
-                    backgroundColor:  photo ? '#ff6c00' : '#D6D6D6',
+                    backgroundColor:  photo ? '#ff6c00' : '#757575',
                     marginTop: keyboardVisible ? 80 : 44,
                     marginBottom: keyboardVisible ? 60: 120,
+                    
                 }} >
                   <Text style={[regStyles.regBtn__text, styles.publishBtn__text]}>Опубліковати</Text>
                 </TouchableOpacity>
