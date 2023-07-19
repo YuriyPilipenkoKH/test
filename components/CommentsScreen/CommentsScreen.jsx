@@ -13,13 +13,15 @@ import { styles as creStyles} from "../CreatePostsScreen/CreatePostsScreen";
 import { AntDesign } from '@expo/vector-icons'; 
 import AvImage0 from "../../assets/img/userAv.png";
 import { useNavigation } from "@react-navigation/native";
-import { useAuth } from "../../redux/auth/authSelectors";
+import { getTheme, useAuth } from "../../redux/auth/authSelectors";
 import { db } from "../../firebase/config";
 import { useEffect, useState } from "react";
 import { addDoc, collection, getDocs, serverTimestamp } from "firebase/firestore";
 import { FlatList } from "react-native-gesture-handler";
 import moment from "moment";
-
+import { toggleTheme } from "../../redux/themeSlice";
+import { lightTheme, darkTheme } from "../../utils/themes";
+import { useSelector } from "react-redux";
 
 
 const CommentsScreen =({route}) => {
@@ -32,9 +34,20 @@ const CommentsScreen =({route}) => {
     const [isValidComment, setIsValidComment] = useState(false)
     const [message, setMessage] = useState('')
     const [loading, setLoading] = useState(false);
+    const [mode, setMode] = useState(lightTheme)
 
 
-    
+    const theme = useSelector(getTheme)
+
+    // Theme
+  const toggleMode = () => {
+    setMode(theme === 'light' ? lightTheme : darkTheme);
+  };
+  useEffect(() => {
+    toggleMode()
+  }, [theme])
+  
+
     const validateComment = (value) => {
         setComment(value)
         if(!value){
@@ -107,20 +120,20 @@ const CommentsScreen =({route}) => {
     
 
     return (
-        <View style = {[regStyles.background, postStyles.background]}>
+        <View style = {[regStyles.background, postStyles.background, { backgroundColor: mode.backgroundColor}]}>
         <StatusBar style="auto" /> 
 
         <View style = {[creStyles.postsCreate, styles.container]}>
         <View style={postStyles.titleWrapp}>
             <Text 
             onPress={() => console.log(allComments)}
-            style={postStyles.title}>
+            style={[postStyles.title, {color: mode.textColor }]}>
             Коментарі
             </Text>
             <TouchableOpacity 
             onPress={() => navigation.navigate("Posts")}
             style={creStyles.arrowleftBtn}>
-            <AntDesign style = {creStyles.arrowleft} name="arrowleft" size={24} color="#212121" />
+            <AntDesign style = {[creStyles.arrowleft, {color: mode.textColor }]} name="arrowleft" size={24} />
             </TouchableOpacity>
         </View>
 

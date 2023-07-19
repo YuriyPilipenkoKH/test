@@ -27,9 +27,11 @@ import {addData } from "../../utils/dataStorage";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../../firebase/config";
 import {  collection, doc, serverTimestamp, setDoc, } from "firebase/firestore";
-import { useAuth } from "../../redux/auth/authSelectors";
+import { getTheme, useAuth } from "../../redux/auth/authSelectors";
 import Toast from "react-native-root-toast";
 import { gpsDefault } from "../../utils/dataStorage";
+import { lightTheme, darkTheme  } from "../../utils/themes";
+import { useSelector } from "react-redux";
 
 
 const CreatePostsScreen =() => {
@@ -44,8 +46,15 @@ const CreatePostsScreen =() => {
     const [message, setMessage] = useState('')
     const [keyboardVisible, setKeyboardVisible] = useState(false);
     const [load, setLoad] = useState(false);
+    const [mode, setMode] = useState(lightTheme)
     const navigation = useNavigation();
     const {userId, login} = useAuth()
+
+    const theme = useSelector(getTheme)
+
+    const toggleMode = () => {
+      setMode(theme === 'light' ? lightTheme : darkTheme);
+    };
 
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(
@@ -68,6 +77,10 @@ const CreatePostsScreen =() => {
           keyboardDidHideListener.remove();
         };
       }, []);
+
+      useEffect(() => {
+        toggleMode()
+      }, [theme])
 
       
 
@@ -215,20 +228,20 @@ const CreatePostsScreen =() => {
   
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style = {[regStyles.background, postStyles.background]}>
+            <View style = {[regStyles.background, postStyles.background, { backgroundColor: mode.backgroundColor}]}>
                  <StatusBar style="auto" />
 
             <View style = {styles.postsCreate}>
             <View style={postStyles.titleWrapp}>
                 <Text 
                
-                style={postStyles.title}>
+                style={[postStyles.title, {color: mode.textColor }]}>
                 Створити публікацію
                 </Text>
                 <TouchableOpacity
                   onPress={() => navigation.navigate("Posts")}
-                style={styles.arrowleftBtn}>
-                <AntDesign style = {styles.arrowleft} name="arrowleft" size={24} color="black" />
+                style={[styles.arrowleftBtn, ]}>
+                <AntDesign style = {[styles.arrowleft, {color: mode.textColor }]} name="arrowleft" size={24} color="black" />
                 </TouchableOpacity>
             </View>
             <ScrollView contentContainerStyle={styles.contentContainer} style={[ styles.main]}>
@@ -256,7 +269,7 @@ const CreatePostsScreen =() => {
                 behavior={Platform.OS == "ios" ? "padding" : "height" } 
                 style = {styles.inputWrapp}>
                 <TextInput
-                    style={[styles.input]}
+                    style={[styles.input, {color: mode.textColor }]}
                     name = 'naming'
                     value={naming}
                     onChangeText = {validateNaming}
@@ -265,7 +278,7 @@ const CreatePostsScreen =() => {
                         />
                 <View>
                     <TextInput
-                        style={[styles.input, styles.location]}
+                        style={[styles.input, styles.location, {color: mode.textColor }]}
                         name = 'location'
                         value={location}
                         onChangeText = {validateLocation}
@@ -294,7 +307,7 @@ const CreatePostsScreen =() => {
                 </TouchableOpacity>
             
             </ScrollView>
-            {!keyboardVisible && <View style = {[postStyles.footer]}>
+            {!keyboardVisible && <View style = {[postStyles.footer, { backgroundColor: mode.backgroundColor}]}>
             <TouchableOpacity
             onPress={reset}
             style={[postStyles.addBtn, styles.deleteBtn]}>

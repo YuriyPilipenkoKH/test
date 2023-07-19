@@ -14,12 +14,13 @@ import { styles as postStyles } from "../PostsScreen/PostsScreen";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { getData, getPlaces, gpsDefault } from "../../utils/dataStorage";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../redux/auth/authOperations";
-import { useAuth } from "../../redux/auth/authSelectors";
+import { getTheme, useAuth } from "../../redux/auth/authSelectors";
 import { db } from "../../firebase/config";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import Loader from "../Loader/Loader";
+import { lightTheme, darkTheme } from "../../utils/themes";
 
 const item = gpsDefault
 
@@ -29,9 +30,11 @@ const ProfileScreen =({ route }) => {
     const [posts, setPosts] = useState( getData())
     const [likes, setLikes] = useState(Array(posts.length).fill(0))
     const [loading, setLoading] = useState(false);
+    const [mode, setMode] = useState(lightTheme)
     const navigation = useNavigation();
     const dispatch = useDispatch()
     const {userId, login  }= useAuth()
+    const theme = useSelector(getTheme)
 
     const handleLike = (index) => {
         setLikes((prevLikes) => {
@@ -59,6 +62,14 @@ const ProfileScreen =({ route }) => {
          getPostsByCurrentUser();
       }, []);
 
+      // Theme
+ const toggleMode = () => {
+    setMode(theme === 'light' ? lightTheme : darkTheme);
+  };
+  useEffect(() => {
+    toggleMode()
+  }, [theme])
+
 
     
     return (
@@ -68,7 +79,9 @@ const ProfileScreen =({ route }) => {
                       <StatusBar style="auto" /> 
             
                 <View contentContainerStyle={styles.contentContainer} 
-                style={ {...styles.main, marginBottom: posts ? 0 : 90,}}>
+                style={ {...styles.main,
+                 marginBottom: posts ? 0 : 90,
+                 backgroundColor: mode.backgroundColor,}}>
             
                     <ImageBackground style = {regStyles.photoWrapp} source={User}> 
                     <TouchableOpacity 
@@ -86,7 +99,7 @@ const ProfileScreen =({ route }) => {
                         </TouchableOpacity>
                 <Text 
                  onPress={() => getData()}
-                style={regStyles.title}>{login}</Text>
+                style={[regStyles.title, {color: mode.textColor }]}>{login}</Text>
 
 
         {posts &&
@@ -95,13 +108,13 @@ const ProfileScreen =({ route }) => {
                 renderItem={({item}) => (
                 <View style={postStyles.card} key={item.id}>
         <ImageBackground style={postStyles.photoFrame} source={{uri: item.photo}}></ImageBackground>
-        <Text style={postStyles.cardText}>{item.postName}</Text>
+        <Text style={[postStyles.cardText, {color: mode.textColor }]}>{item.postName}</Text>
         <View style={[postStyles.cardDescription, styles.cardDescription]}>
             <View style={[postStyles.flexWrapp, styles.wrapp1]} >
             <FontAwesome 
              onPress={() => navigation.navigate("Comments", {postId: item.id, photo: item.photo})}
             style={postStyles.iconComment} name="comment" size={24} color="#ff6c00" />
-            <Text style={postStyles.cardComment}>{item.comments}</Text>
+            <Text style={[postStyles.cardComment, {color: mode.textColor }]}>{item.comments}</Text>
             </View>
             <View style={[postStyles.flexWrapp, styles.wrapp1]} >
            <AntDesign
@@ -113,7 +126,7 @@ const ProfileScreen =({ route }) => {
             </View>
 
             <View style={[postStyles.flexWrapp, styles.wrapp3]}>
-            <Text style={postStyles.cardLocation}>{item.placeName}</Text>
+            <Text style={[postStyles.cardLocation, {color: mode.textColor }]}>{item.placeName}</Text>
             <Feather
             onPress={() => navigation.navigate("Map", {item})}
             name="map-pin" size={24} color="#bdbdbd" />
@@ -128,12 +141,12 @@ const ProfileScreen =({ route }) => {
         </View>
 
         {loading &&  <Loader/>}
-    <View style = {[postStyles.footer, styles.footer]}>
+    <View style = {[postStyles.footer, styles.footer, { backgroundColor: mode.backgroundColor}]}>
 
         <TouchableOpacity
         onPress={() => navigation.navigate("Posts")}
         style={postStyles.icon}>
-             <Feather name="grid" size={24} color="#21212199" />
+             <Feather style={[{color: mode.textColor }]} name="grid" size={24} />
         </TouchableOpacity>
         <TouchableOpacity
         // onPress={() => navigation.navigate("Profile")}
@@ -143,7 +156,7 @@ const ProfileScreen =({ route }) => {
         <TouchableOpacity
         onPress={() => navigation.navigate("CreatePost")}
         style={postStyles.icon}>
-             <AntDesign name="plus" size={24} color="#21212199" /> 
+             <AntDesign style={[{color: mode.textColor }]} name="plus" size={24} /> 
         </TouchableOpacity>
         <View
   

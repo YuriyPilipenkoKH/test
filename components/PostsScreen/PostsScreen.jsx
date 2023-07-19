@@ -12,23 +12,31 @@ import { MaterialCommunityIcons, AntDesign, Feather, FontAwesome5 } from '@expo/
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { useDispatch} from "react-redux";
-import { useAuth } from "../../redux/auth/authSelectors";
+import { useDispatch, useSelector} from "react-redux";
+import { getTheme, useAuth } from "../../redux/auth/authSelectors";
 import {  logOut } from "../../redux/auth/authOperations";
 import { db } from "../../firebase/config";
 import { collection,  onSnapshot, query} from "firebase/firestore";
 import Loader from "../Loader/Loader";
+import { toggleTheme } from "../../redux/themeSlice";
+import { lightTheme, darkTheme } from "../../utils/themes";
 
 
 
   const PostsScreen =({route}) => {
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(false);
-  // const [mode, setMode] = useState(false)
+  const [mode, setMode] = useState(lightTheme)
   const navigation = useNavigation();
   const { login , email}= useAuth() 
 
+  const theme = useSelector(getTheme)
   const dispatch = useDispatch()
+
+  // const toggleMode = () => {
+  //   setMode(theme === 'light' ? darkTheme : lightTheme);
+  // };
+
 
   // useEffect(() => {
   //   if(route.params){
@@ -51,7 +59,6 @@ import Loader from "../Loader/Loader";
       console.log('Error fetching comments:', error);
       setLoading(false);
     }
-
       // const querySnapshot = await getDocs(collection(db, "posts"));
       // querySnapshot.forEach((doc) => {
      
@@ -59,46 +66,65 @@ import Loader from "../Loader/Loader";
       //   setPosts((prevState) => [...prevState, { id: doc.id, ...doc.data() }]);
       //   // setPosts((prevState) => [...prevState,  { id: doc.id, ...doc.data() }]);
       // });
-
   }  
 
   useEffect(() => {
     getAllPosts();
   }, [route.params]);
-  
+
+
+// Theme
+const toggleMode = () => {
+  setMode(theme === 'light' ? lightTheme : darkTheme);
+};
+useEffect(() => {
+  toggleMode()
+}, [theme])
 
     return (
-        <View style = {[regStyles.background, styles.background]}>
+        <View style = {[regStyles.background, styles.background, { backgroundColor: mode.backgroundColor}]}>
         <StatusBar style="auto" /> 
         
 
         <View style= {[styles.postsScreen ]}>
         <View style={styles.titleWrapp}>
-            <Text style={styles.title}
+            <Text style={[styles.title, {color: mode.textColor }]}
               onPress={() => console.log(posts)}>
               Публікації</Text>
             {/* <Switch 
               style={{...styles.switch, }}
               value = {mode} onValueChange={() => setMode(value => !value)}/> */}
             <TouchableOpacity 
+            onPress={() => {
+              // toggleMode()
+              dispatch(toggleTheme())}}
+              style={[styles.themeBtn]}>
+            <MaterialCommunityIcons 
+              style = {[styles.themeIcon, {color: mode.textColor }]}
+              name= {theme === 'light'? "lightbulb-on-outline" : "moon-waning-crescent"} 
+               size={24} />
+            </TouchableOpacity> 
+            <TouchableOpacity 
               onPress={() =>{dispatch(logOut())}}
               style={styles.trayArrowBtn}>
             <MaterialCommunityIcons 
               style = {styles.trayArrow}
-              name="tray-arrow-up" size={24}
-              color="black" />
+              name="tray-arrow-up" size={24} />
             </TouchableOpacity>
         </View>
 
-        <View style={[styles.main]} contentContainerStyle={styles.contentContainer} >
+        <View style={[styles.main, 
+        { backgroundColor: mode.backgroundColor ,}
+        ]}
+         contentContainerStyle={styles.contentContainer} >
 
         <View style={styles.user}>
             <View style={styles.imgContainer}>
               <Image style={styles.userAvatar} source={User} />
             </View>
             <View style={styles.userWrapp}>
-            <Text style={styles.userName}>{login}</Text>
-            <Text style={styles.userEmail}>{email}</Text>
+            <Text style={[styles.userName , {color: mode.textColor }]}>{login}</Text>
+            <Text style={[styles.userEmail , {color: mode.textColor }]}>{email}</Text>
 
             </View>
         </View>
@@ -110,7 +136,7 @@ import Loader from "../Loader/Loader";
 
         <View style={styles.card}  key={item.id}>
         <Image source={{uri: item.photo}}  style={styles.photoFrame} />
-        <Text style={styles.cardText}>{item.postName}</Text>
+        <Text style={[styles.cardText, {color: mode.textColor }]}>{item.postName}</Text>
         <View style={styles.cardDescription}>
             <View style={styles.flexWrapp} >
             <FontAwesome5
@@ -118,14 +144,14 @@ import Loader from "../Loader/Loader";
               postId: item.id,
               photo: item.photo, })}
               style={styles.iconComment} name="comment" size={24} color="#bdbdbd" />
-            <Text style={styles.cardComment}>{item.comments}</Text>
+            <Text style={[styles.cardComment, {color: mode.textColor }]}>{item.comments}</Text>
             </View>
 
         <View style={styles.flexWrapp}>
         <Feather
           onPress={() => navigation.navigate("Map",{item})}
           name="map-pin" size={24} color="#bdbdbd" />
-        <Text style={styles.cardLocation}>{item.placeName}</Text>
+        <Text style={[styles.cardLocation, {color: mode.textColor }]}>{item.placeName}</Text>
         </View>
         </View>
         </View> 
@@ -135,11 +161,11 @@ import Loader from "../Loader/Loader";
 
         {loading && <Loader/>}   
 
-        <View style = {styles.footer}>
+        <View style = {[styles.footer, { backgroundColor: mode.backgroundColor}]}>
         <TouchableOpacity 
           onPress={() => navigation.navigate("Posts")}
-          style={styles.icon}>
-            <Feather name="grid" size={24} color="#212121" />
+          style={[styles.icon]}>
+            <Feather style={[{color: mode.textColor }]} name="grid" size={24}  />
         </TouchableOpacity>
         <TouchableOpacity 
           onPress={() => navigation.navigate("CreatePost")}
@@ -149,7 +175,7 @@ import Loader from "../Loader/Loader";
         <TouchableOpacity 
           onPress={() => navigation.navigate("Profile", {posts})}
           style={styles.icon}>
-            <Feather name="user" size={24} color="#212121" /> 
+            <Feather style={[{color: mode.textColor }]} name="user" size={24}  /> 
         </TouchableOpacity>
 
         <View style = {regStyles.homeIndicator} ></View>
@@ -189,6 +215,7 @@ export const styles = StyleSheet.create({
         paddingLeft: 16,
         paddingRight: 16,
         alignItems: 'center',
+        
 
     },
     titleWrapp: {
@@ -220,10 +247,21 @@ export const styles = StyleSheet.create({
         // textAlign: 'center',
 
     },
+    themeBtn: {
+        position: 'absolute',
+        left: 25,
+        // transform: [{ translateX: 160 }],
+       
+    },
+    themeIcon: {
+        // transform: [{ rotate: '90deg' }],
+        color: '#212121',
+
+    },
     trayArrowBtn: {
         position: 'absolute',
-        left: '50%',
-        transform: [{ translateX: 160 }],
+        right: 25,
+        // transform: [{ translateX: 160 }],
        
     },
     trayArrow: {
