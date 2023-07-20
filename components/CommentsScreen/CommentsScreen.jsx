@@ -20,9 +20,9 @@ import { useEffect, useState } from "react";
 import { addDoc, collection, getDocs, serverTimestamp } from "firebase/firestore";
 import { FlatList } from "react-native-gesture-handler";
 import moment from "moment";
-import { toggleTheme } from "../../redux/themeSlice";
 import { lightTheme, darkTheme } from "../../utils/themes";
 import { useSelector } from "react-redux";
+import ConfirmPopup from "../ConfirmPopup/ConfirmPopup";
 
 
 const CommentsScreen =({route}) => {
@@ -36,6 +36,7 @@ const CommentsScreen =({route}) => {
     const [message, setMessage] = useState('')
     const [loading, setLoading] = useState(false);
     const [mode, setMode] = useState(lightTheme)
+    const [showConfirm, setShowConfirm] = useState(false);
 
 
     const theme = useSelector(getTheme)
@@ -119,11 +120,24 @@ const CommentsScreen =({route}) => {
                 clearInterval(intervalId);
               };    
          }, [postId]);  
+
+         //confirm
+         const handleConfirm = () => {
+            // Do something when the user confirms the action
+            console.log('Confirmed!');
+            setShowConfirm(false);
+          };
+        
+          const handleCancel = () => {
+            // Do something when the user cancels the action
+            console.log('Cancelled!');
+            setShowConfirm(false);
+          };
     
 
     return (
         <View style = {[regStyles.background, postStyles.background, { backgroundColor: mode.backgroundColor}]}>
-        <StatusBar style="auto" /> 
+        <StatusBar barStyle={theme === 'light' ? 'dark-content' : 'light-content'} /> 
 
         <View style = {[creStyles.postsCreate, styles.container]}>
         <View style={postStyles.titleWrapp}>
@@ -155,12 +169,23 @@ const CommentsScreen =({route}) => {
             <View style = {[styles.card,  { backgroundColor: mode.commentBg}]}>
                 <Text style = {[styles.commentText, {color: mode.textColor }]}>{item.comment}</Text>
                 <Text style = {styles.createdAt}> {moment(item.timestamp.toDate()).format('MMMM/DD/YYYY hh:mm a')}</Text>
-
+                <TouchableOpacity
+       onPress={() => setShowConfirm(true)}
+            style={[ styles.deleteBtn]}>
+                 <AntDesign style={[styles.icoDelete, {color: mode.icon }]} name="delete" size={16} color="#bdbdbd" />
+            </TouchableOpacity>
             </View> 
             </View> 
 
                   )} />  }
         </View>
+
+        <ConfirmPopup
+        visible={showConfirm}
+        message="Are you sure you want to proceed?"
+        onConfirm={handleConfirm}
+        onCancel={handleCancel}
+      />
               
         {message ?  <Text style={{...regStyles.errorMessage, }}>{message}</Text>         
                  :  null}
@@ -260,6 +285,13 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto',
         fontSize: 16,
         fontWeight: 500,
+    },
+    deleteBtn: {
+        position: 'absolute',
+        right: 12,
+        bottom: 12,
+        // fontSize: 16,
+        // fontWeight: 500,
     },
     commemtBar: {
         position: 'relative',

@@ -32,6 +32,7 @@ import Toast from "react-native-root-toast";
 import { gpsDefault } from "../../utils/dataStorage";
 import { lightTheme, darkTheme  } from "../../utils/themes";
 import { useSelector } from "react-redux";
+import Loader from "../Loader/Loader";
 
 
 const CreatePostsScreen =() => {
@@ -45,10 +46,11 @@ const CreatePostsScreen =() => {
     const [isValidLocation, setIsValidLocation] = useState(false)
     const [message, setMessage] = useState('')
     const [keyboardVisible, setKeyboardVisible] = useState(false);
-    const [load, setLoad] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [mode, setMode] = useState(lightTheme)
     const navigation = useNavigation();
     const {userId, login} = useAuth()
+
 
     const theme = useSelector(getTheme)
 
@@ -115,7 +117,7 @@ const CreatePostsScreen =() => {
 
 
     const uploadPhotoToServer = async () => {
-      setLoad(true);
+      setLoading(true);
         try {
           const response = await fetch(photo);
           const file = await response.blob();
@@ -126,16 +128,16 @@ const CreatePostsScreen =() => {
          
     
           const urlRef = await getDownloadURL(storageRef);
-          setLoad(false);
+          setLoading(false);
           return urlRef;
         } catch (error) {
           console.error(error);
-          setLoad(false);
+          setLoading(false);
         }
       };
 
       const uploadPostToServer = async () => {
-        setLoad(true);
+        setLoading(true);
         try {
           const uploadPhoto = await uploadPhotoToServer();//Add photo so storage/images
           const collectionRef = doc(collection(db, "posts"));
@@ -155,12 +157,12 @@ const CreatePostsScreen =() => {
             duration: 5000,
             position: 50,
           });
-          setLoad(false);
+          setLoading(false);
     
         
         } catch (error) {
           console.log("upload post", error);
-          setLoad(false);
+          setLoading(false);
         }
       };
       
@@ -231,7 +233,7 @@ const CreatePostsScreen =() => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style = {[regStyles.background, postStyles.background, { backgroundColor: mode.backgroundColor}]}>
-                 <StatusBar style="auto" />
+                 <StatusBar barStyle={theme === 'light' ? 'dark-content' : 'light-content'} />
 
             <View style = {styles.postsCreate}>
             <View style={postStyles.titleWrapp}>
@@ -308,8 +310,10 @@ const CreatePostsScreen =() => {
                 }} >
                   <Text style={[regStyles.regBtn__text, styles.publishBtn__text]}>Опубліковати</Text>
                 </TouchableOpacity>
-            
             </ScrollView>
+
+            {loading && <Loader/>} 
+
             {!keyboardVisible && <View style = {[postStyles.footer, { backgroundColor: mode.backgroundColor}]}>
             <TouchableOpacity
             onPress={reset}
@@ -443,7 +447,7 @@ export const styles = StyleSheet.create({
       },
       deleteBtn: {
 
-        backgroundColor: '#f6f6f6',
+        backgroundColor: '#f6f6f633',
        
       },
 

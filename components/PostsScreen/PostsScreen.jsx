@@ -80,10 +80,11 @@ const toggleMode = () => {
 useEffect(() => {
   toggleMode()
 }, [theme])
+ // style= {theme === 'light' ? 'dark-content' : 'light-content'}
 
     return (
         <View style = {[regStyles.background, styles.background, { backgroundColor: mode.backgroundColor}]}>
-        <StatusBar style="auto" /> 
+        <StatusBar  barStyle={theme === 'light' ? 'dark-content' : 'light-content'}  /> 
         
 
         <View style= {[styles.postsScreen ]}>

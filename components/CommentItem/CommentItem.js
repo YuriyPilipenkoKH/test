@@ -1,7 +1,9 @@
 import { StyleSheet, View, Text, Dimensions, Image } from "react-native";
 import { useAuth } from "../../redux/auth/authSelectors";
+import { useState } from "react";
 
 export const CommentItem = ({ item, isShowKeyboard }) => {
+  
   const { userId }= useAuth() 
 
   const currentUser = userId === item.userId;
