@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { getTheme } from '../../redux/auth/authSelectors';
 
 
-const ConfirmPopup = ({ visible, message, onCancel, onConfirm }) => {
+const ConfirmPopup = ({ visible, message, onCancel, onConfirm , commentId }) => {
 
     const [mode, setMode] = useState(lightTheme)
     const theme = useSelector(getTheme)
@@ -18,6 +18,10 @@ const ConfirmPopup = ({ visible, message, onCancel, onConfirm }) => {
     toggleMode()
   }, [theme])
 
+//   const handleConfirm = () => {
+//     onConfirm(commentId); // Call the onConfirm function with the commentId
+//   };
+
   return (
     <Modal
       animationType="fade"
@@ -27,7 +31,9 @@ const ConfirmPopup = ({ visible, message, onCancel, onConfirm }) => {
     >
       <View style={styles.modalContainer}>
         <View style={[styles.modalContent, { backgroundColor: mode.modalBg}]}>
-          <Text style={[styles.messageText, {color: mode.textColor }]}>{message}</Text>
+          <Text 
+          onPress={()=> console.log('commentId',commentId)}
+          style={[styles.messageText, {color: mode.textColor }]}>{message}</Text>
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={[styles.cancelButton,]} onPress={onCancel}>
               <Text style={[styles.buttonText, {color: mode.confirm }]}>Cancel</Text>

@@ -17,7 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 import { getTheme, useAuth } from "../../redux/auth/authSelectors";
 import { db } from "../../firebase/config";
 import { useEffect, useState } from "react";
-import { addDoc, collection, getDocs, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, getDocs, serverTimestamp } from "firebase/firestore";
 import { FlatList } from "react-native-gesture-handler";
 import moment from "moment";
 import { lightTheme, darkTheme } from "../../utils/themes";
@@ -84,6 +84,27 @@ const CommentsScreen =({route}) => {
         //   .add({comment, userName: login})
 
         };
+
+        const deleteComment = async (commentId) => {
+            try {
+              setLoading(true);
+              // Create a reference to the comment document
+              const commentRef = doc(db, `posts/${postId}/comments/${commentId}`);
+          
+              // Delete the comment document from the Firestore
+              await deleteDoc(commentRef);
+          
+              // After successful deletion, update the comments state to reflect the changes
+            //   setAllComments((prevComments) =>
+            //     prevComments.filter((comment) => comment.id !== commentId)
+            //   );
+          
+              setLoading(false);
+            } catch (error) {
+              console.error('Error deleting comment:', error);
+              setLoading(false);
+            }
+          };
 
     
         const getAllComments = async (postId) => {
@@ -164,15 +185,20 @@ const CommentsScreen =({route}) => {
                 data={allComments} keyExtractor={(item, index) => index.toString()}
                 renderItem={({item}) => (
 
-            <View  style = {styles.comment}>
+            <View key={item.id} style = {styles.comment}>
             <ImageBackground style = {styles.avatar} source={AvImage0} size = {28}></ImageBackground>   
             <View style = {[styles.card,  { backgroundColor: mode.commentBg}]}>
                 <Text style = {[styles.commentText, {color: mode.textColor }]}>{item.comment}</Text>
-                <Text style = {styles.createdAt}> {moment(item.timestamp.toDate()).format('MMMM/DD/YYYY hh:mm a')}</Text>
+                <Text style = {styles.createdAt}>
+                  {moment(item.timestamp.toDate()).format('MMMM/DD/YYYY hh:mm a')}
+                </Text>
                 <TouchableOpacity
-       onPress={() => setShowConfirm(true)}
-            style={[ styles.deleteBtn]}>
-                 <AntDesign style={[styles.icoDelete, {color: mode.icon }]} name="delete" size={16} color="#bdbdbd" />
+                    onPress={() => {
+                    setShowConfirm(true)  }}
+                  style={[ styles.deleteBtn]}>
+                 <AntDesign 
+                   style={[styles.icoDelete, {color: mode.icon }]}
+                   name="delete" size={16} color="#bdbdbd" />
             </TouchableOpacity>
             </View> 
             </View> 
@@ -185,6 +211,7 @@ const CommentsScreen =({route}) => {
         message="Are you sure you want to proceed?"
         onConfirm={handleConfirm}
         onCancel={handleCancel}
+        commentId ={allComments}
       />
               
         {message ?  <Text style={{...regStyles.errorMessage, }}>{message}</Text>         
