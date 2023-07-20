@@ -33,9 +33,7 @@ import { lightTheme, darkTheme } from "../../utils/themes";
   const theme = useSelector(getTheme)
   const dispatch = useDispatch()
 
-  // const toggleMode = () => {
-  //   setMode(theme === 'light' ? darkTheme : lightTheme);
-  // };
+
 
 
   // useEffect(() => {
@@ -92,9 +90,7 @@ useEffect(() => {
             <Text style={[styles.title, {color: mode.textColor }]}
               onPress={() => console.log(posts)}>
               Публікації</Text>
-            {/* <Switch 
-              style={{...styles.switch, }}
-              value = {mode} onValueChange={() => setMode(value => !value)}/> */}
+
             <TouchableOpacity 
             onPress={() => {
               // toggleMode()

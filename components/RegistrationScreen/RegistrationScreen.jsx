@@ -24,7 +24,7 @@ import { register } from "../../redux/auth/authOperations";
 import { storage } from "../../firebase/config";
 // import avatar from 'C:/GitHub/Home-Work/test/assets/img/Avatar/av-01.jpg'
 
-import { firebase } from "@react-native-firebase/storage";
+// import { firebase } from "@react-native-firebase/storage";
 
 const RegistrationScreen =() => {
   const [load, setLoad] = useState(false);

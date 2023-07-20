@@ -15,14 +15,16 @@ import { AntDesign } from '@expo/vector-icons';
 import AvImage0 from "../../assets/img/userAv.png";
 import { useNavigation } from "@react-navigation/native";
 import { getTheme, useAuth } from "../../redux/auth/authSelectors";
-import { db } from "../../firebase/config";
+
 import { useEffect, useState } from "react";
-import { addDoc, collection, deleteDoc, getDocs, serverTimestamp } from "firebase/firestore";
+import {  addDoc, collection, deleteDoc, doc, getDocs, serverTimestamp } from "firebase/firestore";
 import { FlatList } from "react-native-gesture-handler";
 import moment from "moment";
 import { lightTheme, darkTheme } from "../../utils/themes";
 import { useSelector } from "react-redux";
 import ConfirmPopup from "../ConfirmPopup/ConfirmPopup";
+import { db } from "../../firebase/config";
+
 
 
 const CommentsScreen =({route}) => {
@@ -37,6 +39,8 @@ const CommentsScreen =({route}) => {
     const [loading, setLoading] = useState(false);
     const [mode, setMode] = useState(lightTheme)
     const [showConfirm, setShowConfirm] = useState(false);
+
+
 
 
     const theme = useSelector(getTheme)
@@ -86,10 +90,13 @@ const CommentsScreen =({route}) => {
         };
 
         const deleteComment = async (commentId) => {
+            
+
             try {
               setLoading(true);
               // Create a reference to the comment document
-              const commentRef = doc(db, `posts/${postId}/comments/${commentId}`);
+              const commentRef = doc(db, `posts/${postId}/comments/
+              ETNWD3cHgAf1RO4euqyk`);//${commentId}
           
               // Delete the comment document from the Firestore
               await deleteDoc(commentRef);
@@ -99,10 +106,10 @@ const CommentsScreen =({route}) => {
             //     prevComments.filter((comment) => comment.id !== commentId)
             //   );
           
-              setLoading(false);
+            //   setLoading(false);
             } catch (error) {
               console.error('Error deleting comment:', error);
-              setLoading(false);
+            //   setLoading(false);
             }
           };
 
@@ -118,6 +125,7 @@ const CommentsScreen =({route}) => {
     
                 querySnapshot.forEach((doc) => {
                     comments.push(doc.data());
+                    // console.log('data:', doc.data());
                 });
                 setTimeout(() => {
                     setAllComments(comments);
@@ -163,7 +171,7 @@ const CommentsScreen =({route}) => {
         <View style = {[creStyles.postsCreate, styles.container]}>
         <View style={postStyles.titleWrapp}>
             <Text 
-            onPress={() => console.log(allComments)}
+            onPress={ deleteComment}
             style={[postStyles.title, {color: mode.textColor }]}>
             Коментарі
             </Text>
@@ -188,7 +196,9 @@ const CommentsScreen =({route}) => {
             <View key={item.id} style = {styles.comment}>
             <ImageBackground style = {styles.avatar} source={AvImage0} size = {28}></ImageBackground>   
             <View style = {[styles.card,  { backgroundColor: mode.commentBg}]}>
-                <Text style = {[styles.commentText, {color: mode.textColor }]}>{item.comment}</Text>
+                <Text
+             
+                 style = {[styles.commentText, {color: mode.textColor }]}>{item.comment}</Text>
                 <Text style = {styles.createdAt}>
                   {moment(item.timestamp.toDate()).format('MMMM/DD/YYYY hh:mm a')}
                 </Text>
