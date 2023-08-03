@@ -1,6 +1,6 @@
 // themes.js
 const lightTheme = {
-    backgroundColor: '#efefce',
+    backgroundColor: '#fefee0',// fefee0  '#efefce'
     textColor: '#212121',
     commentBg: '#e4e4e4',
     inputBg: '#e4e4e4',

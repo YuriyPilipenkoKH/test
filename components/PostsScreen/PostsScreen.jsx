@@ -35,7 +35,6 @@ import { lightTheme, darkTheme } from "../../utils/themes";
 
 
 
-
   // useEffect(() => {
   //   if(route.params){
   //     setPosts(prev => [...prev, route.params.data])
@@ -54,7 +53,7 @@ import { lightTheme, darkTheme } from "../../utils/themes";
   
       setLoading(false);
     } catch (error) {
-      console.log('Error fetching comments:', error);
+      console.log('Error fetching posts:', error);
       setLoading(false);
     }
       // const querySnapshot = await getDocs(collection(db, "posts"));
@@ -167,7 +166,7 @@ useEffect(() => {
         <TouchableOpacity 
           onPress={() => navigation.navigate("CreatePost")}
           style={styles.addBtn}>
-            <AntDesign name="plus" size={14} color="#eee" /> 
+            <AntDesign name="plus" size={14} color="#fefee0" /> 
         </TouchableOpacity>
         <TouchableOpacity 
           onPress={() => navigation.navigate("Profile", {posts})}
