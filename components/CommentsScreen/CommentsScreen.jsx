@@ -17,7 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 import { getTheme, useAuth } from "../../redux/auth/authSelectors";
 
 import { useEffect, useState } from "react";
-import {  addDoc, collection, deleteDoc, doc, getDocs, serverTimestamp } from "firebase/firestore";
+import {  addDoc, collection, deleteDoc, doc, getDocs, serverTimestamp, updateDoc } from "firebase/firestore";
 import { FlatList } from "react-native-gesture-handler";
 import moment from "moment";
 import { lightTheme, darkTheme } from "../../utils/themes";
@@ -33,14 +33,12 @@ const CommentsScreen =({route}) => {
     const navigation = useNavigation();
     const { login }= useAuth() 
     const [comment, setComment] = useState('')
+    const [commentId, setCommentId] = useState(null)
     const [allComments, setAllComments] = useState([])
     const [isValidComment, setIsValidComment] = useState(false)
     const [message, setMessage] = useState('')
-    const [loading, setLoading] = useState(false);
     const [mode, setMode] = useState(lightTheme)
     const [showConfirm, setShowConfirm] = useState(false);
-
-
 
 
     const theme = useSelector(getTheme)
@@ -66,17 +64,30 @@ const CommentsScreen =({route}) => {
     }
 
     const createComment = async () => {
+      
+
         if(!isValidComment){
             setMessage('Comment shouldn`t be blank')
             return
           }
           validateComment()
 
-        await addDoc(collection(db, `posts/${postId}/comments`), {
-            comment: comment,
+          const commentData = {
+            comment,
             userName: login,
-            timestamp: serverTimestamp()
-          });
+            timestamp: serverTimestamp(),
+          };
+        
+          const commentRef = await addDoc(
+            collection(db, `posts/${postId}/comments`),
+            commentData
+          );
+        
+          // Get the newly generated commentId
+          const newCommentId = commentRef.id;
+        
+          // Now, update the commentRef with the newCommentId
+          await updateDoc(commentRef, { commentId: newCommentId });
         
           setComment('');
           Keyboard.dismiss()
@@ -89,35 +100,27 @@ const CommentsScreen =({route}) => {
 
         };
 
-        const deleteComment = async (commentId) => {
-            
+        const deleteComment = async (id) => {
 
-            try {
-              setLoading(true);
+            try {   
               // Create a reference to the comment document
-              const commentRef = doc(db, `posts/${postId}/comments/
-              ETNWD3cHgAf1RO4euqyk`);//${commentId}
-          
+              const commentRef = doc(db, `posts/${postId}/comments/${id}`);//${commentId}
+              // console.log('commentRef.path',commentRef.path)
+  
               // Delete the comment document from the Firestore
-              await deleteDoc(commentRef);
-          
+              await deleteDoc(commentRef);        
               // After successful deletion, update the comments state to reflect the changes
             //   setAllComments((prevComments) =>
             //     prevComments.filter((comment) => comment.id !== commentId)
-            //   );
-          
-            //   setLoading(false);
+            //   );             
             } catch (error) {
               console.error('Error deleting comment:', error);
-            //   setLoading(false);
             }
           };
 
     
         const getAllComments = async (postId) => {
-
-            setLoading(true);
-
+   
             try {
                 const commentsRef = collection(db, `posts/${postId}/comments`);
                 const querySnapshot = await getDocs(commentsRef);
@@ -130,29 +133,31 @@ const CommentsScreen =({route}) => {
                 setTimeout(() => {
                     setAllComments(comments);
                   }, 0);
-          
-              setLoading(false);
+                        
             } catch (error) {
               console.log('Error fetching comments:', error);
-              setLoading(false);
+             
             }
-
-
-          };    
+         };    
 
           useEffect(() => {    
-            const intervalId = setInterval(() => {
                 getAllComments(postId);
-              }, 5000);
+         }, [allComments]);  
+
+        //   useEffect(() => {    
+        //     const intervalId = setInterval(() => {
+        //         getAllComments(postId);
+        //       }, 5000);
             
-              return () => {
-                clearInterval(intervalId);
-              };    
-         }, [postId]);  
+        //       return () => {
+        //         clearInterval(intervalId);
+        //       };    
+        //  }, [postId]);  
 
          //confirm
          const handleConfirm = () => {
             // Do something when the user confirms the action
+            deleteComment(commentId)
             console.log('Confirmed!');
             setShowConfirm(false);
           };
@@ -171,7 +176,7 @@ const CommentsScreen =({route}) => {
         <View style = {[creStyles.postsCreate, styles.container]}>
         <View style={postStyles.titleWrapp}>
             <Text 
-            onPress={ deleteComment}
+            // onPress={() =>console.log("commentId",commentId)}
             style={[postStyles.title, {color: mode.textColor }]}>
             Коментарі
             </Text>
@@ -190,21 +195,27 @@ const CommentsScreen =({route}) => {
 
             {allComments && 
             <FlatList style ={{marginBottom:20, ...styles.commentsWrapp }}
-                data={allComments} keyExtractor={(item, index) => index.toString()}
+                data={allComments} 
+                keyExtractor={(item) => item.commentId} // Use the commentId as the key
                 renderItem={({item}) => (
 
-            <View key={item.id} style = {styles.comment}>
-            <ImageBackground style = {styles.avatar} source={AvImage0} size = {28}></ImageBackground>   
+            <View key={item.commentId} style = {styles.comment}>
+            <ImageBackground 
+            style = {styles.avatar} source={AvImage0} size = {28}></ImageBackground>   
             <View style = {[styles.card,  { backgroundColor: mode.commentBg}]}>
                 <Text
              
                  style = {[styles.commentText, {color: mode.textColor }]}>{item.comment}</Text>
-                <Text style = {styles.createdAt}>
-                  {moment(item.timestamp.toDate()).format('MMMM/DD/YYYY hh:mm a')}
+                <Text 
+                // onPress={() => console.log("item.commentId", item.commentId)}
+                style = {styles.createdAt}>
+                  {item.timestamp && moment(item.timestamp.toDate()).format('MMMM/DD/YYYY hh:mm a')}
                 </Text>
                 <TouchableOpacity
                     onPress={() => {
-                    setShowConfirm(true)  }}
+                    setShowConfirm(true) 
+                    setCommentId(item.commentId); // Pass item.commentId to handleConfirm
+                  }}
                   style={[ styles.deleteBtn]}>
                  <AntDesign 
                    style={[styles.icoDelete, {color: mode.icon }]}
