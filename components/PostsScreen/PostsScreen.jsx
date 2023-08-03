@@ -33,8 +33,6 @@ import { lightTheme, darkTheme } from "../../utils/themes";
   const theme = useSelector(getTheme)
   const dispatch = useDispatch()
 
-
-
   // useEffect(() => {
   //   if(route.params){
   //     setPosts(prev => [...prev, route.params.data])

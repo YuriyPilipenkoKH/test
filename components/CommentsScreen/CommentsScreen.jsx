@@ -13,7 +13,7 @@ import { styles as postStyles } from "../PostsScreen/PostsScreen";
 import { styles as creStyles} from "../CreatePostsScreen/CreatePostsScreen";
 import { AntDesign } from '@expo/vector-icons'; 
 import AvImage0 from "../../assets/img/userAv.png";
-import { useNavigation, useScrollToTop } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { getTheme, useAuth } from "../../redux/auth/authSelectors";
 
 import { useEffect, useState } from "react";
@@ -34,7 +34,6 @@ const CommentsScreen =({route}) => {
     const { login }= useAuth() 
     const [comment, setComment] = useState('')
     const [commentId, setCommentId] = useState(null)
-    const [commentsCount, setCommentsCount] = useState(0)
     const [allComments, setAllComments] = useState([])
     const [isValidComment, setIsValidComment] = useState(false)
     const [message, setMessage] = useState('')
@@ -65,15 +64,14 @@ const CommentsScreen =({route}) => {
         const count = querySnapshot.size;
   
         console.log('Number of comments:', count);
-        setCommentsCount(count)
+      
 
         const collectionRef = doc(db, "posts", postId)
         // console.log(collectionRef)
          updateDoc(collectionRef, {
-            comments: commentsCount,
+            comments: count,
           });
-      //  updateDoc(dbRef , { comment: commentsCount })
-        // You can now use the 'commentsCount' as needed, update the state, etc.
+
       });
     }
   
@@ -213,7 +211,7 @@ const CommentsScreen =({route}) => {
         <View style = {[creStyles.postsCreate, styles.container]}>
         <View style={postStyles.titleWrapp}>
             <Text 
-            onPress={() => console.log('commentsCount', commentsCount)}
+      
             style={[postStyles.title, {color: mode.textColor }]}>
             Коментарі
             </Text>
