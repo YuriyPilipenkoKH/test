@@ -7,7 +7,7 @@ import {
     ImageBackground,} from "react-native";
 import BackgroundImage from "../../assets/img/photo-bg.jpg";
 import { StatusBar } from 'expo-status-bar';
-import User from "../../assets/img/user.png";
+import User from "../../assets/img/avatar/av-252.png";
 import {MaterialCommunityIcons,  AntDesign, Feather,  FontAwesome } from '@expo/vector-icons'; 
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import { styles as postStyles } from "../PostsScreen/PostsScreen";
@@ -81,7 +81,9 @@ const ProfileScreen =({ route }) => {
                 <View contentContainerStyle={styles.contentContainer} 
                 style={ {...styles.main,
                  marginBottom: posts ? 0 : 90,
-                 backgroundColor: mode.backgroundColor,}}>
+                 height: posts ? 560 : 300,
+                 backgroundColor: mode.backgroundColor,
+                 }}>
             
                     <ImageBackground style = {regStyles.photoWrapp} source={User}> 
                     <TouchableOpacity 
@@ -103,10 +105,10 @@ const ProfileScreen =({ route }) => {
 
 
         {posts &&
-         <FlatList style ={{marginBottom:120,}}
+         <FlatList style ={{marginBottom:120, backgroundColor: mode.backgroundColor,}}
                 data={posts} keyExtractor={(item, index) => index.toString()}
                 renderItem={({item}) => (
-                <View style={postStyles.card} key={item.id}>
+                <View style={[postStyles.card, {backgroundColor: mode.backgroundColor},]} key={item.id}>
         <ImageBackground style={postStyles.photoFrame} source={{uri: item.photo}}></ImageBackground>
         <Text style={[postStyles.cardText, {color: mode.textColor }]}>{item.postName}</Text>
         <View style={[postStyles.cardDescription, styles.cardDescription]}>
@@ -186,7 +188,7 @@ export const styles = StyleSheet.create({
     main: {
         width: '100%',
 
-        backgroundColor: '#f5f5f5',
+        // backgroundColor: '#f5f5f5',
        marginTop: 140,
         paddingBottom: 8,
         alignItems: 'center',

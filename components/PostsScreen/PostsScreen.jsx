@@ -7,7 +7,7 @@ import {
     FlatList,
     TouchableOpacity,} from "react-native";
 import { StatusBar } from 'expo-status-bar';
-import User from "../../assets/img/user.png";
+import User from "../../assets/img/avatar/av-252.png";
 import { MaterialCommunityIcons, AntDesign, Feather, FontAwesome5 } from '@expo/vector-icons'; 
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import { useNavigation } from "@react-navigation/native";

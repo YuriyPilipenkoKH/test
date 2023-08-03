@@ -15,7 +15,7 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import BackgroundImage from "../../assets/img/photo-bg.jpg";
 import { AntDesign } from '@expo/vector-icons'; 
-import User from "../../assets/img/user.png";
+import User from "../../assets/img/avatar/av-252.png";
 import { useNavigation } from "@react-navigation/native";
 import { resetData } from "../../utils/dataStorage";
 import { useDispatch } from "react-redux";
@@ -185,7 +185,7 @@ const RegistrationScreen =() => {
          height: keyboardVisible ? 360 : 500,
          }}>
 
-        <ImageBackground style = {styles.photoWrapp} source={User}> 
+        <ImageBackground style = {[styles.photoWrapp, styles.photoFrame]} source={User}> 
         <TouchableOpacity style = {styles.plusBtn}>
             <AntDesign  name="pluscircleo" size={25} style = {[styles.plus]} />
         </TouchableOpacity>
@@ -304,6 +304,13 @@ export const styles = StyleSheet.create({
         height: 120,
         backgroundColor: '#f6f6f6',
         borderRadius: 16,
+
+    },
+    photoFrame: {
+      borderWidth: 2,
+      borderColor: "#bdbdbd",
+      borderStyle: 'solid',
+  
 
     },
     plusBtn: {
