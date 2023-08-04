@@ -26,7 +26,6 @@ import { handleLike } from "../../utils/handleLike";
 
 
 const ProfileScreen =({ route }) => {
-
     
     const [posts, setPosts] = useState( getData())
     // const [likes, setLikes] = useState(0)
@@ -36,9 +35,6 @@ const ProfileScreen =({ route }) => {
     const dispatch = useDispatch()
     const {userId, login  }= useAuth()
     const theme = useSelector(getTheme)
-
-
-
 
 
       const getPostsByCurrentUser = async () => {

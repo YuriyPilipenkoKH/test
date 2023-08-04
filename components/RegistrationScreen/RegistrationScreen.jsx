@@ -13,6 +13,7 @@ import {
  
 } from "react-native";
 import { StatusBar } from 'expo-status-bar';
+import * as ImagePicker from "expo-image-picker";
 import BackgroundImage from "../../assets/img/photo-bg.jpg";
 import { AntDesign } from '@expo/vector-icons'; 
 import User from "../../assets/img/avatar/av-252.png";
@@ -22,6 +23,7 @@ import { useDispatch } from "react-redux";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { register } from "../../redux/auth/authOperations";
 import { storage } from "../../firebase/config";
+import Loader from "../Loader/Loader";
 // import avatar from 'C:/GitHub/Home-Work/test/assets/img/Avatar/av-01.jpg'
 
 // import { firebase } from "@react-native-firebase/storage";
@@ -39,6 +41,8 @@ const RegistrationScreen =() => {
     const [message, setMessage] = useState('')
     const [keyboardVisible, setKeyboardVisible] = useState(false);
     const [error, setError] = useState(null);
+    const [avatar, setAvatar] = useState(null)
+
 
     const [time, setTime] = useState(null)
     const navigation = useNavigation();
@@ -75,6 +79,28 @@ const RegistrationScreen =() => {
       };
     }, []);
 
+    useEffect(() => {
+      (async () => {
+        setLoad(true);
+        try {
+          if (Platform.OS !== "web") {
+            const { status } =
+              await ImagePicker.requestMediaLibraryPermissionsAsync();
+            setHasPermission(status === "granted");
+            if (status !== "granted") {
+              console.log(
+                "Sorry, we need camera roll permissions to make this work!"
+              );
+            }
+            setLoad(false);
+          }
+        } catch (error) {
+          setLoad(false);
+          setError(error.message);
+        }
+      })();
+    }, []);
+
     const validateName = (value) => {
       setLogin(value)
       const pattern =/^[a-zA-Z' -]+$/
@@ -107,6 +133,28 @@ const RegistrationScreen =() => {
       setIsValidPassword(true);
     }
     }
+
+    const uploadAvatarFromGallery = async () => {
+      setLoad(true);
+      try {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          quality: 1,
+        });
+  
+        if (!result.canceled) {
+          setAvatar(result.assets[0].uri);
+          console.log('Avatar Uploaded ',result)
+        }
+        setLoad(false);
+      } catch (error) {
+        console.log("Upload avatar error", error.message);
+        setLoad(false);
+        setError(`Upload avatar error ${error.message}`);
+      }
+    };
+  
 
     const uploadAvatarToServer = async () => {
       setLoad(true);
@@ -186,7 +234,9 @@ const RegistrationScreen =() => {
          }}>
 
         <ImageBackground style = {[styles.photoWrapp, styles.photoFrame]} source={User}> 
-        <TouchableOpacity style = {styles.plusBtn}>
+        <TouchableOpacity 
+        onPress={uploadAvatarFromGallery}
+        style = {styles.plusBtn}>
             <AntDesign  name="pluscircleo" size={25} style = {[styles.plus]} />
         </TouchableOpacity>
          </ImageBackground>
@@ -252,6 +302,8 @@ const RegistrationScreen =() => {
       </TouchableOpacity>
     </View>}
     </View>
+
+    {load && <Loader/>} 
    
 
      <View style = {{...styles.homeIndicator, backgroundColor: keyboardVisible ? '#fff0' : '#212121',}} ></View>
