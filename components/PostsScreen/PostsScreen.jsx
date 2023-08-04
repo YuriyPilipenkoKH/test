@@ -20,6 +20,7 @@ import { collection,  onSnapshot, query} from "firebase/firestore";
 import Loader from "../Loader/Loader";
 import { toggleTheme } from "../../redux/themeSlice";
 import { lightTheme, darkTheme } from "../../utils/themes";
+import { countLikes } from "../../utils/handleLike";
 
 
 
@@ -139,6 +140,21 @@ useEffect(() => {
               photo: item.photo, })}
               style={styles.iconComment} name="comment" size={24} color="#bdbdbd" />
             <Text style={[styles.cardComment, {color: mode.textColor }]}>{item.comments}</Text>
+
+            <View style={[styles.flexWrapp, styles.wrapp1]} >
+           <TouchableOpacity
+               onPress={() => countLikes(item.id)}
+           >
+           <AntDesign
+            name="like2" size={24} color="#ff6c00" />
+            </TouchableOpacity>     
+            <Text
+        //    onPress={() => console.log('item.id:', item.id)}
+             style={{...styles.cardComment,
+            color:  item.likes !== 0 ? '#ff6c00' : '#D6D6D6',
+            }}>{item.likes}</Text>
+            </View>   
+
             </View>
 
         <View style={styles.flexWrapp}>

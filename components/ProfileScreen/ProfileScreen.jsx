@@ -13,22 +13,23 @@ import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import { styles as postStyles } from "../PostsScreen/PostsScreen";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { getData, getPlaces, gpsDefault } from "../../utils/dataStorage";
+import { getData} from "../../utils/dataStorage";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../redux/auth/authOperations";
 import { getTheme, useAuth } from "../../redux/auth/authSelectors";
 import { db } from "../../firebase/config";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { collection, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import Loader from "../Loader/Loader";
 import { lightTheme, darkTheme } from "../../utils/themes";
+import { handleLike } from "../../utils/handleLike";
 
-const item = gpsDefault
 
 
 const ProfileScreen =({ route }) => {
+
     
     const [posts, setPosts] = useState( getData())
-    const [likes, setLikes] = useState(Array(posts.length).fill(0))
+    // const [likes, setLikes] = useState(0)
     const [loading, setLoading] = useState(false);
     const [mode, setMode] = useState(lightTheme)
     const navigation = useNavigation();
@@ -36,13 +37,8 @@ const ProfileScreen =({ route }) => {
     const {userId, login  }= useAuth()
     const theme = useSelector(getTheme)
 
-    const handleLike = (index) => {
-        setLikes((prevLikes) => {
-          const newLikes = [...prevLikes];
-          newLikes[index] += 1; // Increment the likes for the specific index
-          return newLikes;
-        });
-      };
+
+
 
 
       const getPostsByCurrentUser = async () => {
@@ -80,8 +76,8 @@ const ProfileScreen =({ route }) => {
             
                 <View contentContainerStyle={styles.contentContainer} 
                 style={ {...styles.main,
-                 marginBottom: posts ? 0 : 90,
-                 height: posts ? 560 : 300,
+                //  marginBottom: posts ? 0 : 90,
+                 height: posts ? 560 : 600,
                  backgroundColor: mode.backgroundColor,
                  }}>
             
@@ -105,10 +101,11 @@ const ProfileScreen =({ route }) => {
 
 
         {posts &&
-         <FlatList style ={{marginBottom:120, backgroundColor: mode.backgroundColor,}}
+         <FlatList style ={{marginBottom:20, backgroundColor: mode.backgroundColor,}}
                 data={posts} keyExtractor={(item, index) => index.toString()}
                 renderItem={({item}) => (
-                <View style={[postStyles.card, {backgroundColor: mode.backgroundColor},]} key={item.id}>
+
+        <View style={[postStyles.card, {backgroundColor: mode.backgroundColor},]} key={item.id}>
         <ImageBackground style={postStyles.photoFrame} source={{uri: item.photo}}></ImageBackground>
         <Text style={[postStyles.cardText, {color: mode.textColor }]}>{item.postName}</Text>
         <View style={[postStyles.cardDescription, styles.cardDescription]}>
@@ -116,15 +113,25 @@ const ProfileScreen =({ route }) => {
             <FontAwesome 
              onPress={() => navigation.navigate("Comments", {postId: item.id, photo: item.photo})}
             style={postStyles.iconComment} name="comment" size={24} color="#ff6c00" />
-            <Text style={[postStyles.cardComment, {color: mode.textColor }]}>{item.comments}</Text>
+            <Text 
+            style={[postStyles.cardComment, {
+                color: mode.textColor ,
+                color:  item.comments !== 0 ? '#ff6c00' : '#D6D6D6',
+                }]}>
+                {item.comments}</Text>
             </View>
             <View style={[postStyles.flexWrapp, styles.wrapp1]} >
+           <TouchableOpacity
+               onPress={() => handleLike(item.id)}
+           >
            <AntDesign
             name="like2" size={24} color="#ff6c00" />
-            <Text style={{...postStyles.cardComment,
-            // color:  likes[item.id -1] ? '#ff6c00' : '#D6D6D6',
-            }}>
-                0</Text>
+            </TouchableOpacity>     
+            <Text
+        //    onPress={() => console.log('item.id:', item.id)}
+             style={{...postStyles.cardComment,
+            color:  item.likes !== 0 ? '#ff6c00' : '#D6D6D6',
+            }}>{item.likes}</Text>
             </View>
 
             <View style={[postStyles.flexWrapp, styles.wrapp3]}>
@@ -165,7 +172,7 @@ const ProfileScreen =({ route }) => {
          style = {regStyles.homeIndicator} > 
          <Text onPress={() =>{
           
-             console.log('likes:', likes)
+             console.log('postId:', postId)
              }}>get</Text>
          </View>
     </View>   
