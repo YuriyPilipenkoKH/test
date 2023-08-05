@@ -1,4 +1,5 @@
-// themes.js
+
+
 const lightTheme = {
     backgroundColor: '#fefee0',// fefee0  '#efefce'
     textColor: '#212121',
@@ -7,7 +8,8 @@ const lightTheme = {
     icon: '#333',
     modalBg: '#eee',
     confirm: '#eee',
-   
+    already: '#1B4371',
+    
   };
   
   const darkTheme = {
@@ -18,9 +20,11 @@ const lightTheme = {
     icon: '#bdbdbd',
     modalBg: '#555',
     confirm: '#222',
+    already: '#eee',
   };
-  
-  export { lightTheme, darkTheme };
+
+
+  export {  lightTheme, darkTheme };
 
   //style={[{color: mode.textColor }]}
   //--main-text:  #001129,

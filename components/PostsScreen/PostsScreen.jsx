@@ -29,7 +29,7 @@ import { countLikes } from "../../utils/handleLike";
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState(lightTheme)
   const navigation = useNavigation();
-  const { login , email}= useAuth() 
+  const { login , email, avatar}= useAuth() 
 
   const theme = useSelector(getTheme)
   const dispatch = useDispatch()
@@ -115,7 +115,7 @@ useEffect(() => {
 
         <View style={styles.user}>
             <View style={styles.imgContainer}>
-              <Image style={styles.userAvatar} source={User} />
+              <Image style={styles.userAvatar} source={ {uri: avatar} && User} />
             </View>
             <View style={styles.userWrapp}>
             <Text style={[styles.userName , {color: mode.textColor }]}>{login}</Text>

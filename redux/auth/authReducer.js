@@ -17,9 +17,11 @@ export const authSlice = createSlice({
     fetchingInProgress: (state) => {
       return { ...state, isLoading: true };
     },
+
     fetchingError: (state, { payload }) => {
       return { ...state, isLoading: false, error: payload };
     },
+
     updateUserProfile: (state, { payload }) => {
       return {
         ...state,
@@ -32,6 +34,15 @@ export const authSlice = createSlice({
         error: null,
       };
     },
+
+    updateUserAvatar: (state, { payload }) => {
+      return {
+        ...state,
+        userAvatar: payload.userAvatar,
+
+      };
+    },
+
     authStateChange: (state, { payload }) => {
       return {
         ...state,
@@ -40,6 +51,7 @@ export const authSlice = createSlice({
         error: null,
       };
     },
+    
     authSignOut: () => initialState,
   },
 });

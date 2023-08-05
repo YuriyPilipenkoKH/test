@@ -15,13 +15,14 @@ import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { getData} from "../../utils/dataStorage";
 import { useDispatch, useSelector } from "react-redux";
-import { logOut } from "../../redux/auth/authOperations";
+import { deleteAvatar, logOut, updateAvatar } from "../../redux/auth/authOperations";
 import { getTheme, useAuth } from "../../redux/auth/authSelectors";
 import { db } from "../../firebase/config";
 import { collection, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import Loader from "../Loader/Loader";
 import { lightTheme, darkTheme } from "../../utils/themes";
 import { handleLike } from "../../utils/handleLike";
+import * as ImagePicker from "expo-image-picker";
 
 
 
@@ -31,9 +32,10 @@ const ProfileScreen =({ route }) => {
     // const [likes, setLikes] = useState(0)
     const [loading, setLoading] = useState(false);
     const [mode, setMode] = useState(lightTheme)
+    const [newAvatar, setNewAvatar] = useState(null)
     const navigation = useNavigation();
     const dispatch = useDispatch()
-    const {userId, login  }= useAuth()
+    const {userId, login, avatar  }= useAuth()
     const theme = useSelector(getTheme)
 
 
@@ -45,55 +47,83 @@ const ProfileScreen =({ route }) => {
           setPosts(docSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
         );
       };
+
+      const uploadAvatarFromGallery = async () => {
+        setLoading(true);
+        try {
+          let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            quality: 1,
+          });
+    
+          if (!result.canceled) {
+            setNewAvatar(result.assets[0].uri);
+            console.log('Avatar Uploaded ',result)
+          }
+          setLoading(false);
+        } catch (error) {
+          console.log("Upload avatar error", error.message);
+          setLoading(false);
+         
+        }
+      };
     
       const deleteAvatarFromUser = async () => {
         dispatch(deleteAvatar());
+    };
+    
+    
+    const updateAvatarFromUser = async () => {
+
+        uploadAvatarFromGallery()
+        dispatch(updateAvatar(newAvatar));
+        
       };
     
       useEffect(() => {
          getPostsByCurrentUser();
-      }, []);
+      }, [posts]);
 
       // Theme
- const toggleMode = () => {
-    setMode(theme === 'light' ? lightTheme : darkTheme);
-  };
-  useEffect(() => {
-    toggleMode()
-  }, [theme])
-
+const toggleMode = () => {
+        setMode(theme === 'light' ? lightTheme : darkTheme);
+    };
+    useEffect(() => {
+        toggleMode()
+    }, [theme])
 
     
     return (
         <>
-  <View>
-                    <ImageBackground style = {[ styles.background]} source={BackgroundImage}>
-                      <StatusBar style="auto" /> 
+        <View>
+        <ImageBackground style = {[ styles.background]} source={BackgroundImage}>
+            <StatusBar style="auto" /> 
             
-                <View contentContainerStyle={styles.contentContainer} 
-                style={ {...styles.main,
-                //  marginBottom: posts ? 0 : 90,
-                 height: posts ? 560 : 600,
-                 backgroundColor: mode.backgroundColor,
-                 }}>
+        <View contentContainerStyle={styles.contentContainer} 
+        style={ {...styles.main,
+        //  marginBottom: posts ? 0 : 90,
+            height: posts ? 560 : 600,
+            backgroundColor: mode.backgroundColor,
+        }}>
             
-                    <ImageBackground style = {regStyles.photoWrapp} source={User}> 
-                    <TouchableOpacity 
-                    onPress={() => console.log('posts:', posts)}
-                    style = {regStyles.plusBtn}>
-                        <AntDesign  name="pluscircleo" size={25} style = {[regStyles.plus]} />
-                    </TouchableOpacity>
-                     </ImageBackground>
-                     <TouchableOpacity 
-                     onPress={() =>{
-                        console.log("exit")
-                        dispatch(logOut())}}
-                     style={styles.trayArrowBtn}>
-                        <MaterialCommunityIcons style = {styles.trayArrow} name="tray-arrow-up" size={24} color="black" />
-                        </TouchableOpacity>
-                <Text 
-                 onPress={() => getData()}
-                style={[regStyles.title, {color: mode.textColor }]}>{login}</Text>
+        <ImageBackground style = {regStyles.photoWrapp} source= { {uri: avatar} && User}> 
+        <TouchableOpacity 
+        onPress={updateAvatarFromUser}
+        style = {regStyles.plusBtn}>
+            <AntDesign  name="pluscircleo" size={25} style = {[regStyles.plus]} />
+        </TouchableOpacity>
+            </ImageBackground>
+            <TouchableOpacity 
+            onPress={() =>{
+            console.log("exit")
+            dispatch(logOut())}}
+            style={styles.trayArrowBtn}>
+            <MaterialCommunityIcons style = {styles.trayArrow} name="tray-arrow-up" size={24} color="black" />
+            </TouchableOpacity>
+        <Text 
+            onPress={() => getData()}
+        style={[regStyles.title, {color: mode.textColor }]}>{login}</Text>
 
 
         {posts &&
@@ -166,15 +196,12 @@ const ProfileScreen =({ route }) => {
         <View
   
          style = {regStyles.homeIndicator} > 
-         <Text onPress={() =>{
-          
-             console.log('postId:', postId)
-             }}>get</Text>
+         <Text onPress={() =>console.log('avatar:', newAvatar)}>
+            get</Text>
          </View>
     </View>   
     </>
   
-   
     )
 }
 export default  ProfileScreen

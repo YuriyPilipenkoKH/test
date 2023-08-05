@@ -228,13 +228,13 @@ const CommentsScreen =({route}) => {
             </ImageBackground>    
             </View>
 
-            {allComments && 
+        {allComments && 
             <FlatList style ={{marginBottom:20, ...styles.commentsWrapp }}
                 data={allComments} 
                 keyExtractor={(item) => item.commentId} // Use the commentId as the key
                 renderItem={({item}) => (
 
-            <View key={item.id} style = {styles.comment}>
+            <View key={item.commentId} style = {styles.comment}>
             <ImageBackground 
             style = {styles.avatar} source={AvImage0} size = {28}></ImageBackground>   
             <View style = {[styles.card,  { backgroundColor: mode.commentBg}]}>

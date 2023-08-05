@@ -18,10 +18,13 @@ import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import { useNavigation } from "@react-navigation/native";
 import { resetData } from "../../utils/dataStorage";
 import { signIn } from "../../redux/auth/authOperations";
-import { useDispatch } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import Loader from "../Loader/Loader";
+import { lightTheme , darkTheme, toggleMode} from "../../utils/themes";
+import { getTheme } from "../../redux/auth/authSelectors";
 
 const LoginScreen =() => {
+  const [loading, setLoading] = useState(false);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,10 +33,20 @@ const LoginScreen =() => {
   const [isValidPassword, setIsValidPassword] = useState(false)
   const [message, setMessage] = useState('')
   const [keyboardVisible, setKeyboardVisible] = useState(false);
+  const [mode, setMode] = useState(lightTheme)
 
   const [time, setTime] = useState(null)
    const navigation = useNavigation();
    const dispatch = useDispatch()
+   const theme = useSelector(getTheme)
+
+       // Theme
+  const toggleMode = () => {
+  setMode(theme === 'light' ? lightTheme : darkTheme);
+  };
+  useEffect(() => {
+    toggleMode()
+  }, [theme])
 
   useEffect(() => {
     if(message){
@@ -89,7 +102,7 @@ const LoginScreen =() => {
   }
   }
 
-  const submit = () => {
+  const submit = async() => {
     if(!isValidEmail){
       setMessage('Not valid email')
       return
@@ -105,16 +118,26 @@ const LoginScreen =() => {
         password,
     }
 
-        setEmail('')
-        setPassword('')
-        setShow(false)
-        setMessage('')
-        setIsValidEmail(false)
-        setIsValidPassword(false)
-        resetData()
+    setLoading(true);
+    try {
+      
+      setEmail('')
+      setPassword('')
+      setShow(false)
+      setMessage('')
+      setIsValidEmail(false)
+      setIsValidPassword(false)
+      resetData()
+  
+  
+       dispatch(signIn(userData));
+       setLoading(false);
+    } 
+    catch (error) {
+      console.log("Login failed", error.message);
+      setLoading(false);
+    }
 
-
-         dispatch(signIn(userData));
 }
 
 
@@ -127,10 +150,11 @@ const LoginScreen =() => {
   height: keyboardVisible ? 330 : 440,
   paddingTop: keyboardVisible ? 20 : 60,
   paddingBottom: keyboardVisible ? 8 : 60,
+  backgroundColor: mode.backgroundColor ,
   }}>
 
    
-  <Text style={{...regStyles.title, color: time ? 'crimson' : '#212121' }}>
+  <Text style={{...regStyles.title, color: time ? 'crimson' : mode.textColor }}>
    {message && time ? 'Wasted' : 'Увійти'}
     </Text>
 
@@ -172,7 +196,8 @@ const LoginScreen =() => {
   <TouchableOpacity 
   onPress={() => navigation.navigate("Registration")}
   style={regStyles.alreadyHaveAccount}>
-      <Text style={regStyles.alreadyHaveAccountText}>Немає акаунту? Зареєструватися</Text>
+      <Text style={[regStyles.alreadyHaveAccountText, {color: mode.already }]}>
+        Немає акаунту? Зареєструватися</Text>
     </TouchableOpacity>
     <TouchableOpacity style={regStyles.regBtn}
      onPress={submit}
@@ -181,8 +206,9 @@ const LoginScreen =() => {
     </TouchableOpacity>
 
   </View>
-
   </View>
+
+  {loading && <Loader/>} 
    <View style = {{...regStyles.homeIndicator,  backgroundColor: keyboardVisible ? '#fff0' : '#212121'}} ></View>
   </View>
       

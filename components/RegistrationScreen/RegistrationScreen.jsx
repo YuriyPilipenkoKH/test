@@ -13,23 +13,29 @@ import {
  
 } from "react-native";
 import { StatusBar } from 'expo-status-bar';
+import { MaterialCommunityIcons, AntDesign, MaterialIcons } from '@expo/vector-icons';
 import * as ImagePicker from "expo-image-picker";
 import BackgroundImage from "../../assets/img/photo-bg.jpg";
-import { AntDesign } from '@expo/vector-icons'; 
+
 import User from "../../assets/img/avatar/av-252.png";
 import { useNavigation } from "@react-navigation/native";
 import { resetData } from "../../utils/dataStorage";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { register } from "../../redux/auth/authOperations";
 import { storage } from "../../firebase/config";
 import Loader from "../Loader/Loader";
+import { toggleTheme } from "../../redux/themeSlice";
+import { lightTheme, darkTheme } from "../../utils/themes";
+import { getTheme } from "../../redux/auth/authSelectors";
+import { getLang } from "../../redux/selectors";
+import { toggleLang } from "../../redux/langSlice";
 // import avatar from 'C:/GitHub/Home-Work/test/assets/img/Avatar/av-01.jpg'
 
 // import { firebase } from "@react-native-firebase/storage";
 
 const RegistrationScreen =() => {
-  const [load, setLoad] = useState(false);
+  const [loading, setLoading] = useState(false);
 
     const [login, setLogin] = useState("");
     const [email, setEmail] = useState("");
@@ -42,11 +48,26 @@ const RegistrationScreen =() => {
     const [keyboardVisible, setKeyboardVisible] = useState(false);
     const [error, setError] = useState(null);
     const [avatar, setAvatar] = useState(null)
+    const [mode, setMode] = useState(lightTheme)
 
 
     const [time, setTime] = useState(null)
     const navigation = useNavigation();
     const dispatch = useDispatch()
+    const theme = useSelector(getTheme)
+    const lang = useSelector(getLang)
+
+    // Theme
+const toggleMode = () => {
+  setMode(theme === 'light' ? lightTheme : darkTheme);
+};
+useEffect(() => {
+  toggleMode()
+}, [theme])
+
+// const toggleLang = () => {
+//   lang === 'english' ? 'ukrainian' : 'english'
+// };
 
     useEffect(() => {
       if(message){
@@ -81,7 +102,7 @@ const RegistrationScreen =() => {
 
     useEffect(() => {
       (async () => {
-        setLoad(true);
+        setLoading(true);
         try {
           if (Platform.OS !== "web") {
             const { status } =
@@ -92,10 +113,10 @@ const RegistrationScreen =() => {
                 "Sorry, we need camera roll permissions to make this work!"
               );
             }
-            setLoad(false);
+            setLoading(false);
           }
         } catch (error) {
-          setLoad(false);
+          setLoading(false);
           setError(error.message);
         }
       })();
@@ -135,7 +156,7 @@ const RegistrationScreen =() => {
     }
 
     const uploadAvatarFromGallery = async () => {
-      setLoad(true);
+      setLoading(true);
       try {
         let result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -147,17 +168,17 @@ const RegistrationScreen =() => {
           setAvatar(result.assets[0].uri);
           console.log('Avatar Uploaded ',result)
         }
-        setLoad(false);
+        setLoading(false);
       } catch (error) {
         console.log("Upload avatar error", error.message);
-        setLoad(false);
+        setLoading(false);
         setError(`Upload avatar error ${error.message}`);
       }
     };
   
 
     const uploadAvatarToServer = async () => {
-      setLoad(true);
+      setLoading(true);
       try {
         const response = await fetch(avatar);
         const file = await response.blob();
@@ -171,7 +192,7 @@ const RegistrationScreen =() => {
         return avatarRef;
       } catch (error) {
         console.log("Upload avatar to server error", error.message);
-        setLoad(false);
+        setLoading(false);
         setError(`Upload avatar to server error ${error.message}`);
       }
     };
@@ -196,7 +217,7 @@ const RegistrationScreen =() => {
        
     }
       
-      setLoad(true);
+      setLoading(true);
 
       try {
         const avatarRef = await uploadAvatarToServer();
@@ -215,10 +236,10 @@ const RegistrationScreen =() => {
            avatar: avatarRef ,
           }));     
 
-        setLoad(false);
+        setLoading(false);
       } catch (error) {
         console.log("Upload avatar to server error", error.message);
-        setLoad(false);
+        setLoading(false);
         setError(`Upload avatar to server error ${error.message}`);
       }
 
@@ -231,6 +252,7 @@ const RegistrationScreen =() => {
 
        <View style = {{...styles.main,
          height: keyboardVisible ? 360 : 500,
+         backgroundColor: mode.backgroundColor ,
          }}>
 
         <ImageBackground style = {[styles.photoWrapp, styles.photoFrame]} source={User}> 
@@ -241,7 +263,32 @@ const RegistrationScreen =() => {
         </TouchableOpacity>
          </ImageBackground>
 
-    <Text style={{...styles.title, color: time ? 'crimson' : '#212121' }}>
+         <TouchableOpacity 
+            onPress={() => {
+                dispatch(toggleTheme())}}
+              style={[styles.themeBtn, styles.themeBtn]}>
+            <MaterialCommunityIcons 
+              style = {[styles.themeIcon, {color: mode.textColor }]}
+              name= {theme === 'light'? "lightbulb-on-outline" : "moon-waning-crescent"} 
+               size={24} />
+         </TouchableOpacity>  
+         <View style={styles.langWrapp}>
+           <TouchableOpacity
+              onPress={() => {
+                  dispatch(toggleLang())}}
+                style={[styles.langBtn]}>
+              <MaterialIcons
+                style = {[styles.langIcon, {color: mode.textColor }]}
+                name="language"
+                 size={30} />
+            </TouchableOpacity>
+            <Text style={[styles.text, {color: mode.textColor }]}>
+              {lang === 'english' ? 'EN' : 'UA'}
+              </Text>
+         </View>
+
+    <Text style={{...styles.title, 
+      color: time ? 'crimson' :  mode.textColor  }}>
    {message && time ? 'Wasted' : 'Реєстрація'}
     </Text>
    
@@ -293,7 +340,9 @@ const RegistrationScreen =() => {
     <TouchableOpacity
     onPress={() => navigation.navigate("Login")}
      style={styles.alreadyHaveAccount}>
-        <Text style={styles.alreadyHaveAccountText}>Вже є акаунт? Увійти</Text>
+        <Text style={[styles.alreadyHaveAccountText, 
+        {color: mode.already }
+        ]}>Вже є акаунт? Увійти</Text>
       </TouchableOpacity>  
       <TouchableOpacity style={styles.regBtn}
         onPress={submit}
@@ -303,10 +352,8 @@ const RegistrationScreen =() => {
     </View>}
     </View>
 
-    {load && <Loader/>} 
-   
-
-     <View style = {{...styles.homeIndicator, backgroundColor: keyboardVisible ? '#fff0' : '#212121',}} ></View>
+    {loading && <Loader/>} 
+    <View style = {{...styles.homeIndicator, backgroundColor: keyboardVisible ? '#fff0' : '#212121',}} ></View>
     </View>
   
 
@@ -370,6 +417,30 @@ export const styles = StyleSheet.create({
         top: 70,
         right: -10,
     },
+    themeBtn: {
+      position: 'absolute',
+      left: 25,
+      top: 25,
+      // transform: [{ translateX: 160 }],
+     
+  },
+  themeIcon: {
+      // transform: [{ rotate: '90deg' }],
+      color: '#212121',
+
+  },
+  langWrapp: {
+    position: 'absolute',
+    right: 25,
+    top: 25,
+    flex: 1,
+    gap: 3,
+    alignItems: 'center',
+
+  },
+  langBtn: {
+
+  },
     plus: {
         color: '#FF6C00',
         backgroundColor: '#fff',

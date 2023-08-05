@@ -12,6 +12,7 @@ import { authSlice } from "./authReducer";
 const {
   authSignOut,
   updateUserProfile,
+  updateUserAvatar,
   authStateChange,
   fetchingError,
   fetchingInProgress,
@@ -22,6 +23,7 @@ export const register =
   async (dispatch) => {
     try {
       dispatch(fetchingInProgress());
+
       const response = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -89,6 +91,35 @@ export const signIn =
       console.log("error.message", error.message);
     }
   };
+
+export const updateAvatar = ({ avatar }) => async (dispatch) => {
+  try {
+    dispatch(fetchingInProgress());
+
+    await updateProfile(auth.currentUser, {
+      displayName,
+      userId: uid,
+      photoURL: avatar ,
+    });
+
+    const {  photoURL } =
+      await auth.currentUser;
+
+      const userUpdateProfile = {
+        userAvatar: photoURL,
+       };
+
+    dispatch( updateUserAvatar(userUpdateProfile));
+
+    Toast.show(`Avatar Uudated!!`, {
+      duration: 5000,
+      position: 50,
+    });
+  } catch (error) {
+    dispatch(fetchingError(error.message));
+    console.log("error.message", error.message);
+  }
+};
 
 export const deleteAvatar = () => async (dispatch) => {
   try {
