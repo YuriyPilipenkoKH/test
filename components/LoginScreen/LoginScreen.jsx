@@ -22,6 +22,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader/Loader";
 import { lightTheme , darkTheme, toggleMode} from "../../utils/themes";
 import { getTheme } from "../../redux/auth/authSelectors";
+import { getLang } from "../../redux/selectors";
+import { useTranslation } from "react-i18next";
 
 const LoginScreen =() => {
   const [loading, setLoading] = useState(false);
@@ -39,6 +41,9 @@ const LoginScreen =() => {
    const navigation = useNavigation();
    const dispatch = useDispatch()
    const theme = useSelector(getTheme)
+   const lang = useSelector(getLang)
+   const { t } = useTranslation();
+   const { i18n } = useTranslation();
 
        // Theme
   const toggleMode = () => {
@@ -155,7 +160,7 @@ const LoginScreen =() => {
 
    
   <Text style={{...regStyles.title, color: time ? 'crimson' : mode.textColor }}>
-   {message && time ? 'Wasted' : 'Увійти'}
+   {message && time ? 'Wasted' :  t('logTitle') }
     </Text>
 
   <View style={regStyles.form}>
@@ -184,7 +189,7 @@ const LoginScreen =() => {
         />
         <TouchableOpacity   style={regStyles.showPassword} onPress={() => setShow(!show)} >
                   <Text style={regStyles.textShow}>
-                  {show ? 'Приховати' : 'Показати'}
+                  {show ? t('hide') : t('show')}
                   </Text>
           </TouchableOpacity>
     </View>
@@ -197,12 +202,15 @@ const LoginScreen =() => {
   onPress={() => navigation.navigate("Registration")}
   style={regStyles.alreadyHaveAccount}>
       <Text style={[regStyles.alreadyHaveAccountText, {color: mode.already }]}>
-        Немає акаунту? Зареєструватися</Text>
+      { t('notYet') }
+        </Text>
     </TouchableOpacity>
     <TouchableOpacity style={regStyles.regBtn}
      onPress={submit}
      >
-      <Text style={regStyles.regBtn__text}>Увійти</Text>
+      <Text style={regStyles.regBtn__text}>
+      { t('logSubmit') }
+        </Text>
     </TouchableOpacity>
 
   </View>

@@ -30,9 +30,8 @@ import { lightTheme, darkTheme } from "../../utils/themes";
 import { getTheme } from "../../redux/auth/authSelectors";
 import { getLang } from "../../redux/selectors";
 import { toggleLang } from "../../redux/langSlice";
-// import avatar from 'C:/GitHub/Home-Work/test/assets/img/Avatar/av-01.jpg'
+import { useTranslation } from "react-i18next";
 
-// import { firebase } from "@react-native-firebase/storage";
 
 const RegistrationScreen =() => {
   const [loading, setLoading] = useState(false);
@@ -56,6 +55,8 @@ const RegistrationScreen =() => {
     const dispatch = useDispatch()
     const theme = useSelector(getTheme)
     const lang = useSelector(getLang)
+    const { t } = useTranslation();
+    const { i18n } = useTranslation();
 
     // Theme
 const toggleMode = () => {
@@ -65,9 +66,15 @@ useEffect(() => {
   toggleMode()
 }, [theme])
 
-// const toggleLang = () => {
-//   lang === 'english' ? 'ukrainian' : 'english'
-// };
+// Language
+const handleLanguageChange = () => {
+
+  i18n.changeLanguage(lang === 'english' ? 'en' : 'ua');
+};
+
+useEffect(() => {
+  handleLanguageChange()
+}, [lang])
 
     useEffect(() => {
       if(message){
@@ -289,7 +296,7 @@ useEffect(() => {
 
     <Text style={{...styles.title, 
       color: time ? 'crimson' :  mode.textColor  }}>
-   {message && time ? 'Wasted' : 'Реєстрація'}
+   {message && time ? 'Wasted' : t('regTitle') }
     </Text>
    
     <View style={styles.form} > 
@@ -328,7 +335,7 @@ useEffect(() => {
          
           <TouchableOpacity   style={styles.showPassword} onPress={() => setShow(!show)} >
                     <Text style={styles.textShow}>
-                    {show ? 'Приховати' : 'Показати'}
+                    {show ? t('hide') : t('show')}
                     </Text>
             </TouchableOpacity>
       </View>
@@ -342,18 +349,21 @@ useEffect(() => {
      style={styles.alreadyHaveAccount}>
         <Text style={[styles.alreadyHaveAccountText, 
         {color: mode.already }
-        ]}>Вже є акаунт? Увійти</Text>
+        ]}>{t('alreadyGot')}</Text>
       </TouchableOpacity>  
       <TouchableOpacity style={styles.regBtn}
         onPress={submit}
       >
-        <Text style={styles.regBtn__text}>Зареєстуватися</Text>
+        <Text style={styles.regBtn__text}>
+          { t('regSubmit') }
+          </Text>
       </TouchableOpacity>
     </View>}
     </View>
 
     {loading && <Loader/>} 
-    <View style = {{...styles.homeIndicator, backgroundColor: keyboardVisible ? '#fff0' : '#212121',}} ></View>
+    <View style = {{...styles.homeIndicator, 
+      backgroundColor: keyboardVisible ? '#fff0' : '#212121',}} ></View>
     </View>
   
 
@@ -510,12 +520,12 @@ export const styles = StyleSheet.create({
         
     },
     regBtn: {
-        
+         
         backgroundColor: '#FF6C00',
         height: 51,
         width: 343,
         borderRadius: 25,
-        padding: 16,
+        padding: 6,
         alignItems: 'center',
         justifyContent:  'center',
     
@@ -523,7 +533,7 @@ export const styles = StyleSheet.create({
     regBtn__text: {
         color: '#eee',
         fontFamily: 'Roboto',
-        fontSize: 16,
+        fontSize: 18,
         textAlign: 'center',
 
     },

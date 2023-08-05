@@ -1,0 +1,13 @@
+{
+    "appTitle": "My Internationalized App",
+    "welcomeMessage": "Welcome to my app! This is the English version.",
+    "switchLanguage": "Switch Language",
+    "regTitle": "Registration",
+    "logTitle": "Login",
+    "regSubmit": "SignUp",
+    "logSubmit": "SignIn",
+    "show": "Show",
+    "hide": "Hide",
+    "alreadyGot": "Already have an account? Sign in",
+    "notYet": "Don't have an account? Sign up"
+  }
