@@ -24,6 +24,8 @@ import { lightTheme, darkTheme } from "../../utils/themes";
 import { useSelector } from "react-redux";
 import ConfirmPopup from "../ConfirmPopup/ConfirmPopup";
 import { db } from "../../firebase/config";
+import { getLang } from "../../redux/selectors";
+import { useTranslation } from "react-i18next";
 
 
 
@@ -42,6 +44,9 @@ const CommentsScreen =({route}) => {
 
 
     const theme = useSelector(getTheme)
+    const lang = useSelector(getLang)
+    const { t } = useTranslation();
+    const { i18n } = useTranslation();
 
     // Theme
   const toggleMode = () => {
@@ -50,6 +55,15 @@ const CommentsScreen =({route}) => {
   useEffect(() => {
     toggleMode()
   }, [theme])
+
+    // Language
+const handleLanguageChange = () => {
+  i18n.changeLanguage(lang === 'english' ? 'en' : 'ua');
+};
+
+useEffect(() => {
+  handleLanguageChange()
+}, [lang])
 
 
   const getCommentsCount = async () => {
@@ -213,7 +227,7 @@ const CommentsScreen =({route}) => {
             <Text 
       
             style={[postStyles.title, {color: mode.textColor }]}>
-            Коментарі
+            {t('comments')}
             </Text>
             <TouchableOpacity 
             onPress={() => navigation.navigate("Posts")}
@@ -279,7 +293,7 @@ const CommentsScreen =({route}) => {
                 name = 'comment'
                 value={comment}
                 onChangeText={validateComment}
-                placeholder="Коментувати..."
+                placeholder={t('discuss')}
                 placeholderTextColor="#bdbdbd"
                     />
             <TouchableOpacity

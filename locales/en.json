@@ -9,5 +9,14 @@
     "show": "Show",
     "hide": "Hide",
     "alreadyGot": "Already have an account? Sign in",
-    "notYet": "Don't have an account? Sign up"
+    "notYet": "Don't have an account? Sign up",
+    "posts": "Publications",
+    "makePost": "Create publication",
+    "publish": "Publish",
+    "upload": "Upload photo",
+    "edit": "Edit photo",
+    "naming": "Name...",
+    "location": "Locality...",
+    "comments": "Comments",
+    "discuss": "Leave comment..."
   }

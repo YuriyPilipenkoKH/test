@@ -33,6 +33,8 @@ import { gpsDefault } from "../../utils/dataStorage";
 import { lightTheme, darkTheme  } from "../../utils/themes";
 import { useSelector } from "react-redux";
 import Loader from "../Loader/Loader";
+import { getLang } from "../../redux/selectors";
+import { useTranslation } from "react-i18next";
 
 
 const CreatePostsScreen =() => {
@@ -53,6 +55,9 @@ const CreatePostsScreen =() => {
 
 
     const theme = useSelector(getTheme)
+    const lang = useSelector(getLang)
+    const { t } = useTranslation();
+    const { i18n } = useTranslation();
 
 //theme
     const toggleMode = () => {
@@ -61,6 +66,15 @@ const CreatePostsScreen =() => {
     useEffect(() => {
       toggleMode()
     }, [theme])
+
+      // Language
+const handleLanguageChange = () => {
+  i18n.changeLanguage(lang === 'english' ? 'en' : 'ua');
+};
+
+useEffect(() => {
+  handleLanguageChange()
+}, [lang])
 
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(
@@ -241,7 +255,7 @@ const CreatePostsScreen =() => {
                 <Text 
                
                 style={[postStyles.title, {color: mode.textColor }]}>
-                Створити публікацію
+                { t('makePost') }
                 </Text>
                 <TouchableOpacity
                   onPress={() => navigation.navigate("Posts")}
@@ -268,7 +282,7 @@ const CreatePostsScreen =() => {
                 </Camera>
                 <Text
                 onPress={() => console.log(photo)}
-                style={styles.text}>{!photo ? 'Завантажте фото' : 'Редагувати фото'}</Text>
+                style={styles.text}>{!photo ?  t('upload') :t('edit')}</Text>
                 </View>
                 <KeyboardAvoidingView
                 behavior={Platform.OS == "ios" ? "padding" : "height" } 
@@ -278,7 +292,7 @@ const CreatePostsScreen =() => {
                     name = 'naming'
                     value={naming}
                     onChangeText = {validateNaming}
-                    placeholder="Назва..."
+                    placeholder={ t('naming') }
                     placeholderTextColor={"#BDBDBD"}
                         />
                 <View>
@@ -287,7 +301,7 @@ const CreatePostsScreen =() => {
                         name = 'location'
                         value={location}
                         onChangeText = {validateLocation}
-                        placeholder="Місцевість..."
+                        placeholder={ t('location') }
                         placeholderTextColor={"#BDBDBD"}
                             />
                          <Feather style = {{...styles.iconMap,
@@ -309,7 +323,9 @@ const CreatePostsScreen =() => {
                     marginBottom: keyboardVisible ? 60: 120,
                     
                 }} >
-                  <Text style={[regStyles.regBtn__text, styles.publishBtn__text]}>Опубліковати</Text>
+                  <Text style={[regStyles.regBtn__text, styles.publishBtn__text]}>
+                  { t('publish') }
+                    </Text>
                 </TouchableOpacity>
             </ScrollView>
 

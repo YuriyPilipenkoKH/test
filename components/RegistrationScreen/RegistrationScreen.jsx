@@ -442,7 +442,7 @@ export const styles = StyleSheet.create({
   langWrapp: {
     position: 'absolute',
     right: 25,
-    top: 25,
+    top: 20,
     flex: 1,
     gap: 3,
     alignItems: 'center',

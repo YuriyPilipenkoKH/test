@@ -8,7 +8,7 @@ import {
     TouchableOpacity,} from "react-native";
 import { StatusBar } from 'expo-status-bar';
 import User from "../../assets/img/avatar/av-252.png";
-import { MaterialCommunityIcons, AntDesign, Feather, FontAwesome5 } from '@expo/vector-icons'; 
+import { MaterialCommunityIcons, AntDesign, Feather, FontAwesome5, MaterialIcons } from '@expo/vector-icons'; 
 import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
@@ -21,6 +21,9 @@ import Loader from "../Loader/Loader";
 import { toggleTheme } from "../../redux/themeSlice";
 import { lightTheme, darkTheme } from "../../utils/themes";
 import { countLikes } from "../../utils/handleLike";
+import { getLang } from "../../redux/selectors";
+import { useTranslation } from "react-i18next";
+import { toggleLang } from "../../redux/langSlice";
 
 
 
@@ -33,12 +36,26 @@ import { countLikes } from "../../utils/handleLike";
 
   const theme = useSelector(getTheme)
   const dispatch = useDispatch()
+  const lang = useSelector(getLang)
+  const { t } = useTranslation();
+  const { i18n } = useTranslation();
 
   // useEffect(() => {
+
+
   //   if(route.params){
   //     setPosts(prev => [...prev, route.params.data])
   //   }
   // }, [route.params])  
+
+  // Language
+const handleLanguageChange = () => {
+  i18n.changeLanguage(lang === 'english' ? 'en' : 'ua');
+};
+
+useEffect(() => {
+  handleLanguageChange()
+}, [lang])
 
   const getAllPosts = async () => {
 
@@ -87,7 +104,8 @@ useEffect(() => {
         <View style={styles.titleWrapp}>
             <Text style={[styles.title, {color: mode.textColor }]}
               onPress={() => console.log(posts)}>
-              Публікації</Text>
+              {t('posts')}
+              </Text>
 
             <TouchableOpacity 
             onPress={() => {
@@ -123,6 +141,21 @@ useEffect(() => {
 
             </View>
         </View>
+
+        <View style={styles.langWrapp}>
+           <TouchableOpacity
+              onPress={() => {
+                  dispatch(toggleLang())}}
+                style={[styles.langBtn]}>
+              <MaterialIcons
+                style = {[styles.langIcon, {color: mode.textColor }]}
+                name="language"
+                 size={30} />
+            </TouchableOpacity>
+            <Text style={[styles.text, {color: mode.textColor }]}>
+              {lang === 'english' ? 'EN' : 'UA'}
+              </Text>
+         </View>
 
         {posts &&
         <FlatList style ={{marginBottom:260,}}
@@ -289,6 +322,16 @@ export const styles = StyleSheet.create({
     userWrapp: {
         height: 60,
         justifyContent: 'center',
+    },
+
+    langWrapp: {
+      position: 'absolute',
+      right: 25,
+      top: 0,
+      flex: 1,
+      gap: 3,
+      alignItems: 'center',
+  
     },
 
     userName: {
