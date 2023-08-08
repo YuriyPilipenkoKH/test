@@ -32,7 +32,7 @@ import { toggleLang } from "../../redux/langSlice";
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState(lightTheme)
   const navigation = useNavigation();
-  const { login , email, avatar}= useAuth() 
+  const { login , email, avatar, userId, auth}= useAuth() 
 
   const theme = useSelector(getTheme)
   const dispatch = useDispatch()
@@ -133,7 +133,7 @@ useEffect(() => {
 
         <View style={styles.user}>
             <View style={styles.imgContainer}>
-              <Image style={styles.userAvatar} source={ {uri: avatar} && User} />
+              <Image style={styles.userAvatar} source={{uri: auth .userAvatar} || User } />
             </View>
             <View style={styles.userWrapp}>
             <Text style={[styles.userName , {color: mode.textColor }]}>{login}</Text>
@@ -176,7 +176,7 @@ useEffect(() => {
 
             <View style={[styles.flexWrapp, styles.wrapp1]} >
            <TouchableOpacity
-               onPress={() => countLikes(item.id)}
+               onPress={() => countLikes(userId, item.id,)}
            >
            <AntDesign
             name="like2" size={24} color="#ff6c00" />
@@ -184,8 +184,8 @@ useEffect(() => {
             <Text
         //    onPress={() => console.log('item.id:', item.id)}
              style={{...styles.cardComment,
-            color:  item.likes !== 0 ? '#ff6c00' : '#D6D6D6',
-            }}>{item.likes}</Text>
+            color:  item.likes.length !== 0 ? '#ff6c00' : '#D6D6D6',
+            }}>{item.likes.length}</Text>
             </View>   
 
             </View>
@@ -206,7 +206,7 @@ useEffect(() => {
 
         <View style = {[styles.footer, { backgroundColor: mode.backgroundColor}]}>
         <TouchableOpacity 
-          onPress={() => navigation.navigate("Posts")}
+          onPress={() => console.log('auth', auth)}
           style={[styles.icon]}>
             <Feather style={[{color: mode.textColor }]} name="grid" size={24}  />
         </TouchableOpacity>
@@ -221,7 +221,9 @@ useEffect(() => {
             <Feather style={[{color: mode.textColor }]} name="user" size={24}  /> 
         </TouchableOpacity>
 
-        <View style = {regStyles.homeIndicator} ></View>
+        <View 
+        
+        style = {regStyles.homeIndicator} ></View>
         </View>
           
         </View>

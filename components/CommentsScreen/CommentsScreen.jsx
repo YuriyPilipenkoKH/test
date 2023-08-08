@@ -12,10 +12,9 @@ import { styles as regStyles } from "../RegistrationScreen/RegistrationScreen";
 import { styles as postStyles } from "../PostsScreen/PostsScreen";
 import { styles as creStyles} from "../CreatePostsScreen/CreatePostsScreen";
 import { AntDesign } from '@expo/vector-icons'; 
-import AvImage0 from "../../assets/img/userAv.png";
 import { useNavigation } from "@react-navigation/native";
 import { getTheme, useAuth } from "../../redux/auth/authSelectors";
-
+// import User from "../../assets/img/avatar/av-252.png";
 import { useEffect, useState } from "react";
 import {  addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
 import { FlatList } from "react-native-gesture-handler";
@@ -26,6 +25,7 @@ import ConfirmPopup from "../ConfirmPopup/ConfirmPopup";
 import { db } from "../../firebase/config";
 import { getLang } from "../../redux/selectors";
 import { useTranslation } from "react-i18next";
+import Notifier from "../Notifier/Notifier";
 
 
 
@@ -33,14 +33,15 @@ const CommentsScreen =({route}) => {
     const {postId, photo} = route.params;
 
     const navigation = useNavigation();
-    const { login }= useAuth() 
+    const { login, auth }= useAuth() 
     const [comment, setComment] = useState('')
-    const [commentId, setCommentId] = useState(null)
+    const [commentInfo, setCommentInfo] = useState(null)
     const [allComments, setAllComments] = useState([])
     const [isValidComment, setIsValidComment] = useState(false)
     const [message, setMessage] = useState('')
     const [mode, setMode] = useState(lightTheme)
     const [showConfirm, setShowConfirm] = useState(false);
+    const [showNotifier, setShowNotifier] = useState(false)
 
 
     const theme = useSelector(getTheme)
@@ -97,7 +98,7 @@ useEffect(() => {
 
     useEffect(() => {    
       getCommentsCount()
-}, [postId, commentId]);  //commentId
+}, [postId, commentInfo]);  //commentId
   
 
     const validateComment = (value) => {
@@ -116,6 +117,13 @@ useEffect(() => {
 
         if(!isValidComment){
             setMessage('Comment shouldn`t be blank')
+            setShowNotifier(true)
+
+            setTimeout(() => {
+              setShowNotifier(false)
+              setMessage('')
+              }, 4000);
+
             return
           }
           validateComment()
@@ -123,6 +131,8 @@ useEffect(() => {
           const commentData = {
             comment,
             userName: login,
+            userId: auth.userId,
+            userAvatar: auth.userAvatar,
             timestamp: serverTimestamp(),
           };
         
@@ -193,22 +203,27 @@ useEffect(() => {
       
          }, [allComments]);  
 
-        //   useEffect(() => {    
-        //     const intervalId = setInterval(() => {
-        //         getAllComments(postId);
-        //       }, 5000);
-            
-        //       return () => {
-        //         clearInterval(intervalId);
-        //       };    
-        //  }, [postId]);  
 
          //confirm
          const handleConfirm = () => {
             // Do something when the user confirms the action
-            deleteComment(commentId)
-            console.log('Confirmed!');
-            setShowConfirm(false);
+
+            if(commentInfo.userId === auth.userId){
+              deleteComment(commentInfo.commentId)
+              console.log('Confirmed!');
+              setShowConfirm(false);
+            }
+            else {
+              setShowConfirm(false);
+              setMessage("You are allowed to delete your own comments only")
+              setShowNotifier(true)
+
+              setTimeout(() => {
+              setShowNotifier(false)
+              setMessage("")
+              }, 4000);
+            }
+          
           };
         
           const handleCancel = () => {
@@ -245,15 +260,16 @@ useEffect(() => {
         {allComments && 
             <FlatList style ={{marginBottom:20, ...styles.commentsWrapp }}
                 data={allComments} 
-                keyExtractor={(item) => item.commentId} // Use the commentId as the key
+                keyExtractor={(item) => item.commentId} 
                 renderItem={({item}) => (
 
             <View key={item.commentId} style = {styles.comment}>
             <ImageBackground 
-            style = {styles.avatar} source={AvImage0} size = {28}></ImageBackground>   
+           
+            style = {styles.avatar} source={{uri: item.userAvatar}} size = {28}></ImageBackground>   
             <View style = {[styles.card,  { backgroundColor: mode.commentBg}]}>
                 <Text
-             
+                onPress={() => console.log("trigger")}
                  style = {[styles.commentText, {color: mode.textColor }]}>{item.comment}</Text>
                 <Text 
                 // onPress={() => console.log("item.commentId", item.commentId)}
@@ -262,8 +278,9 @@ useEffect(() => {
                 </Text>
                 <TouchableOpacity
                     onPress={() => {
+                      console.log('All')
                     setShowConfirm(true) 
-                    setCommentId(item.commentId); // Pass item.commentId to handleConfirm
+                    setCommentInfo(item) // Pass item.commentId to handleConfirm
                   }}
                   style={[ styles.deleteBtn]}>
                  <AntDesign 
@@ -281,11 +298,17 @@ useEffect(() => {
         message="Are you sure you want to proceed?"
         onConfirm={handleConfirm}
         onCancel={handleCancel}
-        commentId ={allComments}
-      />
+ 
+        />
+        <Notifier
+        visible={showNotifier}
+        message={message}
+
+        />
+
               
-        {message ?  <Text style={{...regStyles.errorMessage, }}>{message}</Text>         
-                 :  null}
+        {/* {message ?  <Text style={{...regStyles.errorMessage, }}>{message}</Text>         
+                 :  null} */}
 
         <View style = {[styles.commemtBar]} >
            <TextInput

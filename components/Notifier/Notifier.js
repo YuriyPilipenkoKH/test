@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { getTheme } from '../../redux/auth/authSelectors';
 
 
-const ConfirmPopup = ({ visible, message, onCancel, onConfirm  }) => {
+const Notifier = ({ visible, message,  }) => {
 
     const [mode, setMode] = useState(lightTheme)
     const theme = useSelector(getTheme)
@@ -27,21 +27,14 @@ const ConfirmPopup = ({ visible, message, onCancel, onConfirm  }) => {
       animationType="fade"
       transparent={true}
       visible={visible}
-      onRequestClose={onCancel}
+
     >
       <View style={styles.modalContainer}>
         <View style={[styles.modalContent, { backgroundColor: mode.modalBg}]}>
           <Text 
        
           style={[styles.messageText, {color: mode.textColor }]}>{message}</Text>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={[styles.cancelButton,]} onPress={onCancel}>
-              <Text style={[styles.buttonText, {color: mode.confirm }]}>Cancel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.confirmButton, ]} onPress={onConfirm}>
-              <Text style={[styles.buttonText, {color: mode.confirm }]}>Delete</Text>
-            </TouchableOpacity>
-          </View>
+
         </View>
       </View>
     </Modal>
@@ -64,28 +57,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 20,
   },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
-  cancelButton: {
-    backgroundColor: '#05601d',
-    marginLeft: 10,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 4,
-  },
-  confirmButton: {
-    backgroundColor: '#ff8a00',
-    marginLeft: 10,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 4,
-  },
-  buttonText: {
-    color: '#222',
-    fontSize: 16,
-  },
+
 });
 
-export default ConfirmPopup;
+export default Notifier;

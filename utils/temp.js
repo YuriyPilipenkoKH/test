@@ -313,3 +313,13 @@ else{
   <h1>{t('appTitle')}</h1>
   <p>{t('welcomeMessage')}</p>
 </div>
+
+        //   useEffect(() => {    
+        //     const intervalId = setInterval(() => {
+        //         getAllComments(postId);
+        //       }, 5000);
+            
+        //       return () => {
+        //         clearInterval(intervalId);
+        //       };    
+        //  }, [postId]);  

@@ -35,7 +35,7 @@ const ProfileScreen =({ route }) => {
     const [newAvatar, setNewAvatar] = useState(null)
     const navigation = useNavigation();
     const dispatch = useDispatch()
-    const {userId, login, avatar  }= useAuth()
+    const {userId, login, avatar , auth }= useAuth()
     const theme = useSelector(getTheme)
 
 
@@ -107,7 +107,7 @@ const toggleMode = () => {
             backgroundColor: mode.backgroundColor,
         }}>
             
-        <ImageBackground style = {regStyles.photoWrapp} source= { {uri: avatar} && User}> 
+        <ImageBackground style = {regStyles.photoWrapp} source= { {uri: auth.userAvatar} || User}> 
         <TouchableOpacity 
         onPress={updateAvatarFromUser}
         style = {regStyles.plusBtn}>
@@ -147,17 +147,14 @@ const toggleMode = () => {
                 {item.comments}</Text>
             </View>
             <View style={[postStyles.flexWrapp, styles.wrapp1]} >
-           <TouchableOpacity
-               onPress={() => handleLike(item.id)}
-           >
+  
            <AntDesign
-            name="like2" size={24} color="#ff6c00" />
-            </TouchableOpacity>     
+            name="like2" size={24} color="#ff6c00" />    
             <Text
         //    onPress={() => console.log('item.id:', item.id)}
              style={{...postStyles.cardComment,
-            color:  item.likes !== 0 ? '#ff6c00' : '#D6D6D6',
-            }}>{item.likes}</Text>
+            color:   '#ff6c00' ,
+            }}>{item.likes.length || 0}</Text>
             </View>
 
             <View style={[postStyles.flexWrapp, styles.wrapp3]}>

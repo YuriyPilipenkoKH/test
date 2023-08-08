@@ -162,7 +162,7 @@ useEffect(() => {
             postName: naming,
             placeName: location,
             comments: 0,
-            likes: 0,
+            likes: [],
             userId,
             userName : login,
             timestamp: serverTimestamp(),
