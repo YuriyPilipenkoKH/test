@@ -173,7 +173,7 @@ const LoginScreen =() => {
       name = 'email'
       value={email}
       onChangeText = {validateEmail}
-      placeholder="Адреса електронної пошти"
+      placeholder={t('email')}
       placeholderTextColor="#bdbdbd"
 
     />
@@ -183,7 +183,7 @@ const LoginScreen =() => {
           name = 'password'
           value={password}
           onChangeText = {validatePassword}
-          placeholder="Пароль"
+          placeholder={t('password')}
           placeholderTextColor="#bdbdbd"
           secureTextEntry={!show}
         />

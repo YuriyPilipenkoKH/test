@@ -40,15 +40,37 @@ import { toggleLang } from "../../redux/langSlice";
   const { t } = useTranslation();
   const { i18n } = useTranslation();
 
-  // useEffect(() => {
 
 
-  //   if(route.params){
-  //     setPosts(prev => [...prev, route.params.data])
-  //   }
-  // }, [route.params])  
+ const getAllPosts = async () => {
 
-  // Language
+    setLoading(true);
+    try {
+      const dbRef = collection(db, "posts");
+      const searchQuery = query(dbRef);
+      onSnapshot(searchQuery, (docSnap) => {
+        const updatedPosts = docSnap.docs.map((doc) => {
+          const postData = doc.data();
+          const likes = postData.likes || [];
+          const isActive = likes.includes(userId); // Check if user's userId is in likes array
+          return { id: doc.id, ...postData, active: isActive };
+        });
+        setPosts(updatedPosts);
+      });
+
+      setLoading(false);
+    } catch (error) {
+      console.log('Error fetching posts:', error);
+      setLoading(false);
+    }
+
+  }  
+
+  useEffect(() => {
+    getAllPosts();
+  }, [route.params]);
+
+    // Language
 const handleLanguageChange = () => {
   i18n.changeLanguage(lang === 'english' ? 'en' : 'ua');
 };
@@ -56,34 +78,6 @@ const handleLanguageChange = () => {
 useEffect(() => {
   handleLanguageChange()
 }, [lang])
-
-  const getAllPosts = async () => {
-
-    setLoading(true);
-
-    try {
-      const dbRef = collection(db, "posts");
-      const searchQuery = query(dbRef);
-      onSnapshot(searchQuery, (docSnap) =>
-        setPosts(docSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() }))));
-  
-      setLoading(false);
-    } catch (error) {
-      console.log('Error fetching posts:', error);
-      setLoading(false);
-    }
-      // const querySnapshot = await getDocs(collection(db, "posts"));
-      // querySnapshot.forEach((doc) => {
-     
-      //   console.log(doc.id, " => ", doc.data());
-      //   setPosts((prevState) => [...prevState, { id: doc.id, ...doc.data() }]);
-      //   // setPosts((prevState) => [...prevState,  { id: doc.id, ...doc.data() }]);
-      // });
-  }  
-
-  useEffect(() => {
-    getAllPosts();
-  }, [route.params]);
 
 
 // Theme
@@ -109,7 +103,7 @@ useEffect(() => {
 
             <TouchableOpacity 
             onPress={() => {
-              // toggleMode()
+        
               dispatch(toggleTheme())}}
               style={[styles.themeBtn]}>
             <MaterialCommunityIcons 
@@ -179,13 +173,15 @@ useEffect(() => {
                onPress={() => countLikes(userId, item.id,)}
            >
            <AntDesign
-            name="like2" size={24} color="#ff6c00" />
+            name="like2" size={24} 
+            style= {{color: item.active ? "#ff6c00" : '#bdbdbd' }}
+            />
             </TouchableOpacity>     
             <Text
         //    onPress={() => console.log('item.id:', item.id)}
              style={{...styles.cardComment,
-            color:  item.likes.length !== 0 ? '#ff6c00' : '#D6D6D6',
-            }}>{item.likes.length}</Text>
+            color:  item.likes.length !== 0 ? '#ff6c00' :  mode.textColor
+            }}>{item.likes.length || 0}</Text>
             </View>   
 
             </View>
@@ -287,10 +283,7 @@ export const styles = StyleSheet.create({
       position: 'absolute',
       right: 50,
       bottom: 5,
-      // thumbColor:mode ? "#073779" : "#e6e0e6",
-        // fontWeight: 500,  
-        // textAlign: 'center',
-
+  
     },
     themeBtn: {
         position: 'absolute',

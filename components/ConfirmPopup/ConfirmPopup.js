@@ -3,12 +3,18 @@ import { View, Text, TouchableOpacity, Modal, StyleSheet } from 'react-native';
 import { lightTheme, darkTheme } from "../../utils/themes";
 import { useSelector } from "react-redux";
 import { getTheme } from '../../redux/auth/authSelectors';
+import { getLang } from '../../redux/selectors';
+import { useTranslation } from 'react-i18next';
 
 
 const ConfirmPopup = ({ visible, message, onCancel, onConfirm  }) => {
 
     const [mode, setMode] = useState(lightTheme)
     const theme = useSelector(getTheme)
+    const lang = useSelector(getLang)
+    const { t } = useTranslation();
+    const { i18n } = useTranslation();
+
 
         // Theme
   const toggleMode = () => {
@@ -17,6 +23,15 @@ const ConfirmPopup = ({ visible, message, onCancel, onConfirm  }) => {
   useEffect(() => {
     toggleMode()
   }, [theme])
+
+      // Language
+const handleLanguageChange = () => {
+  i18n.changeLanguage(lang === 'english' ? 'en' : 'ua');
+};
+
+useEffect(() => {
+  handleLanguageChange()
+}, [lang])
 
 //   const handleConfirm = () => {
 //     onConfirm(commentId); // Call the onConfirm function with the commentId
@@ -36,10 +51,10 @@ const ConfirmPopup = ({ visible, message, onCancel, onConfirm  }) => {
           style={[styles.messageText, {color: mode.textColor }]}>{message}</Text>
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={[styles.cancelButton,]} onPress={onCancel}>
-              <Text style={[styles.buttonText, {color: mode.confirm }]}>Cancel</Text>
+              <Text style={[styles.buttonText, {color: mode.confirm }]}>{t('cancel')}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.confirmButton, ]} onPress={onConfirm}>
-              <Text style={[styles.buttonText, {color: mode.confirm }]}>Delete</Text>
+              <Text style={[styles.buttonText, {color: mode.confirm }]}>{t('delete')}</Text>
             </TouchableOpacity>
           </View>
         </View>

@@ -255,7 +255,7 @@ useEffect(() => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ImageBackground style = {styles.background} source={BackgroundImage}>
-          <StatusBar style="auto" /> 
+          <StatusBar barStyle="light-content" /> 
 
        <View style = {{...styles.main,
          height: keyboardVisible ? 360 : 500,
@@ -309,7 +309,7 @@ useEffect(() => {
         name = 'login'
         value={login}
         onChangeText = {validateName}
-        placeholder="Логін"
+        placeholder={t('login')}
         placeholderTextColor="#bdbdbd"
 
       />
@@ -318,7 +318,7 @@ useEffect(() => {
         name = 'email'
         value={email}
         onChangeText = {validateEmail}
-        placeholder="Адреса електронної пошти"
+        placeholder={t('email')}
         placeholderTextColor="#bdbdbd"
 
       />
@@ -328,7 +328,7 @@ useEffect(() => {
             name = 'password'
             value={password}
             onChangeText = {validatePassword}
-            placeholder="Пароль"
+            placeholder={t('password')}
             placeholderTextColor="#bdbdbd"
             secureTextEntry={!show}
           />

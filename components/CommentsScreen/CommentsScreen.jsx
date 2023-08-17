@@ -116,7 +116,7 @@ useEffect(() => {
       
 
         if(!isValidComment){
-            setMessage('Comment shouldn`t be blank')
+            setMessage(t('blank'))
             setShowNotifier(true)
 
             setTimeout(() => {
@@ -215,7 +215,7 @@ useEffect(() => {
             }
             else {
               setShowConfirm(false);
-              setMessage("You are allowed to delete your own comments only")
+              setMessage(t("note"))
               setShowNotifier(true)
 
               setTimeout(() => {
@@ -235,7 +235,7 @@ useEffect(() => {
 
     return (
         <View style = {[regStyles.background, postStyles.background, { backgroundColor: mode.backgroundColor}]}>
-        <StatusBar barStyle={theme === 'light' ? 'dark-content' : 'light-content'} /> 
+        <StatusBar barStyle="light-content" /> 
 
         <View style = {[creStyles.postsCreate, styles.container]}>
         <View style={postStyles.titleWrapp}>
@@ -295,7 +295,7 @@ useEffect(() => {
 
         <ConfirmPopup
         visible={showConfirm}
-        message="Are you sure you want to proceed?"
+        message={t('confirm')}
         onConfirm={handleConfirm}
         onCancel={handleCancel}
  

@@ -21,7 +21,6 @@ import { db } from "../../firebase/config";
 import { collection, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import Loader from "../Loader/Loader";
 import { lightTheme, darkTheme } from "../../utils/themes";
-import { handleLike } from "../../utils/handleLike";
 import * as ImagePicker from "expo-image-picker";
 
 
@@ -142,7 +141,7 @@ const toggleMode = () => {
             <Text 
             style={[postStyles.cardComment, {
                 color: mode.textColor ,
-                color:  item.comments !== 0 ? '#ff6c00' : '#D6D6D6',
+                color:  item.comments !== 0 ? '#ff6c00' : mode.textColor,
                 }]}>
                 {item.comments}</Text>
             </View>
@@ -151,9 +150,9 @@ const toggleMode = () => {
            <AntDesign
             name="like2" size={24} color="#ff6c00" />    
             <Text
-        //    onPress={() => console.log('item.id:', item.id)}
+   
              style={{...postStyles.cardComment,
-            color:   '#ff6c00' ,
+                color:  item.likes.length !== 0 ? '#ff6c00' : mode.textColor,
             }}>{item.likes.length || 0}</Text>
             </View>
 

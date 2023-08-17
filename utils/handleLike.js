@@ -1,36 +1,7 @@
 import { arrayUnion, collection, doc, getDoc, onSnapshot, query, updateDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
 
-let li
-const setLi = (x) => {
-    return li  = x
-   
-}
 
-export const handleLike = async (postId) => {
-    // setLi(0)
-    try {
-        const collectionRef = doc(db, "posts", postId)
-        
-        
-         onSnapshot(collectionRef, (querySnapshot)  =>  {
-            
-            const currentPost = querySnapshot.data();
-            const likesCount = currentPost.likes
-             console.log('likesCount',likesCount)
-        //    setLikes(likesCount +1)
-            setLi(likesCount +1)
-           console.log('li', li)
-            
-        })
-       await updateDoc(collectionRef, {  likes: li, });
-
-    } 
-    catch (error) {
-        console.log('Error fetching likes:', error);
-    }
-
-};
 
 export const countLikes = async (userId, postId) => {
 
@@ -62,3 +33,21 @@ export const countLikes = async (userId, postId) => {
       }
 
 };
+
+const getAllPosts = async () => {
+
+  setLoading(true);
+
+  try {
+    const dbRef = collection(db, "posts");
+    const searchQuery = query(dbRef);
+    onSnapshot(searchQuery, (docSnap) =>
+      setPosts(docSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() }))));
+
+    setLoading(false);
+  } catch (error) {
+    console.log('Error fetching posts:', error);
+    setLoading(false);
+  }
+
+}  

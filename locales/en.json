@@ -4,6 +4,9 @@
     "switchLanguage": "Switch Language",
     "regTitle": "Registration",
     "logTitle": "Login",
+    "login": "Login",
+    "email": "Email",
+    "password": "Password",
     "regSubmit": "SignUp",
     "logSubmit": "SignIn",
     "show": "Show",
@@ -20,5 +23,8 @@
     "comments": "Comments",
     "discuss": "Leave comment...",
     "note": "You are allowed to delete your own comments only",
-    "confirm": "Are you sure you want to proceed?"
+    "confirm": "Are you sure you want to proceed?",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "blank": "Comment shouldn`t be blank"
   }

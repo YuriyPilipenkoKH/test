@@ -300,7 +300,13 @@ else{
         console.log(doc.id, " => ", doc.data());
 
       });
-
+      // const querySnapshot = await getDocs(collection(db, "posts"));
+      // querySnapshot.forEach((doc) => {
+     
+      //   console.log(doc.id, " => ", doc.data());
+      //   setPosts((prevState) => [...prevState, { id: doc.id, ...doc.data() }]);
+      //   // setPosts((prevState) => [...prevState,  { id: doc.id, ...doc.data() }]);
+      // });
   }  
 
 
@@ -323,3 +329,34 @@ else{
         //         clearInterval(intervalId);
         //       };    
         //  }, [postId]);  
+
+        let li
+const setLi = (x) => {
+    return li  = x
+   
+}
+
+export const handleLike = async (postId) => {
+    // setLi(0)
+    try {
+        const collectionRef = doc(db, "posts", postId)
+        
+        
+         onSnapshot(collectionRef, (querySnapshot)  =>  {
+            
+            const currentPost = querySnapshot.data();
+            const likesCount = currentPost.likes
+             console.log('likesCount',likesCount)
+        //    setLikes(likesCount +1)
+            setLi(likesCount +1)
+           console.log('li', li)
+            
+        })
+       await updateDoc(collectionRef, {  likes: li, });
+
+    } 
+    catch (error) {
+        console.log('Error fetching likes:', error);
+    }
+
+};
